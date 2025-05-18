@@ -54,7 +54,7 @@ const Newsletter = () => {
 					/>
 					<button
 						type="submit"
-						className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
+						className="cursor-pointer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
 					>
 						Subscribe Now
 					</button>
