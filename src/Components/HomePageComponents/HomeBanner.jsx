@@ -29,7 +29,7 @@ const slides = [
 const HomeBanner = () => {
 	return (
 		<div className="bg-pink-50 py-20">
-			<div className="max-w-7xl mx-auto px-5">
+			<div className="max-w-7xl mx-auto">
 				<Slide>
 					<Carousel
 						showThumbs={false}

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import HomeBanner from "../../Components/HomePageComponents/HomeBanner";
+import { FeaturedCategories } from "../../Components/HomePageComponents/FeaturedCategories";
 
 const Home = () => {
 	useEffect(() => {
@@ -9,6 +10,7 @@ const Home = () => {
 	return (
 		<div>
 			<HomeBanner />
+			<FeaturedCategories />
 		</div>
 	);
 };
