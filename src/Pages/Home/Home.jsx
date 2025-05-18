@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from "react";
 
 const Home = () => {
-  
-  useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, []);
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: "smooth" });
+	}, []);
 
-
-  return (
-    <div>
-      <p>hi</p>
-    </div>
-  );
+	return <div></div>;
 };
 
 export default Home;
