@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from "react";
+import { FeaturedCategories } from "../../Components/HomePageComponents/FeaturedCategories";
 
 const Home = () => {
-  
   useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, []);
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div>
-      <p>hi</p>
+      <FeaturedCategories />
     </div>
   );
 };
