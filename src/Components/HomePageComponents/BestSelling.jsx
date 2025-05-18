@@ -63,7 +63,7 @@ export const BestSelling = () => {
 
   return (
     <div className="max-w-7xl  mx-auto px-4 my-10">
-      <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8">
+      <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8 my-10">
         <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
           BestSelling Books
         </h1>

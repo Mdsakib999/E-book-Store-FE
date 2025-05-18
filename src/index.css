@@ -8,9 +8,13 @@
 }
 
 .carousel .control-dots {
-	margin-top: 250px;
-	position: relative;
-	bottom: -100px;
+	position: absolute;
+	bottom: 0;
+	margin-top: 0;
+	padding: 0;
+	text-align: center;
+	width: 100%;
+	z-index: 1;
 }
 
 .carousel .control-dots .dot {

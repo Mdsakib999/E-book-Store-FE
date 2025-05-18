@@ -1,7 +1,7 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import bookImage from "../../assets/bookImage1.png";
-import { Fade, Slide, Zoom } from "react-awesome-reveal"; // smoother than Slide + Zoom
+import { Fade, Slide, Zoom } from "react-awesome-reveal";
 
 const slides = [
 	{
@@ -28,8 +28,8 @@ const slides = [
 
 const HomeBanner = () => {
 	return (
-		<div className="bg-pink-50 py-20">
-			<div className="max-w-7xl mx-auto">
+		<div className="bg-pink-50 py-16 md:py-24 lg:py-28">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<Slide>
 					<Carousel
 						showThumbs={false}
@@ -44,20 +44,22 @@ const HomeBanner = () => {
 						{slides.map((slide, index) => (
 							<div
 								key={index}
-								className="flex flex-col md:flex-row items-center justify-between gap-8"
+								className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16"
 							>
-								<div className="flex-1 space-y-4 text-center md:text-left">
+								<div className="flex-1 text-center md:text-left space-y-5">
 									<p className="text-gray-500 font-semibold">{slide.title}</p>
-									<h1 className="text-3xl md:text-5xl font-bold leading-snug">
+									<h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-snug">
 										{slide.subtitle}
 									</h1>
-									<p className="text-gray-600 text-base">{slide.description}</p>
-									<button className="bg-black text-white px-10 py-2 mt-6 rounded shadow-md hover:bg-gray-800 transition">
+									<p className="text-gray-600 text-base sm:text-lg">
+										{slide.description}
+									</p>
+									<button className="bg-black text-white px-8 py-2 rounded shadow hover:bg-gray-800 transition duration-300">
 										See More
 									</button>
 								</div>
 
-								<Zoom duration={3000}>
+								<Zoom>
 									<div className="flex-1">
 										<img
 											src={bookImage}

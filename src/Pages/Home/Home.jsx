@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import HomeBanner from "../../Components/HomePageComponents/HomeBanner";
 import { FeaturedCategories } from "../../Components/HomePageComponents/FeaturedCategories";
-import { BestSelling } from "../../Components/HomePageComponents/BestSelling";
+import Newsletter from "../../Components/Newsletter";
 import { FeaturedBooks } from "../../Components/HomePageComponents/FeaturedBooks";
+import { BestSelling } from "../../Components/HomePageComponents/BestSelling";
 
 const Home = () => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const Home = () => {
       <FeaturedCategories />
       <FeaturedBooks />
       <BestSelling />
+      <Newsletter />
     </div>
   );
 };
