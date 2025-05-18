@@ -26,14 +26,14 @@ export const BestSelling = () => {
     },
     {
       id: 4,
-      img: "https://images.unsplash.com/photo-1586484721263-d3aef8ddfb4b?w=800",
+      img: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800",
       title: "Rich Dad Poor Dad",
       author: "Robert Kiyosaki",
       price: "$22 - $32",
     },
     {
       id: 5,
-      img: "https://images.unsplash.com/photo-1603201667141-04b3fa8a7d9f?w=800",
+      img: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800",
       title: "Can't Hurt Me",
       author: "David Goggins",
       price: "$25 - $35",
@@ -64,7 +64,7 @@ export const BestSelling = () => {
   return (
     <div className="max-w-7xl  mx-auto px-4 my-10">
       <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8 my-10">
-        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
+        <h1 className="text-xl md:text-4xl font-bold whitespace-nowrap">
           BestSelling Books
         </h1>
         <button className="text-sm sm:text-md md:text-xl flex items-center gap-1 whitespace-nowrap">
