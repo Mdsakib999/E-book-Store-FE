@@ -1,0 +1,19 @@
+.nav_a {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  font-family: sans-serif;
+}
+
+.nav_a:after {
+  display: block;
+  content: "";
+  width: inherit;
+  border-bottom: solid 2px rgb(247, 121, 3);
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.nav_a:hover:after {
+  transform: scaleX(1);
+}
