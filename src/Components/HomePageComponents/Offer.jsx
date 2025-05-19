@@ -3,7 +3,7 @@ import bookImage from "/assets/offerBook.png";
 
 export const Offer = () => {
   return (
-    <div className="rounded-lg relative w-full mt-[100px] p-8">
+    <div className="rounded-lg relative w-full mt-[200px] p-8">
       {/* Aurora Effect */}
       <div className="absolute inset-0 bg-gradient-to-l from-black via-gray-500 to-gray-900 opacity-70"></div>
 

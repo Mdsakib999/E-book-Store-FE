@@ -16,8 +16,8 @@ const Home = () => {
       <HomeBanner />
       <FeaturedCategories />
       <FeaturedBooks />
-      <BestSelling />
       <Offer />
+      <BestSelling />
       <Newsletter />
     </div>
   );
