@@ -78,7 +78,7 @@ const Navbar = () => {
                 to={link.to}
                 className={({ isActive }) =>
                   `nav_a rounded-xl cursor-pointer ${
-                    isActive ? "text-orange-500 nav_a" : ""
+                    isActive ? "text-orange-500 underline " : ""
                   }`
                 }
               >
@@ -110,14 +110,14 @@ const Navbar = () => {
             onClick={toggleSearch}
           />
           <div className="relative cursor-pointer">
-            <span className="bg-orange-500 absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+            <span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
               {cartData?.length || 0}
             </span>
             <IoCart size={30} className="text-black" />
           </div>
           <Link
             to="/signin"
-            className="bg-gradient-to-r from-black to-gray-400 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-orange-600 hover:to-yellow-400 transition"
+            className="bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
           >
             Login
           </Link>
@@ -179,11 +179,11 @@ const Navbar = () => {
 
       {/* Search Overlay */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 z-40 flex justify-center items-start pt-20 transition-all duration-300">
-          <div className="bg-white w-[90%] md:w-2/3 lg:w-1/2 p-4 rounded-xl shadow-lg relative animate-slideDown">
+        <div className="fixed inset-0 bg-black/50 z-40 flex justify-center items-start pt-5 transition-all duration-300">
+          <div className="bg-white w-[90%] md:w-2/3 lg:w-1/2 px-4 py-4 rounded-xl shadow-lg relative animate-slideDown ">
             <button
               onClick={toggleSearch}
-              className="absolute top-2 right-3 text-black text-2xl"
+              className="absolute top-6 right-3 text-black text-2xl z-50 cursor-pointer hover:text-red-600"
             >
               <AiOutlineClose />
             </button>
@@ -191,9 +191,12 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search for books..."
-                className="w-full border border-gray-300 rounded-full py-2 px-5 pl-10 focus:outline-none focus:border-orange-400"
+                className="w-[95%] border border-gray-300 rounded-full py-2 px-5 pl-10 focus:outline-none focus:border-gray-800"
               />
-              <FiSearch className="absolute left-3 top-3 text-gray-500" size={22} />
+              <FiSearch
+                className="absolute left-3 top-2.5 text-gray-500"
+                size={22}
+              />
             </div>
           </div>
         </div>
