@@ -1,23 +1,88 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMail, FiLock, FiUser, FiEye, FiEyeOff } from "react-icons/fi";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../provider/AuthProvider";
+import { useForm } from "react-hook-form";
+import { updateProfile } from "firebase/auth";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
 
 const SignUp = () => {
 	const [showPassword, setShowPassword] = useState(false);
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-	const handleSignUp = () => {};
+	const { createUser, user, googleSignIn } = useAuth();
+	console.log("USER: ", user);
+	const navigate = useNavigate();
 
-	const handleGoogleSignUp = () => {};
+	useEffect(() => {
+		if (user) {
+			navigate("/");
+		}
+	}, [user, navigate]);
+
+	const onSubmit = async (data) => {
+		setIsLoading(true);
+		try {
+			const result = await createUser(data.email, data.password);
+
+			await updateProfile(result.user, {
+				displayName: data.name,
+			});
+
+			console.log("User created: ", result.user);
+			toast.success(
+				<h1 className="font-serif">Account created successfully</h1>
+			);
+		} catch (error) {
+			console.error("Error creating user: ", error?.message);
+			if (error.code === "auth/email-already-in-use") {
+				toast.error(
+					<h1 className="font-serif">This email is already registered.</h1>
+				);
+			} else if (error.code === "auth/invalid-email") {
+				toast.error(<h1 className="font-serif">Please enter a valid email</h1>);
+			} else if (error.code === "auth/weak-password") {
+				toast.error(
+					<h1 className="font-serif">
+						Password should be at least 6 characters
+					</h1>
+				);
+			} else {
+				toast.error("Something went wrong. Please try again.");
+			}
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const handleGoogleSignUp = async () => {
+		setIsLoading(true);
+		try {
+			const result = await googleSignIn();
+			console.log("Google sign-in result: ", result.user);
+			toast.success(
+				<h1 className="font-serif">Signed in with Google successfully</h1>
+			);
+		} catch (error) {
+			console.error("Error signing in with Google: ", error?.message);
+			toast.error(error.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-50 font-serif">
 			<div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
 				<div className="text-center">
-					<h1 className="text-4xl font-extrabold text-blue-600 tracking-tight">
+					<h1 className="text-4xl font-extrabold text-black tracking-tight">
 						Readify
 					</h1>
 					<p className="mt-2 text-sm text-gray-600">
@@ -25,7 +90,7 @@ const SignUp = () => {
 					</p>
 				</div>
 
-				<div className="mt-8 space-y-6">
+				<form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
 					<div className="relative">
 						<label htmlFor="name" className="sr-only">
 							Full Name
@@ -36,14 +101,14 @@ const SignUp = () => {
 							</span>
 							<input
 								id="name"
-								name="name"
-								type="text"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								{...register("name", { required: "Name is required" })}
+								className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
 								placeholder="Full Name"
 							/>
 						</div>
+						{errors.name && (
+							<p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
+						)}
 					</div>
 
 					<div className="relative">
@@ -56,16 +121,23 @@ const SignUp = () => {
 							</span>
 							<input
 								id="email"
-								name="email"
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								{...register("email", {
+									required: "Email is required",
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: "Invalid email address",
+									},
+								})}
+								className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
 								placeholder="Email address"
 							/>
 						</div>
+						{errors.email && (
+							<p className="mt-1 text-xs text-red-600">
+								{errors.email.message}
+							</p>
+						)}
 					</div>
-
 					<div className="relative">
 						<label htmlFor="password" className="sr-only">
 							Password
@@ -76,12 +148,22 @@ const SignUp = () => {
 							</span>
 							<input
 								id="password"
-								name="password"
 								type={showPassword ? "text" : "password"}
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-								placeholder="Password"
+								{...register("password", {
+									required: "Password is required",
+									minLength: {
+										value: 6,
+										message: "Password must be at least 6 characters",
+									},
+									pattern: {
+										value:
+											/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+										message:
+											"Password must contain at least one letter, one number and one special character",
+									},
+								})}
+								className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+								placeholder="Password (min 6 chars, include letter, number & special char)"
 							/>
 							<button
 								type="button"
@@ -95,17 +177,28 @@ const SignUp = () => {
 								)}
 							</button>
 						</div>
+						{errors.password && (
+							<p className="mt-1 text-xs text-red-600">
+								{errors.password.message}
+							</p>
+						)}
 					</div>
 
 					<div>
 						<button
-							onClick={handleSignUp}
-							className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150"
+							type="submit"
+							className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-white hover:text-black hover:border hover:border-black transition duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
 						>
-							Sign Up
+							{isLoading ? (
+								<div>
+									<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-3" />
+								</div>
+							) : (
+								"Sign Up"
+							)}
 						</button>
 					</div>
-				</div>
+				</form>
 
 				<div className="mt-6">
 					<div className="relative">
@@ -123,11 +216,9 @@ const SignUp = () => {
 						<button
 							type="button"
 							onClick={handleGoogleSignUp}
-							className="cursor-pointer w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+							className="cursor-pointer w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
 						>
-							<svg className="h-5 w-5" fill="#4285F4" viewBox="0 0 24 24">
-								<path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" />
-							</svg>
+							<FcGoogle className="h-5 w-5" />
 							<span className="ml-2">Sign up with Google</span>
 						</button>
 					</div>
@@ -137,7 +228,7 @@ const SignUp = () => {
 					<span>Already have an account? </span>
 					<Link
 						to="/signin"
-						className="cursor-pointer text-blue-600 hover:text-blue-500 focus:outline-none"
+						className="cursor-pointer text-black hover:text-blue-600 focus:outline-none"
 					>
 						Sign in
 					</Link>
