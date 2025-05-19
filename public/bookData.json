@@ -8,7 +8,7 @@
 		"discountPrice": 13.99,
 		"rating": 4.6,
 		"image": "/src/assets/BookImages/book-1.png",
-		"genre": "Thriller",
+		"category": "Thriller",
 		"availability": true,
 		"ISBN": "9781250301697"
 	},

@@ -95,7 +95,7 @@ const BookDetails = () => {
 							<BiSolidCategory className="mr-2" />
 							<p className="text-md">
 								Genre:{" "}
-								<span className="font-medium">{location.state?.genre}</span>
+								<span className="font-medium">{location.state?.category}</span>
 							</p>
 						</div>
 

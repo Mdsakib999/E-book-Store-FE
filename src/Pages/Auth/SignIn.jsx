@@ -1,31 +1,80 @@
-import React, { useState } from "react";
-import { FiMail, FiLock, FiUser, FiEye, FiEyeOff } from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../provider/AuthProvider";
+import { FcGoogle } from "react-icons/fc";
 
 const SignIn = () => {
 	const [showPassword, setShowPassword] = useState(false);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSignIn = () => {};
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+	const { signIn, googleSignIn, user } = useAuth();
+	const navigate = useNavigate();
 
-	const handleGoogleSignIn = () => {};
+	useEffect(() => {
+		if (user) {
+			navigate("/");
+		}
+	}, [user, navigate]);
+
+	const onSubmit = async (data) => {
+		setIsLoading(true);
+
+		try {
+			await signIn(data.email, data.password);
+			toast.success(<h1 className="font-serif">Signed in successfully!</h1>);
+			navigate("/");
+		} catch (error) {
+			let errorMessage = "Failed to sign in";
+			if (error.code === "auth/user-not-found") {
+				errorMessage = "No user found with this email";
+			} else if (error.code === "auth/wrong-password") {
+				errorMessage = "Incorrect password";
+			} else if (error.code === "auth/invalid-email") {
+				errorMessage = "Invalid email format";
+			}
+			toast.error(errorMessage);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const handleGoogleSignIn = async () => {
+		setIsLoading(true);
+
+		try {
+			await googleSignIn();
+			toast.success("Signed in with Google successfully!");
+			navigate("/dashboard"); // Redirect after successful sign in
+		} catch (error) {
+			toast.error("Google sign in failed. Please try again.");
+			console.error("Google sign in error:", error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-50 font-serif">
 			<div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
 				<div className="text-center">
-					<h1 className="text-4xl font-extrabold text-blue-600 tracking-tight">
+					<h1 className="text-4xl font-extrabold text-black tracking-tight">
 						Readify
 					</h1>
-					<p className="mt-2 text-sm text-gray-600">Welcome Back ,</p>
+					<p className="mt-2 text-sm text-gray-600">Welcome Back,</p>
 					<p className="mt-2 text-sm text-gray-600">
 						Sign in to access your account
 					</p>
 				</div>
 
-				<div className="mt-8 space-y-6">
+				<form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
 					<div className="relative">
 						<label htmlFor="email" className="sr-only">
 							Email address
@@ -36,14 +85,25 @@ const SignIn = () => {
 							</span>
 							<input
 								id="email"
-								name="email"
 								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className={`w-full pl-10 pr-3 py-2 border ${
+									errors.email ? "border-red-500" : "border-gray-300"
+								} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
 								placeholder="Email address"
+								{...register("email", {
+									required: "Email is required",
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: "Invalid email address",
+									},
+								})}
 							/>
 						</div>
+						{errors.email && (
+							<p className="mt-1 text-xs text-red-500">
+								{errors.email.message}
+							</p>
+						)}
 					</div>
 
 					<div className="relative">
@@ -56,12 +116,18 @@ const SignIn = () => {
 							</span>
 							<input
 								id="password"
-								name="password"
 								type={showPassword ? "text" : "password"}
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className={`w-full pl-10 pr-10 py-2 border ${
+									errors.password ? "border-red-500" : "border-gray-300"
+								} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
 								placeholder="Password"
+								{...register("password", {
+									required: "Password is required",
+									minLength: {
+										value: 6,
+										message: "Password must be at least 6 characters",
+									},
+								})}
 							/>
 							<button
 								type="button"
@@ -75,12 +141,17 @@ const SignIn = () => {
 								)}
 							</button>
 						</div>
+						{errors.password && (
+							<p className="mt-1 text-xs text-red-500">
+								{errors.password.message}
+							</p>
+						)}
 					</div>
 
 					<div className="flex items-center justify-end">
 						<button
 							type="button"
-							className="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-500 focus:outline-none"
+							className="cursor-pointer text-sm font-medium text-black hover:text-blue-500 focus:outline-none"
 						>
 							Forgot your password?
 						</button>
@@ -88,13 +159,14 @@ const SignIn = () => {
 
 					<div>
 						<button
-							onClick={handleSignIn}
-							className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150"
+							type="submit"
+							disabled={isLoading}
+							className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-white hover:text-black hover:border hover:border-black transition duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
 						>
-							Sign In
+							{isLoading ? "Signing in..." : "Sign In"}
 						</button>
 					</div>
-				</div>
+				</form>
 
 				<div className="mt-6">
 					<div className="relative">
@@ -112,12 +184,13 @@ const SignIn = () => {
 						<button
 							type="button"
 							onClick={handleGoogleSignIn}
-							className="cursor-pointer w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+							disabled={isLoading}
+							className="cursor-pointer w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed"
 						>
-							<svg className="h-5 w-5" fill="#4285F4" viewBox="0 0 24 24">
-								<path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" />
-							</svg>
-							<span className="ml-2">Sign in with Google</span>
+							<FcGoogle className="h-5 w-5" />
+							<span className="ml-2">
+								{isLoading ? "Signing in..." : "Sign in with Google"}
+							</span>
 						</button>
 					</div>
 				</div>
@@ -126,7 +199,7 @@ const SignIn = () => {
 					<span>Don't have an account? </span>
 					<Link
 						to="/signup"
-						className=" text-blue-600 hover:text-blue-500 focus:outline-none"
+						className="text-black hover:text-blue-500 focus:outline-none"
 					>
 						Sign up
 					</Link>
