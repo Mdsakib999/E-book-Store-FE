@@ -134,11 +134,11 @@ const Navbar = () => {
 										className="w-8 h-8 rounded-full object-cover border-2 border-gray-300"
 									/>
 								) : (
-									<div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white">
+									<div className="hidden w-8 h-8 rounded-full bg-gray-300 md:flex items-center justify-center text-white">
 										<FiUser className="w-4 h-4" />
 									</div>
 								)}
-								<span className="ml-2 font-medium text-gray-700">
+								<span className="hidden md:block ml-2 font-medium text-gray-700">
 									{user.displayName || "User"}
 								</span>
 							</div>
