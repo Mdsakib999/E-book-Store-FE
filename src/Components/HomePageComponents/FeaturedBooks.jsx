@@ -2,7 +2,7 @@ import { FaRegHeart, FaStar } from "react-icons/fa";
 import booksData from "/public/bookData.json";
 export const FeaturedBooks = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 my-12">
+    <div className="max-w-7xl mx-auto px-4">
       <h1 className="text-lg sm:text-2xl md:text-4xl font-bold mb-8">
         Featured Books
       </h1>
