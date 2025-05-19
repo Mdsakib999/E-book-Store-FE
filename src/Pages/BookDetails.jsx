@@ -8,14 +8,17 @@ import {
 	FaUser,
 	FaHeart,
 } from "react-icons/fa";
-import got from "../assets/got.jpg";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { BiSolidCategory } from "react-icons/bi";
 
 const BookDetails = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [isFavorite, setIsFavorite] = useState(false);
+	const location = useLocation();
+	console.log(location);
 
 	const incrementQuantity = () => {
 		setQuantity((prev) => prev + 1);
@@ -40,7 +43,7 @@ const BookDetails = () => {
 					<div className="relative">
 						<img
 							className="h-96 w-80 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
-							src={got}
+							src={location.state?.image}
 							alt="A Song of Ice and Fire Book Cover"
 						/>
 						<div className="absolute top-4 right-4">
@@ -64,7 +67,7 @@ const BookDetails = () => {
 				<div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-between">
 					<div>
 						<h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-							A Song of Ice and Fire
+							{location.state?.bookName}
 						</h1>
 
 						<div className="flex flex-col sm:flex-row sm:items-center gap-y-2 sm:gap-x-6 mb-4">
@@ -82,38 +85,46 @@ const BookDetails = () => {
 								<p className="text-md">
 									By{" "}
 									<span className="font-medium text-blue-600 hover:underline cursor-pointer">
-										George R. R. Martin
+										{location.state?.authorName}
 									</span>
 								</p>
 							</div>
 						</div>
 
 						<div className="flex items-center text-gray-600 mb-4">
-							<FaCalendarAlt className="mr-2" />
+							<BiSolidCategory className="mr-2" />
 							<p className="text-md">
-								First Published:{" "}
-								<span className="font-medium">August 1996</span>
+								Genre:{" "}
+								<span className="font-medium">{location.state?.genre}</span>
 							</p>
 						</div>
 
 						<div className="mb-6">
 							<p className="text-gray-700 leading-relaxed">
-								A Song of Ice and Fire is an award-winning series of epic
-								fantasy novels by American novelist and screenwriter George R.
-								R. Martin. The series, which inspired the popular HBO show Game
-								of Thrones, tells the story of a medieval country's civil war
-								and is notable for its political intrigue, morally ambiguous
-								characters, and minimal use of magic.
+								{location.state?.shortDescription}{" "}
+							</p>
+						</div>
+						<div className="mb-6">
+							<p className="text-gray-700 leading-relaxed font-sans">
+								ISBN :{" "}
+								<span className="font-sans">{location.state?.ISBN} </span>
 							</p>
 						</div>
 
 						<div className="flex items-center text-gray-700 mb-4">
 							<span className="font-bold text-xl text-blue-600 mr-2">
-								$29.99
+								${location.state?.price}
 							</span>
-							<span className="line-through text-gray-500">$39.99</span>
+							<span className="line-through text-gray-500">
+								${location.state?.discountPrice}
+							</span>
 							<span className="ml-3 px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium">
-								25% OFF
+								{(
+									((location.state?.price - location.state?.discountPrice) /
+										location.state?.price) *
+									100
+								).toFixed(2)}
+								% OFF
 							</span>
 						</div>
 					</div>
@@ -159,46 +170,10 @@ const BookDetails = () => {
 
 					<TabPanel className="p-6">
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
-							About A Song of Ice and Fire
+							About {location.state?.bookName}
 						</h2>
 						<p className="text-gray-700 mb-4">
-							A Song of Ice and Fire is an epic high fantasy series by George R.
-							R. Martin, widely regarded as one of the most ambitious and
-							realistic fantasy sagas ever written. Spanning across seven
-							planned books (with five published so far), it blends intricate
-							political intrigue, deeply human characters, and a richly detailed
-							world. It serves as the foundation for the HBO show Game of
-							Thrones, but the books are more layered, philosophical, and
-							emotionally immersive.
-						</p>
-						<p className="text-gray-700 mb-4">
-							🗺️ Worldbuilding: Westeros & Essos Martin’s world is massive and
-							immersive, taking place primarily on two continents: Westeros: A
-							land of medieval politics, noble houses, shifting alliances, and a
-							mysterious icy threat in the North. Essos: A vast eastern
-							continent full of ancient cities, magical traditions, mercenary
-							groups, and political ideologies. The depth of the geography,
-							religions (like the Faith of the Seven, R’hllor, Old Gods),
-							cultures, and languages rivals Tolkien’s Middle-earth — but feels
-							grittier and more grounded.
-						</p>
-						<p className="text-gray-700">
-							👑 Core Premise: The Game of Thrones At its heart, the series is
-							about power: how it’s gained, lost, corrupted, and used. The
-							famous quote, “When you play the game of thrones, you win or you
-							die,” defines the tone. While noble houses like the Starks,
-							Lannisters, Targaryens, and Baratheons vie for control of the Iron
-							Throne, darker forces stir in the background — ancient magic,
-							dragons, and the supernatural threat of the White Walkers.
-						</p>
-
-						<p className="text-gray-700">
-							🔥❄️ Thematic Duality: Ice and Fire The title isn’t just poetic —
-							it symbolizes the two opposing forces of the story: Ice: The
-							coming winter, the White Walkers, the Wall, and the North’s grim
-							harshness. Fire: Dragons, Targaryen blood, R’hllor’s flame god,
-							and fiery magic. This duality reflects the conflict between cold
-							rational survival and fiery ambition or destiny.
+							{location.state?.shortDescription}
 						</p>
 					</TabPanel>
 
