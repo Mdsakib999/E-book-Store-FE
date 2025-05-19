@@ -261,7 +261,7 @@ const FilterSection = ({
 							</div>
 						)}
 					</div>
-					<button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">
+					<button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer">
 						Reset Filters
 					</button>
 				</div>
@@ -364,7 +364,7 @@ const AllBooks = () => {
 									setYearRange([1800, 2025]);
 									setSearchQuery("");
 								}}
-								className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+								className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
 							>
 								Reset All Filters
 							</button>
