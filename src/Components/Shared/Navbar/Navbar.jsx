@@ -1,220 +1,205 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import "./Navbar.css";
-import { IoCart, IoLogoWhatsapp } from "react-icons/io5";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { IoCart, IoLogoWhatsapp } from "react-icons/io5";
+import "./Navbar.css";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+  FaXTwitter,
+} from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
-import { BiSupport } from "react-icons/bi";
-import { FaAngleDown } from "react-icons/fa6";
-// import logo from "../../assets/logo/LOGO.png";
-import { FaUserCircle, FaRegUserCircle } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaPinterest } from "react-icons/fa";
-import { RiWhatsappFill } from "react-icons/ri";
+
+const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/allbooks", label: "E-books" },
+  { to: "/contact", label: "Contact" },
+];
+
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/share/1AzYx6hdyw/?mibextid=wwXIfr",
+    icon: <FaFacebook size={26} />,
+    className: "text-blue-500",
+  },
+  {
+    to: "https://wa.me/8801727103079",
+    icon: <IoLogoWhatsapp size={27} />,
+    className: "text-green-500",
+  },
+  {
+    href: "http://www.youtube.com/@smfoodsbd",
+    icon: <FaYoutube size={26} />,
+    className: "text-red-500",
+  },
+  {
+    href: "https://www.instagram.com/smfoods.shop/profilecard/?igsh=dGR3bGVraXYyMzlv",
+    icon: <FaInstagram size={24} />,
+    className: "text-pink-500",
+  },
+  {
+    href: "https://x.com/smfoodshop",
+    icon: <FaXTwitter size={24} />,
+    className: "text-gray-200",
+  },
+];
 
 const Navbar = () => {
-	const [nav, setNav] = useState(false);
-	const [data, setData] = useState([]);
-	const [lastScrollY, setLastScrollY] = useState(0);
-	// const { setIsSidebarOpen, isSidebarOpen } = useContext('');
-	const navigate = useNavigate();
+  const [navOpen, setNavOpen] = useState(false);
+  const [cartData, setCartData] = useState([]);
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showSearch, setShowSearch] = useState(false);
 
-	const handleNav = () => {
-		setNav(!nav);
-	};
+  const handleNavToggle = () => setNavOpen((prev) => !prev);
+  const toggleSearch = () => setShowSearch((prev) => !prev);
 
-	// console.log(user);
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    setShowMobileNav(currentScrollY < lastScrollY);
+    setLastScrollY(currentScrollY);
+  };
 
-	const handleScroll = () => {
-		const currentScrollY = window.scrollY;
-		if (currentScrollY > lastScrollY) {
-			// Scrolling down
-			setShowSecondDiv(false);
-		} else {
-			// Scrolling up
-			setShowSecondDiv(true);
-		}
-		setLastScrollY(currentScrollY);
-	};
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
-	useEffect(() => {
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [lastScrollY]);
-
-	return (
-		<>
-			<div className=" flex justify-between items-center w-[100%] lg:max-w-[100%] mx-auto px-5 lg:px-24 py-2 md:py-4 text-black sticky top-0 z-20 bg-white ">
-				<div className="flex items-end gap-4 md:text-center lg:text-lg md:mr-4">
-					{/* Desktop Navigation */}
-					<ul className="hidden md:flex md:gap-x-5 lg:gap-x-7 font-semibold">
-						<Link to="/" className="nav_a rounded-xl cursor-pointer">
-							Home
-						</Link>
-						<Link to="/allbooks" className="nav_a rounded-xl cursor-pointer">
-							E-books
-						</Link>
-						<Link to="/contact" className="nav_a rounded-xl cursor-pointer">
-							Contact
-						</Link>
-					</ul>
-					{/* Mobile Navigation Icon */}
-					<div onClick={handleNav} className="block md:hidden cursor-pointer">
-						{nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-					</div>
-				</div>
-
-				{/* Mobile Navigation Menu */}
-				<ul
-					className={
-						nav
-							? "fixed lg:hidden block right-0 top-0 w-[70%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500 z-10 "
-							: "ease-in-out w-[70%] duration-500 fixed top-0 bottom-0 right-[-100%]"
-					}
-				>
-					{/* Mobile Logo */}
-					<h1 className="w-full text-3xl font-bold font-Dancing text-orange-500 m-4 ">
-						E-Book
-					</h1>
-					{/* Mobile Navigation Items */}
-					<li>
-						<Link
-							onClick={handleNav}
-							className="p-4 block border-b rounded-xl text-white hover:bg-gray-800  duration-300  cursor-pointer border-gray-600"
-							to="/"
-						>
-							Home
-						</Link>
-					</li>
-					<li>
-						<Link
-							onClick={handleNav}
-							className="block p-4 border-b rounded-xl text-white hover:bg-gray-800 duration-300  cursor-pointer border-gray-600"
-							to="/allProduct"
-						>
-							Our Products
-						</Link>
-					</li>
-
-					<li>
-						<Link
-							onClick={handleNav}
-							className="p-4 block border-b rounded-xl text-white hover:bg-gray-800 duration-300  cursor-pointer border-gray-600"
-							to="/blog"
-						>
-							Blog
-						</Link>
-					</li>
-					<li>
-						{/* {!user && (
-              <Link
-              onClick={handleNav}
-                to="/trackOrder"
-                className="p-4 block border-b rounded-xl text-white hover:bg-gray-800 duration-300  cursor-pointer border-gray-600"
+  return (
+    <>
+      <nav className="sticky top-0 z-20 bg-white shadow px-5 lg:px-24 py-3 flex justify-between items-center">
+        {/* Left: Logo + Nav */}
+        <div className="flex items-center gap-4">
+          <ul className="hidden md:flex gap-6 font-semibold">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `nav_a rounded-xl cursor-pointer ${
+                    isActive ? "text-orange-500 nav_a" : ""
+                  }`
+                }
               >
-                Track Order
-              </Link>
-            )} */}
-					</li>
-					<li>
-						<Link
-							className="p-4 block border-b rounded-xl text-white hover:bg-gray-800 duration-300  cursor-pointer border-gray-600"
-							onClick={handleNav}
-							to="/contact"
-						>
-							Contact
-						</Link>
-					</li>
+                {link.label}
+              </NavLink>
+            ))}
+          </ul>
 
-					{/* Mobile social icon */}
-					<div className=" flex justify-center  items-center space-x-4 mt-6">
-						<a
-							href="https://www.facebook.com/share/1AzYx6hdyw/?mibextid=wwXIfr"
-							target="_blank"
-							className="text-blue-500 hover:text-blue-700  p-1 rounded-full "
-						>
-							<FaFacebook size={26} />
-						</a>
-						<Link
-							to="https://wa.me/8801727103079"
-							target="_blank"
-							className="text-green-500 hover:text-green-600 "
-						>
-							<IoLogoWhatsapp size={27} />
-						</Link>
-						<a
-							href="http://www.youtube.com/@smfoodsbd"
-							target="_blank"
-							className="text-red-500 hover:text-red-600 p-1 rounded-full "
-						>
-							<FaYoutube size={26} />
-						</a>
-						<a
-							href="https://www.instagram.com/smfoods.shop/profilecard/?igsh=dGR3bGVraXYyMzlv"
-							target="_blank"
-							className="text-pink-500 hover:text-pink-700 p-1 rounded-full "
-						>
-							<FaInstagram size={24} />
-						</a>
-						<a
-							href="https://x.com/smfoodshop"
-							target="_blank"
-							className="text-gray-200 hover:text-gray-300 p-1 rounded-full "
-						>
-							<FaXTwitter size={24} />
-						</a>
-					</div>
-				</ul>
+          {/* Mobile Nav Toggle */}
+          <div className="md:hidden cursor-pointer" onClick={handleNavToggle}>
+            {navOpen ? (
+              <AiOutlineClose size={30} />
+            ) : (
+              <AiOutlineMenu size={30} />
+            )}
+          </div>
+        </div>
 
-				{/* Logo */}
-				<Link to="/" className="hidden md:flex cursor-pointer">
-					<img className="w-[50px] rounded-full" src="" alt="" />
-					<h1 className=" font-Dancing lg:text-3xl text-xl font-bold px-3 flex justify-center items-center text-black ">
-						E-Book
-					</h1>
-				</Link>
+        <Link to="/" className="hidden md:flex items-center gap-2">
+          <h1 className="font-Dancing text-xl lg:text-3xl font-bold text-black">
+            E-Book
+          </h1>
+        </Link>
 
-				{/* 3rd part */}
-				<div className="flex items-center gap-x-5 ">
-					{/* Search Box */}
-					<div className="relative md:flex  items-center group  pt-1">
-						<input
-							type="text"
-							onChange={(e) => setSearchProduct(e.target.value)}
-							placeholder="Search..."
-							className="border border-gray-300 group-hover:border-orange-500 rounded-full py-2 px-4 pl-10 md:max-w-[320px] focus:outline-none focus:border-orange-400"
-						/>
-						<FiSearch
-							className="absolute left-3 top-3 group-hover:text-orange-500"
-							size={22}
-						/>
-					</div>
+        {/* Right: Icons + Auth */}
+        <div className="flex items-center gap-5">
+          <FiSearch
+            className="text-3xl text-black cursor-pointer"
+            onClick={toggleSearch}
+          />
+          <div className="relative cursor-pointer">
+            <span className="bg-orange-500 absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+              {cartData?.length || 0}
+            </span>
+            <IoCart size={30} className="text-black" />
+          </div>
+          <Link
+            to="/signin"
+            className="bg-gradient-to-r from-black to-gray-400 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-orange-600 hover:to-yellow-400 transition"
+          >
+            Login
+          </Link>
+        </div>
 
-					{/* Shopping cart */}
-					<div
-						onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-						className="relative cursor-pointer "
-					>
-						<span className="bg-orange-500 absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
-							{data?.length}
-						</span>
-						<p className="font-bold flex items-center text-black -mt-1 ">
-							<IoCart size={30} />
-						</p>
-					</div>
+        {/* Mobile Nav Menu */}
+        <div
+          className={`fixed top-0 right-0 h-full w-[70%] bg-black text-white z-30 transition-transform duration-300 ${
+            navOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="p-4 font-bold text-3xl text-orange-500">E-Book</div>
+          <ul className="space-y-2 px-4">
+            {[
+              { to: "/", label: "Home" },
+              { to: "/allProduct", label: "Our Products" },
+              { to: "/blog", label: "Blog" },
+              { to: "/contact", label: "Contact" },
+            ].map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  onClick={handleNavToggle}
+                  className="block py-2 px-4 rounded-xl border-b border-gray-600 hover:bg-gray-800"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-					<Link
-						to="/signin"
-						className="bg-gradient-to-r cursor-pointer from-black to-gray-400 px-6 text-center py-2 rounded-md text-white font-bold shadow-md hover:from-orange-600 hover:to-yellow-400 transition-colors"
-					>
-						Login
-					</Link>
-				</div>
-			</div>
-		</>
-	);
+          {/* Mobile Social Icons */}
+          <div className="flex justify-center items-center gap-4 mt-6">
+            {socialLinks.map((link, i) =>
+              link.href ? (
+                <a
+                  key={i}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={link.className}
+                >
+                  {link.icon}
+                </a>
+              ) : (
+                <Link
+                  key={i}
+                  to={link.to}
+                  target="_blank"
+                  className={link.className}
+                >
+                  {link.icon}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Search Overlay */}
+      {showSearch && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-40 flex justify-center items-start pt-20 transition-all duration-300">
+          <div className="bg-white w-[90%] md:w-2/3 lg:w-1/2 p-4 rounded-xl shadow-lg relative animate-slideDown">
+            <button
+              onClick={toggleSearch}
+              className="absolute top-2 right-3 text-black text-2xl"
+            >
+              <AiOutlineClose />
+            </button>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search for books..."
+                className="w-full border border-gray-300 rounded-full py-2 px-5 pl-10 focus:outline-none focus:border-orange-400"
+              />
+              <FiSearch className="absolute left-3 top-3 text-gray-500" size={22} />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Navbar;
