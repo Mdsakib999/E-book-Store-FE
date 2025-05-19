@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { BookCard } from "../Components/BookCard";
 import booksData from "../../public/bookData.json";
+import { Link } from "react-router-dom";
 
 const uniqueGenres = [...new Set(booksData.map((book) => book.category))];
 
@@ -371,13 +372,14 @@ const AllBooks = () => {
 					) : (
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((book) => (
-								<BookCard
-									key={book.ISBN}
-									img={book.image}
-									title={book.bookName}
-									author={book.authorName}
-									price={book.price}
-								/>
+								<Link key={book.ISBN} to={`/allbooks/${book.id}`} state={book}>
+									<BookCard
+										img={book.image}
+										title={book.bookName}
+										author={book.authorName}
+										price={book.price}
+									/>
+								</Link>
 							))}
 						</div>
 					)}
