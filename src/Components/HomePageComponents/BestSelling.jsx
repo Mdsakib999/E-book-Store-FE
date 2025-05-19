@@ -30,7 +30,15 @@ export const BestSelling = () => {
             desc={item.shortDescription}
             price={item.discountPrice}
             originalPrice={item.price}
-            category={item.genre}
+            category={
+              Array.isArray(item.genre)
+                ? item.genre.length > 0
+                  ? item.genre[0]
+                  : "Unknown"
+                : item.genre
+                ? item.genre
+                : "Unknown"
+            }
             availability={item.availability}
           />
         ))}
