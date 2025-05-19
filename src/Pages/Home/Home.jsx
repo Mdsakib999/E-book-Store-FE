@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import HomeBanner from "../../Components/HomePageComponents/HomeBanner";
 import { FeaturedCategories } from "../../Components/HomePageComponents/FeaturedCategories";
-import Newsletter from "../../Components/Newsletter";
+import Newsletter from "../../Components/HomePageComponents/Newsletter";
 import { FeaturedBooks } from "../../Components/HomePageComponents/FeaturedBooks";
 import { BestSelling } from "../../Components/HomePageComponents/BestSelling";
 import { Offer } from "../../Components/HomePageComponents/Offer";
