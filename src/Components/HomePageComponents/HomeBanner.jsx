@@ -28,7 +28,7 @@ const slides = [
 
 const HomeBanner = () => {
   return (
-    <div className="bg-pink-50 py-16 md:py-24 lg:py-28">
+    <div className="bg-pink-50 py-16 md:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Slide>
           <Carousel
@@ -44,7 +44,7 @@ const HomeBanner = () => {
             {slides.map((slide, index) => (
               <div
                 key={index}
-                className="flex flex-col md:flex-col-reverse lg:flex-row items-center justify-between gap-10 md:gap-16 md:mb-0 lg:mb-28"
+                className="flex flex-col md:flex-col-reverse lg:flex-row items-center justify-between gap-10 md:gap-16 mb-20 md:mb-20 lg:mb-24"
               >
                 <div className="flex-1 text-center md:text-left space-y-5">
                   <p className="text-gray-500 font-semibold">{slide.title}</p>
