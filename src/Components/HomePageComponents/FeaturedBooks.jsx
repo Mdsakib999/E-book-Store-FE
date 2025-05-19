@@ -27,39 +27,37 @@ export const FeaturedBooks = () => {
         </div>
 
         {/* Right Side Grid of Cards */}
-        <div className="w-full px-4 md:px-0 md:w-11/12 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="w-full px-4 md:px-0 md:w-11/12 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {booksData.slice(0, 6).map((item) => (
             <div
               key={item.id}
               className="relative group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300"
             >
               {/* Image */}
-              <div className="aspect-[3/4] overflow-hidden">
+              <div className="aspect-[3/4] overflow-hidden ">
                 <img
                   src={item.image}
                   alt={item.bookName}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 "
                 />
               </div>
 
               {/* Info Overlay */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-black/70 backdrop-blur-md p-4 rounded-xl shadow-lg translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col gap-3">
-                <p className="uppercase text-xs text-red-500 font-semibold mb-1">
-                  ISBN: {item.ISBN}
-                </p>
-                <h2 className="text-lg font-bold text-gray-900 dark:text-white truncate">
+              <div className="absolute bottom-4 left-4 right-4 bg-white/60 dark:bg-black/70 backdrop-blur-md p-4 rounded-xl shadow-lg translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col gap-3">
+
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white truncate ">
                   {item.bookName}
                 </h2>
-                <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">
-                  author: {item.authorName}
+                <p className="text-sm font-semibold text-gray-600 dark:text-gray-300 ">
+                  Author: {item.authorName}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
                   {item.shortDescription}
                 </p>
 
-                <div className="mt-2 flex justify-between items-center">
+                <div className=" flex justify-between items-center ">
                   <p className="text-base font-semibold text-gray-800 dark:text-white">
-                    ${item.price}
+                    $ {item.price}
                   </p>
                   <p className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                     {item.rating} <FaStar className="ml-1 text-yellow-500" />
@@ -67,9 +65,9 @@ export const FeaturedBooks = () => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex justify-between items-center mt-4">
-                  <button className="text-sm font-medium text-black dark:text-white hover:underline">
-                    {item.availability ? "Buy Now" : "Out of Stock"}
+                <div className="flex justify-between items-center mt-2 ">
+                  <button className="text-sm font-medium text-black dark:text-white hover:border-gray-900 border-gray-500 border px-3 py-1 rounded">
+                    {item.availability ? "Add to Cart" : "Out of Stock"}
                   </button>
                   <FaRegHeart className="text-2xl text-gray-400 hover:text-red-500 transition-colors duration-300 cursor-pointer" />
                 </div>
