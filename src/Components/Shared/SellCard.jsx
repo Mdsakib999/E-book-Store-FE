@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { FaRegHeart, FaStar } from "react-icons/fa";
 
 export const SellCard = ({
