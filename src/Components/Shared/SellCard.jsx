@@ -21,10 +21,14 @@ export const SellCard = ({
       </div>
 
       {/* Floating Info Section */}
-      <div className="absolute bottom-0 z-10 w-full h-[40%] p-4 bg-white dark:bg-gray-800 flex flex-col justify-between gap-4 transition-all duration-500 group-hover:translate-y-[-40px]">
+      <div className="absolute bottom-0 z-10 w-full h-[45%] p-4 bg-white dark:bg-gray-800 flex flex-col justify-between gap-4 transition-all duration-500 group-hover:translate-y-[-40px]">
         {/* Top Content */}
         <div className="flex flex-col gap-2">
-          <p className="uppercase text-xs text-red-500 font-semibold">
+          <p
+            className={`uppercase text-md font-semibold ${
+              category === "Unknown" ? "text-gray-400 text-xs" : "text-red-500"
+            }`}
+          >
             {category}
           </p>
           <h2 className="text-lg font-bold text-gray-900 dark:text-white">
