@@ -3,7 +3,7 @@ import bookImage from "/assets/offerBook.png";
 
 export const Offer = () => {
 	return (
-		<div className="rounded-lg relative w-full mt-[200px] md:mt-[300px] lg:mt-[200px] py-32 lg:py-20 max-w-7xl mx-auto bg-gradient-to-b from-black to-gray-100">
+		<div className="rounded-lg relative w-full mt-[150px]  py-32 lg:py-20 max-w-7xl mx-auto bg-gradient-to-b from-black to-gray-100">
 			{/* Card Container */}
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 rounded bg-white/30 py-16">
 				{/* Book Image */}
@@ -12,7 +12,7 @@ export const Offer = () => {
 				</div>
 
 				{/* Content */}
-				<div className="relative z-20 max-w-2xl lg:text-left">
+				<div className="relative z-0 max-w-2xl lg:text-left">
 					<h2 className="md:text-2xl lg:text-3xl font-bold tracking-tight text-white sm:text-4xl drop-shadow-md">
 						Get 20% off on your first order
 					</h2>
