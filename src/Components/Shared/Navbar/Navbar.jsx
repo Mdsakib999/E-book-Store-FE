@@ -11,8 +11,8 @@ import {
 } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { useAuth } from "../../../provider/AuthProvider";
-import { FiUser } from "react-icons/fi";
 import toast from "react-hot-toast";
+import { FaUserCircle } from "react-icons/fa";
 
 const navLinks = [
 	{ to: "/", label: "Home" },
@@ -56,11 +56,6 @@ const Navbar = () => {
 	const [showSearch, setShowSearch] = useState(false);
 	const { user, logout } = useAuth();
 
-	const handleSignOut = async () => {
-		await logout();
-		toast.success(<h1 className="font-serif">Logged out successfully</h1>);
-	};
-
 	const handleNavToggle = () => setNavOpen((prev) => !prev);
 	const toggleSearch = () => setShowSearch((prev) => !prev);
 
@@ -75,6 +70,11 @@ const Navbar = () => {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [lastScrollY]);
 
+	const handleSignout = async () => {
+		await logout();
+		toast.success(<h1 className="font-serif">Signed out successfully</h1>);
+	};
+
 	return (
 		<>
 			<nav className="sticky top-0 z-20 bg-white shadow px-5 lg:px-24 py-3 flex justify-between items-center">
@@ -87,7 +87,7 @@ const Navbar = () => {
 								to={link.to}
 								className={({ isActive }) =>
 									`nav_a rounded-xl cursor-pointer ${
-										isActive ? "text-orange-500 nav_a" : ""
+										isActive ? "text-orange-500 underline " : ""
 									}`
 								}
 							>
@@ -119,33 +119,20 @@ const Navbar = () => {
 						onClick={toggleSearch}
 					/>
 					<div className="relative cursor-pointer">
-						<span className="bg-orange-500 absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+						<span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
 							{cartData?.length || 0}
 						</span>
 						<IoCart size={30} className="text-black" />
 					</div>
 					{user ? (
-						<div className="flex items-center space-x-3">
-							<div className="flex items-center">
-								{user.photoURL ? (
-									<img
-										src={user.photoURL}
-										alt={user.displayName || "User"}
-										className="w-8 h-8 rounded-full object-cover border-2 border-gray-300"
-									/>
-								) : (
-									<div className="hidden w-8 h-8 rounded-full bg-gray-300 md:flex items-center justify-center text-white">
-										<FiUser className="w-4 h-4" />
-									</div>
-								)}
-								<span className="hidden md:block ml-2 font-medium text-gray-700">
-									{user.displayName || "User"}
-								</span>
+						<div className="flex items-center gap-2">
+							<div className="hidden md:flex items-center gap-2">
+								<FaUserCircle size="25" />
+								<p>{user?.displayName}</p>
 							</div>
-
 							<button
-								onClick={handleSignOut}
-								className="bg-gradient-to-r from-black to-gray-400 px-4 py-1.5 text-sm rounded-md text-white font-bold shadow-md hover:from-orange-600 hover:to-yellow-400 transition cursor-pointer"
+								onClick={handleSignout}
+								className="cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
 							>
 								Sign Out
 							</button>
@@ -153,7 +140,7 @@ const Navbar = () => {
 					) : (
 						<Link
 							to="/signin"
-							className="bg-gradient-to-r from-black to-gray-400 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-orange-600 hover:to-yellow-400 transition"
+							className="cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
 						>
 							Login
 						</Link>
@@ -216,11 +203,11 @@ const Navbar = () => {
 
 			{/* Search Overlay */}
 			{showSearch && (
-				<div className="fixed inset-0 bg-black bg-opacity-60 z-40 flex justify-center items-start pt-20 transition-all duration-300">
-					<div className="bg-white w-[90%] md:w-2/3 lg:w-1/2 p-4 rounded-xl shadow-lg relative animate-slideDown">
+				<div className="fixed inset-0 bg-black/50 z-40 flex justify-center items-start pt-5 transition-all duration-300">
+					<div className="bg-white w-[90%] md:w-2/3 lg:w-1/2 px-4 py-4 rounded-xl shadow-lg relative animate-slideDown ">
 						<button
 							onClick={toggleSearch}
-							className="absolute top-2 right-3 text-black text-2xl"
+							className="absolute top-6 right-3 text-black text-2xl z-50 cursor-pointer hover:text-red-600"
 						>
 							<AiOutlineClose />
 						</button>
@@ -228,10 +215,10 @@ const Navbar = () => {
 							<input
 								type="text"
 								placeholder="Search for books..."
-								className="w-full border border-gray-300 rounded-full py-2 px-5 pl-10 focus:outline-none focus:border-orange-400"
+								className="w-[95%] border border-gray-300 rounded-full py-2 px-5 pl-10 focus:outline-none focus:border-gray-800"
 							/>
 							<FiSearch
-								className="absolute left-3 top-3 text-gray-500"
+								className="absolute left-3 top-2.5 text-gray-500"
 								size={22}
 							/>
 						</div>
