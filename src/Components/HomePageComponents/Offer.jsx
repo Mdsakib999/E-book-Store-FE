@@ -3,12 +3,12 @@ import bookImage from "/assets/offerBook.png";
 
 export const Offer = () => {
   return (
-    <div className="rounded-lg relative w-full mt-[200px] p-8">
+    <div className="rounded-lg relative w-full mt-[200px] md:mt-[300px] lg:mt-[200px] p-8">
       {/* Aurora Effect */}
       <div className="absolute inset-0 bg-gradient-to-l from-black via-gray-500 to-gray-900 opacity-70"></div>
 
       {/* Book Image Half Above the Card */}
-      <div className="absolute -top-10 right-30 -translate-y-1/3 z-10">
+      <div className="absolute -top-28 md:-top-30 lg:-top-10 md:right-30 md:-translate-y-1/3 md:z-10">
         <img src={bookImage} alt="Book" />
       </div>
 
