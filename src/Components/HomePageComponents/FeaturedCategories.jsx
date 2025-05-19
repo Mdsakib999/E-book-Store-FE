@@ -5,11 +5,7 @@ import HeartIcon from "/assets/hearts.png";
 import DoctorIcon from "/assets/stethoscope.png";
 import BiographyIcon from "/assets/resume.png";
 import BabyIcon from "/assets/baby-boy.png";
-import {
-  MdOutlineKeyboardArrowRight,
-  MdChevronLeft,
-  MdChevronRight,
-} from "react-icons/md";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 export const FeaturedCategories = () => {
   const menuRef = useRef(null);
@@ -40,22 +36,16 @@ export const FeaturedCategories = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 my-10">
       {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8">
-        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
-          Featured Categories
-        </h1>
-        <button className="text-sm sm:text-md md:text-xl flex items-center gap-1 whitespace-nowrap">
-          All Categories{" "}
-          <MdOutlineKeyboardArrowRight className="text-lg sm:text-xl md:text-2xl" />
-        </button>
-      </div>
+      <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
+        Featured Categories
+      </h1>
 
       {/* Arrows + Swipeable Menu */}
       <div className="relative mt-8">
         {/* Left Arrow */}
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100"
         >
           <MdChevronLeft className="text-4xl " />
         </button>
@@ -91,7 +81,7 @@ export const FeaturedCategories = () => {
         {/* Right Arrow */}
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100"
         >
           <MdChevronRight className="text-4xl" />
         </button>
