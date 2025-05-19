@@ -6,103 +6,10 @@ import {
 	FaChevronDown,
 	FaChevronUp,
 } from "react-icons/fa";
-import got from "../assets/got.jpg";
 import { BookCard } from "../Components/BookCard";
+import booksData from "../../public/bookData.json";
 
-const booksData = [
-	{
-		id: 1,
-		title: "The Great Gatsby",
-		author: "F. Scott Fitzgerald",
-		genre: "Classic",
-		rating: 4.5,
-		price: 9.99,
-		image: got,
-		year: 1925,
-	},
-	{
-		id: 2,
-		title: "To Kill a Mockingbird",
-		author: "Harper Lee",
-		genre: "Fiction",
-		rating: 4.8,
-		price: 12.99,
-		image: got,
-		year: 1960,
-	},
-	{
-		id: 3,
-		title: "1984",
-		author: "George Orwell",
-		genre: "Dystopian",
-		rating: 4.6,
-		price: 10.99,
-		image: got,
-		year: 1949,
-	},
-	{
-		id: 4,
-		title: "Pride and Prejudice",
-		author: "Jane Austen",
-		genre: "Romance",
-		rating: 4.7,
-		price: 8.99,
-		image: got,
-		year: 1813,
-	},
-	{
-		id: 5,
-		title: "The Hobbit",
-		author: "J.R.R. Tolkien",
-		genre: "Fantasy",
-		rating: 4.9,
-		price: 14.99,
-		image: got,
-		year: 1937,
-	},
-	{
-		id: 6,
-		title: "Harry Potter and the Sorcerer's Stone",
-		author: "J.K. Rowling",
-		genre: "Fantasy",
-		rating: 4.8,
-		price: 15.99,
-		image: got,
-		year: 1997,
-	},
-	{
-		id: 7,
-		title: "The Catcher in the Rye",
-		author: "J.D. Salinger",
-		genre: "Fiction",
-		rating: 4.2,
-		price: 11.99,
-		image: got,
-		year: 1951,
-	},
-	{
-		id: 8,
-		title: "Lord of the Flies",
-		author: "William Golding",
-		genre: "Fiction",
-		rating: 4.0,
-		price: 9.99,
-		image: got,
-		year: 1954,
-	},
-	{
-		id: 9,
-		title: "The Alchemist",
-		author: "Paulo Coelho",
-		genre: "Fantasy",
-		rating: 4.5,
-		price: 13.99,
-		image: got,
-		year: 1988,
-	},
-];
-
-const uniqueGenres = [...new Set(booksData.map((book) => book.genre))];
+const uniqueGenres = [...new Set(booksData.map((book) => book.category))];
 
 const FilterSection = ({
 	genres,
@@ -353,45 +260,6 @@ const FilterSection = ({
 							</div>
 						)}
 					</div>
-
-					<div className="mb-6">
-						<div
-							className="flex justify-between items-center mb-2 cursor-pointer"
-							onClick={() => setIsYearOpen(!isYearOpen)}
-						>
-							<h4 className="font-medium text-gray-800">Publication Year</h4>
-							{isYearOpen ? <FaChevronUp /> : <FaChevronDown />}
-						</div>
-						{isYearOpen && (
-							<div className="space-y-4 ml-2">
-								<div className="flex justify-between">
-									<span>{yearRange[0]}</span>
-									<span>{yearRange[1]}</span>
-								</div>
-								<input
-									type="range"
-									min="1800"
-									max="2025"
-									value={yearRange[0]}
-									onChange={(e) =>
-										setYearRange([parseInt(e.target.value), yearRange[1]])
-									}
-									className="w-full"
-								/>
-								<input
-									type="range"
-									min="1800"
-									max="2025"
-									value={yearRange[1]}
-									onChange={(e) =>
-										setYearRange([yearRange[0], parseInt(e.target.value)])
-									}
-									className="w-full"
-								/>
-							</div>
-						)}
-					</div>
-
 					<button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">
 						Reset Filters
 					</button>
@@ -409,6 +277,7 @@ const AllBooks = () => {
 	const [yearRange, setYearRange] = useState([1800, 2025]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
+	console.log(filteredBooks);
 
 	useEffect(() => {
 		// Apply filters
@@ -418,14 +287,16 @@ const AllBooks = () => {
 		if (searchQuery) {
 			filtered = filtered.filter(
 				(book) =>
-					book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					book.author.toLowerCase().includes(searchQuery.toLowerCase())
+					book.bookName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
 			);
 		}
 
 		// Filter by genre
 		if (selectedGenres.length > 0) {
-			filtered = filtered.filter((book) => selectedGenres.includes(book.genre));
+			filtered = filtered.filter((book) =>
+				selectedGenres.includes(book.category)
+			);
 		}
 
 		// Filter by price range
@@ -434,9 +305,6 @@ const AllBooks = () => {
 		);
 
 		// Filter by year range
-		filtered = filtered.filter(
-			(book) => book.year >= yearRange[0] && book.year <= yearRange[1]
-		);
 
 		setFilteredBooks(filtered);
 	}, [books, searchQuery, selectedGenres, priceRange, yearRange]);
@@ -504,10 +372,10 @@ const AllBooks = () => {
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((book) => (
 								<BookCard
-									key={book.id}
+									key={book.ISBN}
 									img={book.image}
-									title={book.title}
-									author={book.author}
+									title={book.bookName}
+									author={book.authorName}
 									price={book.price}
 								/>
 							))}

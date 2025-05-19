@@ -4,6 +4,7 @@ import { FeaturedCategories } from "../../Components/HomePageComponents/Featured
 import Newsletter from "../../Components/Newsletter";
 import { FeaturedBooks } from "../../Components/HomePageComponents/FeaturedBooks";
 import { BestSelling } from "../../Components/HomePageComponents/BestSelling";
+import { Offer } from "../../Components/HomePageComponents/Offer";
 
 const Home = () => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const Home = () => {
       <FeaturedCategories />
       <FeaturedBooks />
       <BestSelling />
+      <Offer />
       <Newsletter />
     </div>
   );
