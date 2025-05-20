@@ -1,5 +1,5 @@
 import { FaHeart, FaStar } from "react-icons/fa";
-import booksData from "/public/bookData.json";
+import booksData from "../../assets/bookData.json";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -73,7 +73,7 @@ export const FeaturedBooks = () => {
                   </div>
                 )}
                 {/* Image */}
-                <div className="aspect-[3/4] overflow-hidden ">
+                <div className="lg:aspect-[3/4] overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.bookName}
@@ -82,7 +82,14 @@ export const FeaturedBooks = () => {
                 </div>
 
                 {/* Info Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 bg-white/60  backdrop-blur-md p-4 rounded-xl shadow-lg translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col gap-3">
+                <div
+                  className="md:absolute md:bottom-4 md:left-4 md:right-4 
+                lg:mt-4 md:mt-0 
+                bg-white/60 backdrop-blur-md p-4 rounded-xl shadow-lg 
+                translate-y-0 opacity-100 
+                md:translate-y-10 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 
+                transition-all duration-500 flex flex-col justify-between"
+                >
                   <h2 className="text-lg font-bold text-gray-900  truncate ">
                     {item.bookName}
                   </h2>
