@@ -13,12 +13,12 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BiSolidCategory } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
+import RelatedBooks from "../Components/RelatedBooks";
 
 const BookDetails = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [isFavorite, setIsFavorite] = useState(false);
 	const location = useLocation();
-	console.log(location);
 
 	const incrementQuantity = () => {
 		setQuantity((prev) => prev + 1);
@@ -129,7 +129,7 @@ const BookDetails = () => {
 						</div>
 					</div>
 
-					<div className="flex items-center justify-between">
+					<div className="flex flex-col md:flex-row items-center justify-between">
 						<div>
 							{location.state?.availability === false ? (
 								<p className="flex items-center gap-x-2 bg-red-600 rounded-md px-5 py-2 text-white">
@@ -148,7 +148,7 @@ const BookDetails = () => {
 							<div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
 								<button
 									onClick={decrementQuantity}
-									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
 								>
 									<FaMinus className="text-gray-600" />
 								</button>
@@ -261,6 +261,7 @@ const BookDetails = () => {
 					</TabPanel>
 				</Tabs>
 			</div>
+			<RelatedBooks />
 		</div>
 	);
 };
