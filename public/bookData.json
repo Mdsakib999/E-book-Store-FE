@@ -9,7 +9,7 @@
 		"rating": 4.6,
 		"image": "/src/assets/BookImages/book-1.png",
 		"category": "Thriller",
-		"availability": true,
+		"availability": false,
 		"ISBN": "9781250301697"
 	},
 	{
@@ -35,7 +35,7 @@
 		"rating": 4.7,
 		"image": "/src/assets/BookImages/book-3.png",
 		"category": "Memoir",
-		"availability": true,
+		"availability": false,
 		"ISBN": "9780399590504"
 	},
 	{

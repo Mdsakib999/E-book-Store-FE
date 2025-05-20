@@ -15,7 +15,7 @@ const Newsletter = () => {
 	};
 
 	return (
-		<div className="bg-slate-50 py-16 px-4 sm:px-6 lg:px-8 font-sans">
+		<div className="bg-slate-50 py-16 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
 				<h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
 					Join Our Newsletter
@@ -26,15 +26,15 @@ const Newsletter = () => {
 				</p>
 
 				<div className="flex flex-wrap justify-center gap-4 mb-8">
-					<div className="flex items-center text-black text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium hover:text-blue-500 hover:underline cursor-pointer">
 						<FiArrowRight className="mr-2" />
 						Weekly Updates
 					</div>
-					<div className="flex items-center text-black text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium hover:text-blue-500 hover:underline cursor-pointer">
 						<FiArrowRight className="mr-2" />
 						Exclusive Content
 					</div>
-					<div className="flex items-center text-black text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium hover:text-blue-500 hover:underline cursor-pointer">
 						<FiArrowRight className="mr-2" />
 						Book Recommendations
 					</div>
@@ -61,7 +61,7 @@ const Newsletter = () => {
 				</form>
 
 				{subscribed && (
-					<p className="mt-4 text-green-600 text-sm">
+					<p className="mt-4 text-green-500 text-sm">
 						Thank you for subscribing!
 					</p>
 				)}

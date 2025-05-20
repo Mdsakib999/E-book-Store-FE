@@ -16,16 +16,10 @@ const FilterSection = ({
 	genres,
 	selectedGenres,
 	setSelectedGenres,
-	priceRange,
-	setPriceRange,
-	yearRange,
-	setYearRange,
 	isFilterOpen,
 	setIsFilterOpen,
 }) => {
 	const [isGenreOpen, setIsGenreOpen] = useState(true);
-	const [isPriceOpen, setIsPriceOpen] = useState(true);
-	const [isYearOpen, setIsYearOpen] = useState(true);
 
 	const toggleGenre = (genre) => {
 		if (selectedGenres.includes(genre)) {
@@ -35,6 +29,10 @@ const FilterSection = ({
 		}
 	};
 
+	const handleResetFilters = () => {
+		setSelectedGenres([]);
+	};
+
 	return (
 		<>
 			{/* Mobile Filter Button */}
@@ -42,7 +40,7 @@ const FilterSection = ({
 				<h2 className="text-xl font-bold text-gray-800">All Books</h2>
 				<button
 					onClick={() => setIsFilterOpen(!isFilterOpen)}
-					className="flex items-center bg-blue-600 text-white px-3 py-2 rounded-md"
+					className="flex items-center bg-blue-600 text-white px-3 py-2 rounded-md cursor-pointer"
 				>
 					<FaFilter className="mr-2" />
 					Filters
@@ -65,7 +63,7 @@ const FilterSection = ({
 							<h3 className="text-lg font-bold">Filters</h3>
 							<button
 								onClick={() => setIsFilterOpen(false)}
-								className="text-gray-500"
+								className="text-gray-500 cursor-pointer"
 							>
 								<FaTimes size={20} />
 							</button>
@@ -102,87 +100,11 @@ const FilterSection = ({
 							)}
 						</div>
 
-						<div className="mb-4">
-							<div
-								className="flex justify-between items-center mb-2 cursor-pointer"
-								onClick={() => setIsPriceOpen(!isPriceOpen)}
-							>
-								<h4 className="font-medium text-gray-800">Price Range</h4>
-								{isPriceOpen ? <FaChevronUp /> : <FaChevronDown />}
-							</div>
-							{isPriceOpen && (
-								<div className="space-y-4 ml-2">
-									<div className="flex justify-between">
-										<span>${priceRange[0]}</span>
-										<span>${priceRange[1]}</span>
-									</div>
-									<input
-										type="range"
-										min="0"
-										max="50"
-										value={priceRange[0]}
-										onChange={(e) =>
-											setPriceRange([parseInt(e.target.value), priceRange[1]])
-										}
-										className="w-full"
-									/>
-									<input
-										type="range"
-										min="0"
-										max="50"
-										value={priceRange[1]}
-										onChange={(e) =>
-											setPriceRange([priceRange[0], parseInt(e.target.value)])
-										}
-										className="w-full"
-									/>
-								</div>
-							)}
-						</div>
-
-						<div className="mb-4">
-							<div
-								className="flex justify-between items-center mb-2 cursor-pointer"
-								onClick={() => setIsYearOpen(!isYearOpen)}
-							>
-								<h4 className="font-medium text-gray-800">Publication Year</h4>
-								{isYearOpen ? <FaChevronUp /> : <FaChevronDown />}
-							</div>
-							{isYearOpen && (
-								<div className="space-y-4 ml-2">
-									<div className="flex justify-between">
-										<span>{yearRange[0]}</span>
-										<span>{yearRange[1]}</span>
-									</div>
-									<input
-										type="range"
-										min="1800"
-										max="2025"
-										value={yearRange[0]}
-										onChange={(e) =>
-											setYearRange([parseInt(e.target.value), yearRange[1]])
-										}
-										className="w-full"
-									/>
-									<input
-										type="range"
-										min="1800"
-										max="2025"
-										value={yearRange[1]}
-										onChange={(e) =>
-											setYearRange([yearRange[0], parseInt(e.target.value)])
-										}
-										className="w-full"
-									/>
-								</div>
-							)}
-						</div>
-
 						<button
-							onClick={() => setIsFilterOpen(false)}
-							className="w-full bg-blue-600 text-white py-2 rounded-md mt-4"
+							onClick={handleResetFilters}
+							className="w-full bg-blue-600 text-white py-2 rounded-md mt-4 cursor-pointer"
 						>
-							Apply Filters
+							Reset Filters
 						</button>
 					</div>
 				</div>
@@ -191,7 +113,9 @@ const FilterSection = ({
 			{/* Desktop Sidebar Filter */}
 			<div className="hidden lg:block w-64 pr-6">
 				<div className="sticky top-4">
-					<h3 className="text-lg font-bold mb-4 text-gray-800">Filters</h3>
+					<h3 className="text-lg font-bold mb-4 text-gray-800 cursor-pointer">
+						Filters
+					</h3>
 
 					<div className="mb-6">
 						<div
@@ -210,7 +134,7 @@ const FilterSection = ({
 											id={`desktop-genre-${genre}`}
 											checked={selectedGenres.includes(genre)}
 											onChange={() => toggleGenre(genre)}
-											className="mr-2"
+											className="mr-2 cursor-pointer"
 										/>
 										<label
 											htmlFor={`desktop-genre-${genre}`}
@@ -224,44 +148,10 @@ const FilterSection = ({
 						)}
 					</div>
 
-					<div className="mb-6">
-						<div
-							className="flex justify-between items-center mb-2 cursor-pointer"
-							onClick={() => setIsPriceOpen(!isPriceOpen)}
-						>
-							<h4 className="font-medium text-gray-800">Price Range</h4>
-							{isPriceOpen ? <FaChevronUp /> : <FaChevronDown />}
-						</div>
-						{isPriceOpen && (
-							<div className="space-y-4 ml-2">
-								<div className="flex justify-between">
-									<span>${priceRange[0]}</span>
-									<span>${priceRange[1]}</span>
-								</div>
-								<input
-									type="range"
-									min="0"
-									max="50"
-									value={priceRange[0]}
-									onChange={(e) =>
-										setPriceRange([parseInt(e.target.value), priceRange[1]])
-									}
-									className="w-full"
-								/>
-								<input
-									type="range"
-									min="0"
-									max="50"
-									value={priceRange[1]}
-									onChange={(e) =>
-										setPriceRange([priceRange[0], parseInt(e.target.value)])
-									}
-									className="w-full"
-								/>
-							</div>
-						)}
-					</div>
-					<button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer">
+					<button
+						onClick={handleResetFilters}
+						className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer"
+					>
 						Reset Filters
 					</button>
 				</div>
@@ -274,17 +164,11 @@ const AllBooks = () => {
 	const [books, setBooks] = useState(booksData);
 	const [filteredBooks, setFilteredBooks] = useState(booksData);
 	const [selectedGenres, setSelectedGenres] = useState([]);
-	const [priceRange, setPriceRange] = useState([0, 50]);
-	const [yearRange, setYearRange] = useState([1800, 2025]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	console.log(filteredBooks);
 
 	useEffect(() => {
-		// Apply filters
 		let filtered = books;
-
-		// Filter by search query
 		if (searchQuery) {
 			filtered = filtered.filter(
 				(book) =>
@@ -292,23 +176,18 @@ const AllBooks = () => {
 					book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
 			);
 		}
-
-		// Filter by genre
 		if (selectedGenres.length > 0) {
 			filtered = filtered.filter((book) =>
 				selectedGenres.includes(book.category)
 			);
 		}
-
-		// Filter by price range
-		filtered = filtered.filter(
-			(book) => book.price >= priceRange[0] && book.price <= priceRange[1]
-		);
-
-		// Filter by year range
-
 		setFilteredBooks(filtered);
-	}, [books, searchQuery, selectedGenres, priceRange, yearRange]);
+	}, [books, searchQuery, selectedGenres]);
+
+	const handleResetAllFilters = () => {
+		setSelectedGenres([]);
+		setSearchQuery("");
+	};
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 py-8">
@@ -317,10 +196,6 @@ const AllBooks = () => {
 					genres={uniqueGenres}
 					selectedGenres={selectedGenres}
 					setSelectedGenres={setSelectedGenres}
-					priceRange={priceRange}
-					setPriceRange={setPriceRange}
-					yearRange={yearRange}
-					setYearRange={setYearRange}
 					isFilterOpen={isFilterOpen}
 					setIsFilterOpen={setIsFilterOpen}
 				/>
@@ -358,12 +233,7 @@ const AllBooks = () => {
 								No books found matching your filters.
 							</p>
 							<button
-								onClick={() => {
-									setSelectedGenres([]);
-									setPriceRange([0, 50]);
-									setYearRange([1800, 2025]);
-									setSearchQuery("");
-								}}
+								onClick={handleResetAllFilters}
 								className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
 							>
 								Reset All Filters
@@ -373,12 +243,7 @@ const AllBooks = () => {
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((book) => (
 								<Link key={book.ISBN} to={`/allbooks/${book.id}`} state={book}>
-									<BookCard
-										img={book.image}
-										title={book.bookName}
-										author={book.authorName}
-										price={book.price}
-									/>
+									<BookCard book={book} />
 								</Link>
 							))}
 						</div>
