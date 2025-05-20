@@ -39,7 +39,7 @@ const BookDetails = () => {
 			{/* Book Main Details */}
 			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-8">
 				{/* Book Image */}
-				<div className="md:w-2/5 p-6 flex justify-center border border-gray-400 rounded-lg">
+				<div className="md:w-2/5 p-6 flex justify-center border border-gray-300 rounded-lg">
 					<div className="relative">
 						<img
 							className="h-96 w-80 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
