@@ -15,7 +15,7 @@ const Newsletter = () => {
 	};
 
 	return (
-		<div className="bg-blue-50 py-16 px-4 sm:px-6 lg:px-8">
+		<div className="bg-slate-50 py-16 px-4 sm:px-6 lg:px-8 font-sans">
 			<div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
 				<h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
 					Join Our Newsletter
@@ -26,15 +26,15 @@ const Newsletter = () => {
 				</p>
 
 				<div className="flex flex-wrap justify-center gap-4 mb-8">
-					<div className="flex items-center text-blue-600 text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium">
 						<FiArrowRight className="mr-2" />
 						Weekly Updates
 					</div>
-					<div className="flex items-center text-blue-600 text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium">
 						<FiArrowRight className="mr-2" />
 						Exclusive Content
 					</div>
-					<div className="flex items-center text-blue-600 text-sm font-medium">
+					<div className="flex items-center text-black text-sm font-medium">
 						<FiArrowRight className="mr-2" />
 						Book Recommendations
 					</div>
@@ -54,7 +54,7 @@ const Newsletter = () => {
 					/>
 					<button
 						type="submit"
-						className="cursor-pointer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
+						className="cursor-pointer w-full sm:w-auto bg-black hover:bg-white border hover:text-black text-white font-medium px-6 py-3 rounded-lg transition duration-300"
 					>
 						Subscribe Now
 					</button>

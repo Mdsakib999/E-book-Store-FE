@@ -5,7 +5,7 @@ import { ScrollToTop } from "./Utils/ScrollToTop";
 
 function App() {
   return (
-    <div className="font-serif">
+    <div className="font-serif ">
       <ScrollToTop />
       {/* Nav bar */}
       <Navbar></Navbar>
