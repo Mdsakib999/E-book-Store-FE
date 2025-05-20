@@ -10,12 +10,15 @@ const RelatedBooks = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-      {relatedBooks.map((book) => (
-        <Link key={book.ISBN} to={`/allbooks/${book.id}`} state={book}>
-          <BookCard book={book} />
-        </Link>
-      ))}
+    <div className="mt-16">
+      <h1 className="text-3xl font-black mb-5">You Might Also Like...</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedBooks.map((book) => (
+          <Link key={book.ISBN} to={`/allbooks/${book.id}`} state={book}>
+            <BookCard book={book} />
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

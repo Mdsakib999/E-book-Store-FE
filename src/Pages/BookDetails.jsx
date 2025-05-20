@@ -40,12 +40,12 @@ const BookDetails = () => {
 			{/* Book Main Details */}
 			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-8">
 				{/* Book Image */}
-				<div className="md:w-2/5 p-6 flex justify-center border border-gray-300 rounded-lg">
-					<div className="relative">
+				<div className="md:w-2/5 p-4 sm:p-6 flex justify-center items-center border border-gray-300 rounded-lg">
+					<div className="relative w-full max-w-xs">
 						<img
-							className="h-96 w-80 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
+							className="w-full h-auto max-h-96 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
 							src={location.state?.image}
-							alt="A Song of Ice and Fire Book Cover"
+							alt="Book Cover"
 						/>
 						<div className="absolute top-4 right-4">
 							<button
@@ -65,9 +65,9 @@ const BookDetails = () => {
 				</div>
 
 				{/* Book Info */}
-				<div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-between">
+				<div className="md:w-3/5 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
 					<div>
-						<h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">
 							{location.state?.bookName}
 						</h1>
 
@@ -130,7 +130,7 @@ const BookDetails = () => {
 						</div>
 					</div>
 
-					<div className="flex flex-col md:flex-row items-center justify-between">
+					<div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
 						<div>
 							{location.state?.availability === false ? (
 								<p className="flex items-center gap-x-2 bg-red-600 rounded-md px-5 py-2 text-white">
@@ -140,31 +140,30 @@ const BookDetails = () => {
 							) : (
 								<p className="flex items-center gap-x-2 bg-blue-600 rounded-md px-5 py-2 text-white">
 									<TiTick size={24} />
-
 									<span>In Stock</span>
 								</p>
 							)}
 						</div>
-						<div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-4">
-							<div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+						<div className="flex flex-col sm:flex-row items-center gap-4">
+							<div className="flex items-center w-full sm:w-auto border border-gray-300 rounded-md overflow-hidden">
 								<button
 									onClick={decrementQuantity}
-									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
+									className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
 								>
 									<FaMinus className="text-gray-600" />
 								</button>
-								<span className="px-4 py-2 flex-grow text-center font-medium">
+								<span className="px-4 py-2 flex-grow text-center font-medium min-w-[40px]">
 									{quantity}
 								</span>
 								<button
 									onClick={incrementQuantity}
-									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
+									className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
 								>
 									<FaPlus className="text-gray-600" />
 								</button>
 							</div>
 
-							<button className="flex items-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6  rounded-md font-medium transition-colors duration-200 cursor-pointer">
+							<button className="w-full sm:w-auto flex items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors duration-200 cursor-pointer">
 								<FaShoppingCart className="mr-2" />
 								Add to Cart
 							</button>
@@ -176,17 +175,17 @@ const BookDetails = () => {
 			{/* Book Tabs Section */}
 			<div className="bg-white rounded-lg shadow-md overflow-hidden">
 				<Tabs>
-					<TabList className="flex border-b border-gray-200 bg-gray-50">
-						<Tab className="px-6 py-4 text-center text-gray-600 hover:text-blue-600 cursor-pointer outline-none focus:outline-none">
+					<TabList className="flex border-b border-gray-200 bg-gray-50 overflow-x-auto">
+						<Tab className="px-4 sm:px-6 py-3 sm:py-4 text-center text-gray-600 hover:text-blue-600 cursor-pointer outline-none focus:outline-none whitespace-nowrap">
 							Description
 						</Tab>
-						<Tab className="px-6 py-4 text-center text-gray-600 hover:text-blue-600 cursor-pointer outline-none focus:outline-none">
+						<Tab className="px-4 sm:px-6 py-3 sm:py-4 text-center text-gray-600 hover:text-blue-600 cursor-pointer outline-none focus:outline-none whitespace-nowrap">
 							Reviews
 						</Tab>
 					</TabList>
 
-					<TabPanel className="p-6">
-						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
+					<TabPanel className="p-4 sm:p-6">
+						<h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
 							About {location.state?.bookName}
 						</h2>
 						<p className="text-gray-700 mb-4">
@@ -194,21 +193,21 @@ const BookDetails = () => {
 						</p>
 					</TabPanel>
 
-					<TabPanel className="p-6">
-						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
+					<TabPanel className="p-4 sm:p-6">
+						<h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
 							Reader Reviews
 						</h2>
 
 						<div className="border-b border-gray-200 pb-4 mb-4">
-							<div className="flex items-center mb-2">
-								<div className="hidden md:flex text-yellow-400">
+							<div className="flex flex-wrap items-center mb-2">
+								<div className="flex text-yellow-400 mr-2">
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStar />
 								</div>
-								<span className="ml-2 font-medium">John D.</span>
+								<span className="font-medium">John D.</span>
 								<span className="mx-2 text-gray-400">•</span>
 								<span className="text-sm text-gray-500">June 12, 2023</span>
 							</div>
@@ -221,15 +220,15 @@ const BookDetails = () => {
 						</div>
 
 						<div className="border-b border-gray-200 pb-4 mb-4">
-							<div className="flex items-center mb-2">
-								<div className="hidden md:flex text-yellow-400">
+							<div className="flex flex-wrap items-center mb-2">
+								<div className="flex text-yellow-400 mr-2">
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStarHalfAlt />
 								</div>
-								<span className="ml-2 font-medium">Maria S.</span>
+								<span className="font-medium">Maria S.</span>
 								<span className="mx-2 text-gray-400">•</span>
 								<span className="text-sm text-gray-500">April 3, 2023</span>
 							</div>
@@ -241,15 +240,15 @@ const BookDetails = () => {
 						</div>
 
 						<div>
-							<div className="flex items-center mb-2">
-								<div className="hidden md:flex text-yellow-400">
+							<div className="flex flex-wrap items-center mb-2">
+								<div className="flex text-yellow-400 mr-2">
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStar />
 									<FaStar />
 								</div>
-								<span className="ml-2 font-medium">Robert L.</span>
+								<span className="font-medium">Robert L.</span>
 								<span className="mx-2 text-gray-400">•</span>
 								<span className="text-sm text-gray-500">February 19, 2023</span>
 							</div>
