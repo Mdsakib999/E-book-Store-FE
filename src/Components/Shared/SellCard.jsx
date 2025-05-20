@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { FaRegHeart, FaStar } from "react-icons/fa";
 
 export const SellCard = ({
@@ -14,14 +13,14 @@ export const SellCard = ({
   availability,
 }) => {
   return (
-    <div className="w-full h-[540px] mx-auto overflow-hidden rounded-lg group relative hover:shadow-2xl bg-white dark:bg-gray-800">
+    <div className="w-full h-[400px]  mx-auto overflow-hidden rounded-lg group relative hover:shadow-xl bg-white border border-gray-200">
       {/* Image Section */}
       <div className="w-full h-[60%] overflow-hidden">
         <img src={img} alt={title} className="object-cover w-full h-full" />
       </div>
 
       {/* Floating Info Section */}
-      <div className="absolute bottom-0 z-10 w-full h-[45%] p-4 bg-white dark:bg-gray-800 flex flex-col justify-between gap-4 transition-all duration-500 group-hover:translate-y-[-40px]">
+      <div className="absolute bottom-0 z-10 w-full h-[45%] p-4 bg-white flex flex-col justify-between gap-4 transition-all duration-500 group-hover:translate-y-[-40px]">
         {/* Top Content */}
         <div className="flex flex-col gap-2">
           <p
@@ -31,32 +30,25 @@ export const SellCard = ({
           >
             {category}
           </p>
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-            {title}
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900 ">{title}</h2>
           {/* Author */}
-          <p className="text-sm font-semibold text-gray-900 dark:text-white">
-            author: {author}
-          </p>
+          <p className="text-sm text-gray-900 ">Author: {author}</p>
           {/* Description (truncate long text) */}
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-            {desc}
-          </p>
-
-          {/* Price */}
-          <p className="text-base font-semibold text-gray-800 dark:text-white mt-1">
-            ${price}
-            <span className="text-sm line-through text-gray-400 ml-2">
-              ${originalPrice}
-            </span>
-          </p>
+          {/* <p className="text-xs text-gray-500  mt-1 line-clamp-2">{desc}</p> */}
 
           {/* Rating + ISBN */}
-          <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-200 mt-1">
+          <div className="flex justify-between items-center text-sm text-gray-500 200 mt-1">
+            {/* Price */}
+            <p className="text-base font-semibold text-gray-800  mt-1">
+              ${price}
+              <span className="text-sm line-through text-gray-400 ml-2">
+                ${originalPrice}
+              </span>
+            </p>
             <span className="flex items-center gap-1">
               {rating} <FaStar className="text-yellow-500 text-xs" />
             </span>
-            <span className="text-[10px]">ISBN: {isbn}</span>
+            {/* <span className="text-[10px]">ISBN: {isbn}</span> */}
           </div>
         </div>
 
