@@ -4,7 +4,6 @@ import {
 	FaMinus,
 	FaPlus,
 	FaShoppingCart,
-	FaCalendarAlt,
 	FaUser,
 	FaHeart,
 } from "react-icons/fa";
@@ -13,6 +12,7 @@ import "react-tabs/style/react-tabs.css";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BiSolidCategory } from "react-icons/bi";
+import { TiTick } from "react-icons/ti";
 
 const BookDetails = () => {
 	const [quantity, setQuantity] = useState(1);
@@ -105,18 +105,18 @@ const BookDetails = () => {
 							</p>
 						</div>
 						<div className="mb-6">
-							<p className="text-gray-700 leading-relaxed font-sans">
+							<p className="text-gray-700 leading-relaxed font-serif font-semibold">
 								ISBN :{" "}
 								<span className="font-sans">{location.state?.ISBN} </span>
 							</p>
 						</div>
 
 						<div className="flex items-center text-gray-700 mb-4">
-							<span className="font-bold text-2xl text-black mr-2">
-								${location.state?.price}
+							<span className="font-bold text-xl text-blue-600 mr-2">
+								${location.state?.discountPrice}
 							</span>
 							<span className="line-through text-gray-500">
-								${location.state?.discountPrice}
+								${location.state?.price}
 							</span>
 							<span className="ml-3 px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium">
 								{(
@@ -129,29 +129,45 @@ const BookDetails = () => {
 						</div>
 					</div>
 
-					<div className="flex flex-col sm:flex-row gap-4 mt-4">
-						<div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
-							<button
-								onClick={decrementQuantity}
-								className="px-4 py-2 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
-							>
-								<FaMinus className="text-gray-600" />
-							</button>
-							<span className="px-4 py-2 flex-grow text-center font-medium">
-								{quantity}
-							</span>
-							<button
-								onClick={incrementQuantity}
-								className="px-4 py-2 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
-							>
-								<FaPlus className="text-gray-600" />
+					<div className="flex items-center justify-between">
+						<div>
+							{location.state?.availability === false ? (
+								<p className="flex items-center gap-x-2 bg-red-600 rounded-md px-5 py-2 text-white">
+									<span className="font-mono">X</span>
+									<span>Out Of Stock</span>
+								</p>
+							) : (
+								<p className="flex items-center gap-x-2 bg-blue-600 rounded-md px-5 py-2 text-white">
+									<TiTick size={24} />
+
+									<span>In Stock</span>
+								</p>
+							)}
+						</div>
+						<div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-4">
+							<div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+								<button
+									onClick={decrementQuantity}
+									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+								>
+									<FaMinus className="text-gray-600" />
+								</button>
+								<span className="px-4 py-2 flex-grow text-center font-medium">
+									{quantity}
+								</span>
+								<button
+									onClick={incrementQuantity}
+									className="px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
+								>
+									<FaPlus className="text-gray-600" />
+								</button>
+							</div>
+
+							<button className="flex items-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6  rounded-md font-medium transition-colors duration-200 cursor-pointer">
+								<FaShoppingCart className="mr-2" />
+								Add to Cart
 							</button>
 						</div>
-
-						<button className="flex-grow bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 flex items-center justify-center">
-							<FaShoppingCart className="mr-2" />
-							Add to Cart
-						</button>
 					</div>
 				</div>
 			</div>

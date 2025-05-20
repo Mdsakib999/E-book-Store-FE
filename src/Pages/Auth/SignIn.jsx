@@ -52,7 +52,7 @@ const SignIn = () => {
 		try {
 			await googleSignIn();
 			toast.success("Signed in with Google successfully!");
-			navigate("/dashboard"); // Redirect after successful sign in
+			navigate("/"); // Redirect after successful sign in
 		} catch (error) {
 			toast.error("Google sign in failed. Please try again.");
 			console.error("Google sign in error:", error);
