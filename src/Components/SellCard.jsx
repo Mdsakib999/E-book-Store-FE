@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+
 import { FaRegHeart, FaStar } from "react-icons/fa";
 
 export const SellCard = ({
