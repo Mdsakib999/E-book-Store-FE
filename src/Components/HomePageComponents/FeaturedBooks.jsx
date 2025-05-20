@@ -9,7 +9,7 @@ export const FeaturedBooks = () => {
 
 			<div className="flex gap-8">
 				{/* Left Feature Card (hidden on small screens) */}
-				<div className="hidden md:block md:w-1/3 relative group overflow-hidden rounded-md text-white max-h-full">
+				<div className="hidden lg:block md:w-1/3 relative group overflow-hidden rounded-md text-white max-h-full">
 					<figure className="w-full h-full rounded-md overflow-hidden">
 						<img
 							src="https://images.unsplash.com/photo-1693581176773-a5f2362209e6?q=80&w=1200&auto=format"
@@ -27,7 +27,7 @@ export const FeaturedBooks = () => {
 				</div>
 
 				{/* Right Side Grid of Cards */}
-				<div className="w-full px-4 md:px-0 md:w-11/12 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
+				<div className="w-full px-4 md:px-0 md:w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
 					{booksData.slice(0, 6).map((item) => (
 						<div
 							key={item.id}
