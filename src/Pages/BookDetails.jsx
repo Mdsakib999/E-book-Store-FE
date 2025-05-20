@@ -39,7 +39,7 @@ const BookDetails = () => {
 			{/* Book Main Details */}
 			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-8">
 				{/* Book Image */}
-				<div className="md:w-2/5 p-6 flex justify-center border border-gray-400 rounded-lg">
+				<div className="md:w-2/5 p-6 flex justify-center border border-gray-300 rounded-lg">
 					<div className="relative">
 						<img
 							className="h-96 w-80 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
@@ -112,7 +112,7 @@ const BookDetails = () => {
 						</div>
 
 						<div className="flex items-center text-gray-700 mb-4">
-							<span className="font-bold text-xl text-blue-600 mr-2">
+							<span className="font-bold text-2xl text-black mr-2">
 								${location.state?.price}
 							</span>
 							<span className="line-through text-gray-500">
