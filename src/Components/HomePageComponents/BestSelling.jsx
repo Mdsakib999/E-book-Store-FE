@@ -52,6 +52,16 @@ export const BestSelling = () => {
               state={item}
               className="w-full h-[380px] mx-auto overflow-hidden rounded-lg group relative hover:shadow-xl bg-white border border-gray-200"
             >
+              {/* Out of Stock Seal */}
+              {item?.availability === false && (
+                <div className="absolute right-0 top-0 z-0">
+                  <div className="bg-red-600 text-white text-xs font-medium py-1 px-4 rounded-bl-md shadow-lg transform rotate-0 flex items-center justify-center">
+                    <span className="tracking-wider uppercase">
+                      Out of Stock
+                    </span>
+                  </div>
+                </div>
+              )}
               {/* Image Section */}
               <div className="w-full h-[50%] overflow-hidden">
                 <img

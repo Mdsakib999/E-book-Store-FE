@@ -18,7 +18,7 @@ const BookDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   const incrementQuantity = () => {
     setQuantity((prev) => prev + 1);
