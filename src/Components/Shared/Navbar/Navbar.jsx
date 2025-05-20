@@ -11,8 +11,10 @@ import {
 } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { useAuth } from "../../../provider/AuthProvider";
-import toast from "react-hot-toast";
+import { IoMdMail } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { AiOutlineLogout } from "react-icons/ai";
 
 const navLinks = [
 	{ to: "/", label: "Home" },
@@ -54,6 +56,8 @@ const Navbar = () => {
 	const [showMobileNav, setShowMobileNav] = useState(false);
 	const [lastScrollY, setLastScrollY] = useState(0);
 	const [showSearch, setShowSearch] = useState(false);
+	const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+	const profileRef = React.useRef();
 	const { user, logout } = useAuth();
 
 	const handleNavToggle = () => setNavOpen((prev) => !prev);
@@ -70,9 +74,36 @@ const Navbar = () => {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [lastScrollY]);
 
+	// Close dropdown on outside click
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (profileRef.current && !profileRef.current.contains(event.target)) {
+				setProfileDropdownOpen(false);
+			}
+		}
+		if (profileDropdownOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+			return () =>
+				document.removeEventListener("mousedown", handleClickOutside);
+		}
+	}, [profileDropdownOpen]);
+
+	const handleProfileClick = () => setProfileDropdownOpen((prev) => !prev);
+
 	const handleSignout = async () => {
-		await logout();
-		toast.success(<h1 className="font-serif">Signed out successfully</h1>);
+		const result = await Swal.fire({
+			title: "Sign out?",
+			text: "You will be signed out from all devices.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#d33",
+			cancelButtonColor: "#3085d6",
+			confirmButtonText: "Yes, sign out!",
+		});
+		if (result.isConfirmed) {
+			await logout();
+			Swal.fire("Signed out!", "You have been signed out.", "success");
+		}
 	};
 
 	return (
@@ -107,9 +138,7 @@ const Navbar = () => {
 				</div>
 
 				<Link to="/" className="hidden md:flex items-center gap-2">
-					<h1 className="font-Dancing text-xl lg:text-3xl font-bold text-black">
-						E-Book
-					</h1>
+					<h1 className="text-xl lg:text-3xl font-bold text-black">E-Book</h1>
 				</Link>
 
 				{/* Right: Icons + Auth */}
@@ -125,17 +154,39 @@ const Navbar = () => {
 						<IoCart size={30} className="text-black" />
 					</div>
 					{user ? (
-						<div className="flex items-center gap-2">
-							<div className="hidden md:flex items-center gap-2">
-								<FaUserCircle size="25" />
-								<p>{user?.displayName}</p>
-							</div>
+						<div className="relative" ref={profileRef}>
 							<button
-								onClick={handleSignout}
-								className="cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
+								onClick={handleProfileClick}
+								className="flex items-center gap-2 focus:outline-none cursor-pointer"
 							>
-								Sign Out
+								<FaUserCircle size={28} className="text-black" />
 							</button>
+							{/* Dropdown */}
+							{profileDropdownOpen && (
+								<div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeIn">
+									<div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+										<FaUserCircle size={22} className="text-gray-600" />
+										<span className="font-semibold text-gray-800 truncate">
+											{user?.displayName || "User"}
+										</span>
+									</div>
+									<div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+										<IoMdMail size={22} className="text-gray-600" />
+										<span className="font-semibold text-gray-800 truncate">
+											{user?.email || "User"}
+										</span>
+									</div>
+									<div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+										<AiOutlineLogout size={22} className="text-red-600" />
+										<button
+											onClick={handleSignout}
+											className="w-full text-left font-semibold text-red-600 hover:text-red-500 rounded-b-lg cursor-pointer"
+										>
+											Sign Out
+										</button>
+									</div>
+								</div>
+							)}
 						</div>
 					) : (
 						<Link
