@@ -15,7 +15,7 @@ import { IoMdMail } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AiOutlineLogout } from "react-icons/ai";
-import booksData from "../../../../public/bookData.json";
+import booksData from "../../../assets/bookData.json";
 
 const navLinks = [
   { to: "/", label: "Home" },

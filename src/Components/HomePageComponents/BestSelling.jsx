@@ -1,5 +1,5 @@
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import booksData from "/public/bookData.json";
+import booksData from "../../assets/bookData.json";
 import { Link } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { useState } from "react";
@@ -72,7 +72,7 @@ export const BestSelling = () => {
               </div>
 
               {/* Floating Info Section */}
-              <div className="absolute bottom-0 z-10 w-full h-[40%] p-4 bg-white flex flex-col justify-between gap-4 transition-all duration-500 group-hover:translate-y-[-60px]">
+              <div className="absolute bottom-0 z-10 w-full h-[40%] p-4 bg-white flex flex-col justify-between gap-2 transition-all duration-500 lg:group-hover:translate-y-[-60px] translate-y-[-30px] md:translate-y-0">
                 {/* Top Content */}
                 <div className="flex flex-col gap-1">
                   <p className="uppercase text-xs font-semibold text-red-500">
@@ -99,6 +99,39 @@ export const BestSelling = () => {
                       <FaStar className="text-yellow-500 text-xs" />
                     </span>
                   </div>
+                </div>
+                {/* Bottom Content for mobile */}
+                <div className="lg:hidden flex justify-between items-center">
+                  <button
+                    className={`text-sm font-medium px-3 py-1 rounded ${
+                      item.availability
+                        ? "bg-gradient-to-r from-black to-gray-500 text-white"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                    disabled={!item.availability}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    {item.availability ? "Add to Cart" : "Out of Stock"}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFavorite(item.id);
+                    }}
+                    className={`rounded-full p-2 ${
+                      isFav
+                        ? "bg-red-50 text-red-500"
+                        : "bg-gray-100 text-gray-400"
+                    } hover:bg-red-100 transition-colors duration-200`}
+                  >
+                    <FaHeart
+                      className={`${isFav ? "text-red-500" : "text-gray-400"}`}
+                    />
+                  </button>
                 </div>
 
                 {/* Hover Buttons (bottom aligned) */}
