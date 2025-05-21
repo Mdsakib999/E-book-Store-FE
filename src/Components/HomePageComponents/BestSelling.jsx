@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useCurrency } from "../../provider/CurrencyProvider";
+import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 
 export const BestSelling = () => {
 	const [favorites, setFavorites] = useState({});
+	const { currency, rates } = useCurrency();
 
 	const toggleFavorite = (bookId) => {
 		const isFav = favorites[bookId];
@@ -88,10 +91,17 @@ export const BestSelling = () => {
 									{/* Rating*/}
 									<div className="flex justify-between items-center text-sm text-gray-500 200 mt-1">
 										{/* Price */}
-										<p className="text-base font-semibold text-gray-800  mt-1">
-											${item.discountPrice}
+										<p className="flex items-center text-base font-semibold text-gray-800  mt-1">
+											<span>
+												{currency === "USD" && <FaDollarSign />}
+												{currency === "EUR" && <FaEuroSign />}
+												{currency === "GBP" && <FaPoundSign />}
+											</span>
+											<span>
+												{(item.discountPrice * rates[currency]).toFixed(2)}
+											</span>
 											<span className="text-sm line-through text-gray-400 ml-2">
-												${item.price}
+												{(item.price * rates[currency]).toFixed(2)}
 											</span>
 										</p>
 										<span className="flex items-center gap-1">

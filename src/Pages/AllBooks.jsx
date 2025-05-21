@@ -10,6 +10,7 @@ import { BookCard } from "../Components/BookCard";
 import booksData from "../assets/bookData.json";
 import { Link } from "react-router-dom";
 
+// Ensure the genres are properly extracted
 const uniqueGenres = [...new Set(booksData.map((book) => book.category))];
 
 const FilterSection = ({
@@ -22,11 +23,13 @@ const FilterSection = ({
 	const [isGenreOpen, setIsGenreOpen] = useState(true);
 
 	const toggleGenre = (genre) => {
-		if (selectedGenres.includes(genre)) {
-			setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-		} else {
-			setSelectedGenres([...selectedGenres, genre]);
-		}
+		setSelectedGenres((prev) => {
+			if (prev.includes(genre)) {
+				return prev.filter((g) => g !== genre);
+			} else {
+				return [...prev, genre];
+			}
+		});
 	};
 
 	const handleResetFilters = () => {
@@ -40,7 +43,7 @@ const FilterSection = ({
 				<h2 className="text-xl font-bold text-gray-800">All Books</h2>
 				<button
 					onClick={() => setIsFilterOpen(!isFilterOpen)}
-					className="flex items-center bg-black text-white px-3 py-2 rounded-md cursor-pointer"
+					className="flex items-center bg-black text-white px-3 py-2 rounded-md"
 				>
 					<FaFilter className="mr-2" />
 					Filters
@@ -63,7 +66,7 @@ const FilterSection = ({
 							<h3 className="text-lg font-bold">Filters</h3>
 							<button
 								onClick={() => setIsFilterOpen(false)}
-								className="text-gray-500 cursor-pointer"
+								className="text-gray-500"
 							>
 								<FaTimes size={20} />
 							</button>
@@ -80,16 +83,16 @@ const FilterSection = ({
 							{isGenreOpen && (
 								<div className="space-y-2 ml-2">
 									{genres.map((genre) => (
-										<div key={genre} className="flex items-center">
+										<div key={`mobile-${genre}`} className="flex items-center">
 											<input
 												type="checkbox"
-												id={`genre-${genre}`}
+												id={`genre-mobile-${genre}`}
 												checked={selectedGenres.includes(genre)}
 												onChange={() => toggleGenre(genre)}
 												className="mr-2"
 											/>
 											<label
-												htmlFor={`genre-${genre}`}
+												htmlFor={`genre-mobile-${genre}`}
 												className="text-gray-700"
 											>
 												{genre}
@@ -102,7 +105,7 @@ const FilterSection = ({
 
 						<button
 							onClick={handleResetFilters}
-							className="w-full bg-blue-600 text-white py-2 rounded-md mt-4 cursor-pointer"
+							className="w-full bg-black text-white py-2 rounded-md mt-4"
 						>
 							Reset Filters
 						</button>
@@ -113,9 +116,7 @@ const FilterSection = ({
 			{/* Desktop Sidebar Filter */}
 			<div className="hidden lg:block w-64 pr-6">
 				<div className="sticky top-4">
-					<h3 className="text-lg font-bold mb-4 text-gray-800 cursor-pointer">
-						Filters
-					</h3>
+					<h3 className="text-lg font-bold mb-4 text-gray-800">Filters</h3>
 
 					<div className="mb-6">
 						<div
@@ -128,13 +129,13 @@ const FilterSection = ({
 						{isGenreOpen && (
 							<div className="space-y-2 ml-2">
 								{genres.map((genre) => (
-									<div key={genre} className="flex items-center">
+									<div key={`desktop-${genre}`} className="flex items-center">
 										<input
 											type="checkbox"
 											id={`desktop-genre-${genre}`}
 											checked={selectedGenres.includes(genre)}
 											onChange={() => toggleGenre(genre)}
-											className="mr-2 cursor-pointer"
+											className="mr-2"
 										/>
 										<label
 											htmlFor={`desktop-genre-${genre}`}
@@ -150,7 +151,7 @@ const FilterSection = ({
 
 					<button
 						onClick={handleResetFilters}
-						className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer"
+						className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-900 transition-colors duration-300"
 					>
 						Reset Filters
 					</button>
@@ -161,33 +162,61 @@ const FilterSection = ({
 };
 
 const AllBooks = () => {
-	const [books, setBooks] = useState(booksData);
-	const [filteredBooks, setFilteredBooks] = useState(booksData);
+	// Debug data - remove in production
+	console.log("Original books data:", booksData);
+
+	// State hooks
+	const [filteredBooks, setFilteredBooks] = useState([...booksData]);
 	const [selectedGenres, setSelectedGenres] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+	// Apply filters
 	useEffect(() => {
-		let filtered = books;
-		if (searchQuery) {
-			filtered = filtered.filter(
+		console.log(
+			"Effect running - search:",
+			searchQuery,
+			"genres:",
+			selectedGenres
+		);
+
+		// Start with original data
+		let results = [...booksData];
+
+		// Apply search filter if there's a query
+		if (searchQuery.trim() !== "") {
+			const query = searchQuery.toLowerCase().trim();
+			console.log("Applying search filter with query:", query);
+			results = results.filter(
 				(book) =>
-					book.bookName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
+					book.bookName.toLowerCase().includes(query) ||
+					book.authorName.toLowerCase().includes(query)
 			);
+			console.log("After search filter:", results.length, "books");
 		}
+
+		// Apply genre filter if genres are selected
 		if (selectedGenres.length > 0) {
-			filtered = filtered.filter((book) =>
+			console.log("Applying genre filter with genres:", selectedGenres);
+			results = results.filter((book) =>
 				selectedGenres.includes(book.category)
 			);
+			console.log("After genre filter:", results.length, "books");
 		}
-		setFilteredBooks(filtered);
-	}, [books, searchQuery, selectedGenres]);
+
+		console.log("Final filtered results:", results.length, "books");
+		setFilteredBooks(results);
+	}, [searchQuery, selectedGenres]);
 
 	const handleResetAllFilters = () => {
 		setSelectedGenres([]);
 		setSearchQuery("");
 	};
+
+	// Quick check to make sure the data is properly loaded
+	if (!booksData || booksData.length === 0) {
+		return <div className="p-4">Loading books or no books available...</div>;
+	}
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 py-8">
@@ -209,7 +238,7 @@ const AllBooks = () => {
 								placeholder="Search by title or author"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+								className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-64"
 							/>
 							<FaSearch className="absolute left-3 top-3 text-gray-400" />
 						</div>
@@ -222,11 +251,12 @@ const AllBooks = () => {
 							placeholder="Search by title or author"
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
-							className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+							className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-full"
 						/>
 						<FaSearch className="absolute left-3 top-3 text-gray-400" />
 					</div>
 
+					{/* Display filtered books or "no results" message */}
 					{filteredBooks.length === 0 ? (
 						<div className="flex flex-col items-center justify-center py-12">
 							<p className="text-xl text-gray-600 mb-4">
@@ -234,7 +264,7 @@ const AllBooks = () => {
 							</p>
 							<button
 								onClick={handleResetAllFilters}
-								className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
+								className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-900"
 							>
 								Reset All Filters
 							</button>
@@ -242,7 +272,12 @@ const AllBooks = () => {
 					) : (
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((book) => (
-								<Link key={book.ISBN} to={`/allbooks/${book.id}`} state={book}>
+								<Link
+									key={book.id || book.ISBN}
+									to={`/allbooks/${book.id}`}
+									state={book}
+									className="flex flex-col h-full"
+								>
 									<BookCard book={book} />
 								</Link>
 							))}

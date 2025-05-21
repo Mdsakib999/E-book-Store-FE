@@ -1,7 +1,17 @@
 import { FaRegHeart } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
+import { useCurrency } from "../provider/CurrencyProvider";
+import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 
 export const BookCard = ({ book }) => {
+	const { currency, rates } = useCurrency();
+	console.log(currency, rates);
+	const convertedPrice = (book.price * rates[currency]).toFixed(2);
+	const convertedDiscountPrice = (book.discountPrice * rates[currency]).toFixed(
+		2
+	);
+
+	console.log("BOOK", book, convertedPrice, convertedDiscountPrice);
 	return (
 		<div className="relative w-full h-[400px] mx-auto my-auto overflow-hidden rounded-md group hover:shadow-2xl border border-gray-200 hover:border hover:border-gray-800 duration-300">
 			{/* Out of Stock Seal */}
@@ -33,11 +43,16 @@ export const BookCard = ({ book }) => {
 					<p className="text-sm text-gray-500">{book?.authorName}</p>
 					<div className="flex justify-between items-center mt-2">
 						<div className="flex items-center gap-x-1.5">
-							<p className="text-lg font-bold text-black">
-								${book?.discountPrice}
+							<p className="flex items-cnter gap-x-0 text-lg font-bold text-black">
+								<span className="mt-1.5">
+									{currency === "USD" && <FaDollarSign />}
+									{currency === "EUR" && <FaEuroSign />}
+									{currency === "GBP" && <FaPoundSign />}
+								</span>
+								<span>{convertedDiscountPrice}</span>
 							</p>
 							<p className="text-lg font-bold text-gray-500 line-through">
-								${book?.price}
+								{convertedPrice}
 							</p>
 						</div>
 						<p className="text-lg font-bold text-black flex items-center gap-x-1.5">
