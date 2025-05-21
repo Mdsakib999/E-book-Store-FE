@@ -63,7 +63,6 @@ const Navbar = () => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const profileRef = React.useRef();
   const { user, logout } = useAuth();
-
   const navigate = useNavigate();
 
   const handleNavToggle = () => setNavOpen((prev) => !prev);
@@ -191,19 +190,15 @@ const Navbar = () => {
               </button>
               {/* Dropdown */}
               {profileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeIn">
-                  <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-                    <FaUserCircle size={22} className="text-gray-600" />
-                    <span className="font-semibold text-gray-800 truncate">
-                      {user?.displayName || "User"}
-                    </span>
-                  </div>
-                  <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-                    <IoMdMail size={22} className="text-gray-600" />
-                    <span className="font-semibold text-gray-800 truncate">
-                      {user?.email || "User"}
-                    </span>
-                  </div>
+                <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeIn ">
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="border-b border-gray-100 flex items-center gap-2 cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition my-2 mx-2"
+                  >
+                    DashBoard
+                  </Link>
+
                   <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
                     <AiOutlineLogout size={22} className="text-red-600" />
                     <button

@@ -47,13 +47,13 @@ export const FeaturedCategories = () => {
           onClick={() => scroll("left")}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100 cursor-pointer"
         >
-          <MdChevronLeft className="text-4xl " />
+          <MdChevronLeft className="text-xl lg:text-4xl " />
         </button>
 
         {/* Scrollable List */}
         <div
           ref={menuRef}
-          className="flex gap-4 overflow-x-hidden scroll-smooth px-12 py-4"
+          className="flex gap-4 overflow-x-hidden scroll-smooth px-8 lg:px-12 py-4 "
         >
           {menuItems.map((item) => (
             <div
@@ -71,7 +71,11 @@ export const FeaturedCategories = () => {
                 style={{ backgroundColor: item.bgColor }}
                 className="p-6 rounded-full"
               >
-                <img src={item.icon} alt={item.name} className="w-20 h-20" />
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  className="w-12 h-12 lg:w-20 lg:h-20"
+                />
               </div>
               <p className="text-center font-medium">{item.name}</p>
             </div>
@@ -83,7 +87,7 @@ export const FeaturedCategories = () => {
           onClick={() => scroll("right")}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100 cursor-pointer"
         >
-          <MdChevronRight className="text-4xl" />
+          <MdChevronRight className="text-xl lg:text-4xl" />
         </button>
       </div>
     </div>

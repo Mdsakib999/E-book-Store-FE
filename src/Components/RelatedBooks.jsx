@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import booksData from "../assets/bookData.json";
-import { BookCard } from "./BookCard";
+import { BookCard } from "./HomePageComponents/BookCard";
 
 const RelatedBooks = () => {
   const location = useLocation();
