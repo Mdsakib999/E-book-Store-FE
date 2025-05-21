@@ -1,5 +1,5 @@
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import booksData from "/public/bookData.json";
+import booksData from "../../assets/bookData.json";
 import { Link } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { useState } from "react";

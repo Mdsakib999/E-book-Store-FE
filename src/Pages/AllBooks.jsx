@@ -7,7 +7,7 @@ import {
 	FaChevronUp,
 } from "react-icons/fa";
 import { BookCard } from "../Components/BookCard";
-import booksData from "../../public/bookData.json";
+import booksData from "../assets/bookData.json";
 import { Link } from "react-router-dom";
 
 const uniqueGenres = [...new Set(booksData.map((book) => book.category))];
@@ -102,7 +102,7 @@ const FilterSection = ({
 
 						<button
 							onClick={handleResetFilters}
-							className="w-full bg-black text-white py-2 rounded-md mt-4 cursor-pointer"
+							className="w-full bg-blue-600 text-white py-2 rounded-md mt-4 cursor-pointer"
 						>
 							Reset Filters
 						</button>
@@ -150,7 +150,7 @@ const FilterSection = ({
 
 					<button
 						onClick={handleResetFilters}
-						className="w-full bg-black text-white py-2 rounded-md hover:bg-black-700 transition-colors duration-300 cursor-pointer"
+						className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer"
 					>
 						Reset Filters
 					</button>
@@ -209,7 +209,7 @@ const AllBooks = () => {
 								placeholder="Search by title or author"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-64"
+								className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
 							/>
 							<FaSearch className="absolute left-3 top-3 text-gray-400" />
 						</div>
@@ -222,7 +222,7 @@ const AllBooks = () => {
 							placeholder="Search by title or author"
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
-							className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-full"
+							className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
 						/>
 						<FaSearch className="absolute left-3 top-3 text-gray-400" />
 					</div>
@@ -234,7 +234,7 @@ const AllBooks = () => {
 							</p>
 							<button
 								onClick={handleResetAllFilters}
-								className="bg-black text-white px-4 py-2 rounded-md hover:bg-black-700 cursor-pointer"
+								className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
 							>
 								Reset All Filters
 							</button>
