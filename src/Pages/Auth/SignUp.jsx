@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { updateProfile } from "firebase/auth";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import axiosInstance from "../../../axios";
 
 const SignUp = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -15,10 +16,10 @@ const SignUp = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = useForm();
 
 	const { createUser, user, googleSignIn } = useAuth();
-	console.log("USER: ", user);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -26,6 +27,17 @@ const SignUp = () => {
 			navigate("/");
 		}
 	}, [user, navigate]);
+
+	const saveUserToDB = async (userData) => {
+		try {
+			const { data } = await axiosInstance.post("/auth/register", userData);
+			console.log("User saved to DB: ", data);
+			return data;
+		} catch (error) {
+			console.error("Error saving user to DB: ", error);
+			throw error;
+		}
+	};
 
 	const onSubmit = async (data) => {
 		setIsLoading(true);
@@ -37,6 +49,16 @@ const SignUp = () => {
 			});
 
 			console.log("User created: ", result.user);
+
+			// Prepare user data for MongoDB
+			const userData = {
+				name: data.name,
+				email: data.email,
+				password: data.password,
+			};
+
+			await saveUserToDB(userData);
+
 			toast.success(
 				<h1 className="font-serif">Account created successfully</h1>
 			);
@@ -66,13 +88,22 @@ const SignUp = () => {
 		setIsLoading(true);
 		try {
 			const result = await googleSignIn();
+
+			// After successful Google sign-in, save user to DB
+			const userData = {
+				name: result.user.displayName,
+				email: result.user.email,
+			};
+
+			await saveUserToDB(userData);
+
 			console.log("Google sign-in result: ", result.user);
 			toast.success(
 				<h1 className="font-serif">Signed in with Google successfully</h1>
 			);
 		} catch (error) {
 			console.error("Error signing in with Google: ", error?.message);
-			toast.error(error.message);
+			toast.error(error.message || "Failed to sign in with Google");
 		} finally {
 			setIsLoading(false);
 		}
@@ -138,6 +169,7 @@ const SignUp = () => {
 							</p>
 						)}
 					</div>
+
 					<div className="relative">
 						<label htmlFor="password" className="sr-only">
 							Password
@@ -188,10 +220,12 @@ const SignUp = () => {
 						<button
 							type="submit"
 							className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-white hover:text-black hover:border hover:border-black transition duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
+							disabled={isLoading}
 						>
 							{isLoading ? (
-								<div>
+								<div className="flex items-center justify-center">
 									<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-3" />
+									<span>Processing...</span>
 								</div>
 							) : (
 								"Sign Up"
@@ -217,6 +251,7 @@ const SignUp = () => {
 							type="button"
 							onClick={handleGoogleSignUp}
 							className="cursor-pointer w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+							disabled={isLoading}
 						>
 							<FcGoogle className="h-5 w-5" />
 							<span className="ml-2">Sign up with Google</span>
