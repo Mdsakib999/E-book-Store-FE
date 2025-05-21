@@ -1,7 +1,7 @@
 import { FaUser, FaHistory, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export const LeftNav = ({ closeSidebar }) => {
+export const UserDashBoardLeftNav = ({ closeSidebar }) => {
   return (
     <aside className="bg-gray-100 h-full w-full p-4 relative">
       {/* Close button for mobile */}

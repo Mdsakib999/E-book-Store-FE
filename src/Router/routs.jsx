@@ -9,6 +9,11 @@ import PrivateRoute from "./PrivateRoute";
 import { UserDashboard } from "../Pages/DashBoard/UserDashBoard/UserDashboard";
 import { UpdateProfile } from "../Components/UserDashBoardPageComponents/UpdateProfile";
 import { OrderHistory } from "../Components/UserDashBoardPageComponents/OrderHistory";
+import { AdminDashBoard } from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
+import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUsers";
+import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
+import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
+import { ManageOrders } from "../Components/AdminDashBoardPageComponents/ManageOrders";
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +62,7 @@ export const router = createBrowserRouter([
         path: "/admin/dashboard",
         element: (
           <PrivateRoute>
-            <UserDashboard />
+            <AdminDashBoard />
           </PrivateRoute>
         ),
         children: [
@@ -66,8 +71,20 @@ export const router = createBrowserRouter([
             element: <UpdateProfile />,
           },
           {
-            path: "order",
-            element: <OrderHistory />,
+            path: "manage-users",
+            element: <ManageUsers />,
+          },
+          {
+            path: "add-books",
+            element: <Addbooks />,
+          },
+          {
+            path: "manage-books",
+            element: <ManageBooks />,
+          },
+          {
+            path: "manage-orders",
+            element: <ManageOrders />,
           },
         ],
       },
