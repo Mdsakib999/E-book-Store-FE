@@ -5,6 +5,8 @@ import SignIn from "../Pages/Auth/SignIn";
 import SignUp from "../Pages/Auth/SignUp";
 import BookDetails from "../Pages/BookDetails";
 import AllBooks from "../Pages/AllBooks";
+import Dashboard from "../Components/dashboard/Dashboard";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
 	{
@@ -32,5 +34,35 @@ export const router = createBrowserRouter([
 				element: <SignUp />,
 			},
 		],
+	},
+	{
+		path: "/dashboard",
+		element: (
+			<PrivateRoute>
+				<Dashboard></Dashboard>
+			</PrivateRoute>
+		),
+		// children: [
+		// 	{
+		// 		path: "/",
+		// 		element: <Dashboard></Dashboard>,
+		// 	},
+		// 	{
+		// 		path: "/",
+		// 		element: <Dashboard></Dashboard>,
+		// 	},
+		// 	{
+		// 		path: "/",
+		// 		element: <Dashboard></Dashboard>,
+		// 	},
+		// 	{
+		// 		path: "/",
+		// 		element: <Dashboard></Dashboard>,
+		// 	},
+		// 	{
+		// 		path: "/",
+		// 		element: <Dashboard></Dashboard>,
+		// 	},
+		// ],
 	},
 ]);
