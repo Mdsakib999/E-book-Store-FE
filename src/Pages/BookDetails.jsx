@@ -14,10 +14,14 @@ import { useLocation } from "react-router-dom";
 import { BiSolidCategory } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 import RelatedBooks from "../Components/RelatedBooks";
+import { useCurrency } from "../provider/CurrencyProvider";
+import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 
 const BookDetails = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [isFavorite, setIsFavorite] = useState(false);
+	const { currency, rates } = useCurrency();
+
 	const location = useLocation();
 	console.log(location);
 
@@ -113,12 +117,19 @@ const BookDetails = () => {
 						</div>
 
 						<div className="flex items-center text-gray-700 mb-4">
-							<span className="font-bold text-xl text-blue-600 mr-2">
-								${location.state?.discountPrice}
-							</span>
-							<span className="line-through text-gray-500">
-								${location.state?.price}
-							</span>
+							<div className="flex items-center">
+								<span className="font-bold text-xl text-blue-600">
+									{currency === "USD" && <FaDollarSign />}
+									{currency === "EUR" && <FaEuroSign />}
+									{currency === "GBP" && <FaPoundSign />}
+								</span>
+								<span>
+									{(location.state?.discountPrice * rates[currency]).toFixed(2)}
+								</span>
+								<span className="line-through text-gray-500 ml-2">
+									${(location.state?.price * rates[currency]).toFixed(2)}
+								</span>
+							</div>
 							<span className="ml-3 px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium">
 								{(
 									((location.state?.price - location.state?.discountPrice) /
