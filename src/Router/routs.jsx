@@ -53,6 +53,24 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "/admin/dashboard",
+        element: (
+          <PrivateRoute>
+            <UserDashboard />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            path: "",
+            element: <UpdateProfile />,
+          },
+          {
+            path: "order",
+            element: <OrderHistory />,
+          },
+        ],
+      },
     ],
   },
 ]);

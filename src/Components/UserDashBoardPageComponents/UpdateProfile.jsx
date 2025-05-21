@@ -42,7 +42,7 @@ export const UpdateProfile = () => {
           <img
             src="https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
             alt="Avatar"
-            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-8 border-mine-shaft-900"
+            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full"
           />
           <div className="text-center sm:text-left whitespace-nowrap md:mt-3">
             <h2 className="text-xl sm:text-2xl font-semibold">

@@ -14,12 +14,15 @@ import { useLocation } from "react-router-dom";
 import { BiSolidCategory } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 import RelatedBooks from "../Components/RelatedBooks";
+import { useCurrency } from "../provider/CurrencyProvider";
+import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 
 const BookDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const location = useLocation();
-  console.log(location);
+  const { currency, rates } = useCurrency();
+  // console.log(location);
 
   const incrementQuantity = () => {
     setQuantity((prev) => prev + 1);
@@ -114,7 +117,21 @@ const BookDetails = () => {
 
             <div className="flex items-center text-gray-700 mb-4">
               <span className="font-bold text-xl text-blue-600 mr-2">
-                ${location.state?.discountPrice}
+                <p className="flex items-center text-base font-semibold text-gray-800  mt-1">
+                  <span>
+                    {currency === "USD" && <FaDollarSign />}
+                    {currency === "EUR" && <FaEuroSign />}
+                    {currency === "GBP" && <FaPoundSign />}
+                  </span>
+                  <span>
+                    {(location.state?.discountPrice * rates[currency]).toFixed(
+                      2
+                    )}
+                  </span>
+                  <span className="text-sm line-through text-gray-400 ml-2">
+                    {(location.state?.price * rates[currency]).toFixed(2)}
+                  </span>
+                </p>
               </span>
               <span className="line-through text-gray-500">
                 ${location.state?.price}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { IoCart, IoLogoWhatsapp } from "react-icons/io5";
@@ -16,6 +16,8 @@ import { FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AiOutlineLogout } from "react-icons/ai";
 import booksData from "../../../assets/bookData.json";
+import { FaDollarSign, FaEuroSign, FaPoundSign } from "react-icons/fa";
+import { useCurrency } from "../../../provider/CurrencyProvider";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -51,6 +53,16 @@ const socialLinks = [
   },
 ];
 
+const currencyOptions = [
+  {
+    value: "USD",
+    label: "USD",
+    icon: <FaDollarSign className="inline mr-1" />,
+  },
+  { value: "EUR", label: "Euro", icon: <FaEuroSign className="inline mr-1" /> },
+  { value: "GBP", label: "GBP", icon: <FaPoundSign className="inline mr-1" /> },
+];
+
 const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [cartData, setCartData] = useState([]);
@@ -61,8 +73,10 @@ const Navbar = () => {
   const [books, setBooks] = useState(booksData);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const profileRef = React.useRef();
+  const { currency, setCurrency } = useCurrency();
+  const profileRef = useRef();
   const { user, logout } = useAuth();
+
   const navigate = useNavigate();
 
   const handleNavToggle = () => setNavOpen((prev) => !prev);
@@ -124,7 +138,7 @@ const Navbar = () => {
           book.bookName.toLowerCase().includes(searchQuery.toLowerCase()) ||
           book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredBooks(filtered.slice(0, 5)); // limit to top 5 results
+      setFilteredBooks(filtered.slice(0, 5));
     }
   }, [searchQuery]);
   const handleSuggestionClick = (bookId, book) => {
@@ -138,22 +152,6 @@ const Navbar = () => {
       <nav className="sticky top-0 z-20 bg-white shadow px-5 lg:px-24 py-3 flex justify-between items-center">
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-4">
-          <ul className="hidden md:flex gap-6 font-semibold">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `nav_a rounded-xl cursor-pointer ${
-                    isActive ? "text-orange-500 underline " : ""
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </ul>
-
           {/* Mobile Nav Toggle */}
           <div className="md:hidden cursor-pointer" onClick={handleNavToggle}>
             {navOpen ? (
@@ -162,93 +160,165 @@ const Navbar = () => {
               <AiOutlineMenu size={30} />
             )}
           </div>
+
+          {/* Desktop Logo */}
+          <Link to="/" className="hidden md:flex items-center gap-2">
+            <h1 className="text-xl lg:text-3xl font-bold text-black">E-Book</h1>
+          </Link>
         </div>
 
-        <Link to="/" className="hidden md:flex items-center gap-2">
-          <h1 className="text-xl lg:text-3xl font-bold text-black">E-Book</h1>
-        </Link>
-
-        {/* Right: Icons + Auth */}
-        <div className="flex items-center gap-5">
-          <FiSearch
-            className="text-3xl text-black cursor-pointer"
-            onClick={toggleSearch}
-          />
-          <div className="relative cursor-pointer">
-            <span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
-              {cartData?.length || 0}
-            </span>
-            <IoCart size={30} className="text-black" />
-          </div>
-          {user ? (
-            <div className="relative" ref={profileRef}>
-              <button
-                onClick={handleProfileClick}
-                className="flex items-center gap-2 focus:outline-none cursor-pointer"
-              >
-                <FaUserCircle size={28} className="text-black" />
-              </button>
-              {/* Dropdown */}
-              {profileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeIn ">
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setProfileDropdownOpen(false)}
-                    className="border-b border-gray-100 flex items-center gap-2 cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition my-2 mx-2"
-                  >
-                    DashBoard
-                  </Link>
-
-                  <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-                    <AiOutlineLogout size={22} className="text-red-600" />
-                    <button
-                      onClick={handleSignout}
-                      className="w-full text-left font-semibold text-red-600 hover:text-red-500 rounded-b-lg cursor-pointer"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link
-              to="/signin"
-              className="cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
+        {/* Center: Desktop Nav Links */}
+        <ul className="hidden md:flex gap-6 font-semibold">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                `nav_a rounded-xl cursor-pointer ${
+                  isActive ? "text-orange-500 underline " : ""
+                }`
+              }
             >
-              Login
-            </Link>
-          )}
-        </div>
+              {link.label}
+            </NavLink>
+          ))}
+        </ul>
 
+        {/* Right: Currency + Icons + Auth */}
+        <div className="flex items-center gap-3 lg:gap-5">
+          {/* Currency Dropdown (desktop) */}
+          <div className="hidden md:block relative">
+            <div className="relative">
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                {currencyOptions.find((c) => c.value === currency)?.icon}
+              </span>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="appearance-none bg-white border border-gray-300 rounded-full py-1 pl-7 pr-4 text-sm font-semibold text-gray-700 focus:outline-none focus:border-gray-800 cursor-pointer shadow-sm transition-all duration-200 hover:border-gray-500"
+                style={{ backgroundPosition: "right 0.5rem center" }}
+              >
+                {currencyOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Right: Icons + Auth */}
+          <div className="flex items-center gap-5">
+            <FiSearch
+              className="text-3xl text-black cursor-pointer"
+              onClick={toggleSearch}
+            />
+            <div className="relative cursor-pointer">
+              <span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+                {cartData?.length || 0}
+              </span>
+              <IoCart size={30} className="text-black" />
+            </div>
+            {user ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={handleProfileClick}
+                  className="flex items-center gap-2 focus:outline-none cursor-pointer"
+                >
+                  <FaUserCircle size={28} className="text-black" />
+                </button>
+                {/* Dropdown */}
+                {profileDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeIn ">
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setProfileDropdownOpen(false)}
+                      className="border-b border-gray-100 flex items-center gap-2 cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition my-2 mx-2"
+                    >
+                      DashBoard
+                    </Link>
+
+                    <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+                      <AiOutlineLogout size={22} className="text-red-600" />
+                      <button
+                        onClick={handleSignout}
+                        className="w-full text-left font-semibold text-red-600 hover:text-red-500 rounded-b-lg cursor-pointer"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/signin"
+                className="cursor-pointer bg-gradient-to-r from-black to-gray-500 px-6 py-2 rounded-md text-white font-bold shadow-md hover:from-gray-500 hover:to-black transition"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+        </div>
         {/* Mobile Nav Menu */}
         <div
-          className={`fixed top-0 right-0 h-full w-[70%] bg-black text-white z-30 transition-transform duration-300 ${
+          className={`fixed top-0 right-0 h-full w-[80vw] max-w-xs bg-black text-white z-30 transition-transform duration-300 ${
             navOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="p-4 font-bold text-3xl text-orange-500">E-Book</div>
-          <ul className="space-y-2 px-4">
-            {[
-              { to: "/", label: "Home" },
-              { to: "/allProduct", label: "Our Products" },
-              { to: "/blog", label: "Blog" },
-              { to: "/contact", label: "Contact" },
-            ].map((item) => (
+          <div className="p-4 font-bold text-3xl text-orange-500 flex justify-between items-center">
+            <span>E-Book</span>
+            <button
+              onClick={handleNavToggle}
+              className="text-white hover:text-orange-500"
+              aria-label="Close menu"
+            >
+              <AiOutlineClose size={24} />
+            </button>
+          </div>
+
+          <ul className="space-y-2 px-4 font-semibold">
+            {navLinks.map((item) => (
               <li key={item.to}>
-                <Link
+                <NavLink
                   to={item.to}
                   onClick={handleNavToggle}
-                  className="block py-2 px-4 rounded-xl border-b border-gray-600 hover:bg-gray-800"
+                  className={({ isActive }) =>
+                    `block py-2 px-4 rounded-xl border-b border-gray-600 hover:bg-gray-800 transition-all duration-200 ${
+                      isActive ? "text-orange-500 underline" : ""
+                    }`
+                  }
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
 
+          {/* Currency Dropdown in mobile menu */}
+          <div className="px-4 mt-4">
+            <label className="block text-gray-400 mb-1 text-sm">Currency</label>
+            <div className="relative flex items-center">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                {currencyOptions.find((c) => c.value === currency)?.icon}
+              </span>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="appearance-none bg-white border border-gray-300 rounded-full py-2 pl-8 pr-3 text-sm font-semibold text-gray-700 focus:outline-none focus:border-gray-400 w-full cursor-pointer"
+                style={{ backgroundPosition: "right 0.5rem center" }}
+              >
+                {currencyOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Mobile Social Icons */}
-          <div className="flex justify-center items-center gap-4 mt-6">
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-6 px-4">
             {socialLinks.map((link, i) =>
               link.href ? (
                 <a
@@ -256,7 +326,10 @@ const Navbar = () => {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className={link.className}
+                  className={
+                    link.className +
+                    " text-2xl hover:scale-110 transition-transform duration-200"
+                  }
                 >
                   {link.icon}
                 </a>
@@ -265,7 +338,10 @@ const Navbar = () => {
                   key={i}
                   to={link.to}
                   target="_blank"
-                  className={link.className}
+                  className={
+                    link.className +
+                    " text-2xl hover:scale-110 transition-transform duration-200"
+                  }
                 >
                   {link.icon}
                 </Link>
@@ -282,6 +358,7 @@ const Navbar = () => {
             <button
               onClick={toggleSearch}
               className="absolute top-6 right-6 text-black text-2xl z-50 cursor-pointer hover:text-red-600"
+              aria-label="Close search"
             >
               <AiOutlineClose />
             </button>
