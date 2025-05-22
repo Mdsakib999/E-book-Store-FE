@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
+import axiosInstance from "../../../axios";
 
 const SignIn = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -49,16 +50,39 @@ const SignIn = () => {
 		}
 	};
 
+	const saveUserToDB = async (userData) => {
+		try {
+			const { data } = await axiosInstance.post("/auth/register", userData);
+			console.log("User saved to DB: ", data);
+			return data;
+		} catch (error) {
+			console.error("Error saving user to DB: ", error);
+			toast.error(<h1 className="font-serif">{error.data.message}</h1>);
+			throw error;
+		}
+	};
+
 	const handleGoogleSignIn = async () => {
 		setIsLoading(true);
-
 		try {
-			await googleSignIn();
-			toast.success("Signed in with Google successfully!");
-			navigate("/"); // Redirect after successful sign in
+			const result = await googleSignIn();
+
+			const userData = {
+				name: result.user.displayName,
+				email: result.user.email,
+				provider: result.user.providerData[0]?.providerId,
+				uid: result.user.uid,
+			};
+
+			await saveUserToDB(userData);
+
+			console.log("Google sign-in result: ", result.user);
+			toast.success(
+				<h1 className="font-serif">Signed in with Google successfully</h1>
+			);
 		} catch (error) {
-			toast.error("Google sign in failed. Please try again.");
-			console.error("Google sign in error:", error);
+			console.error("Error signing in with Google: ", error?.message);
+			toast.error(error.message || "Failed to sign in with Google");
 		} finally {
 			setIsLoading(false);
 		}
