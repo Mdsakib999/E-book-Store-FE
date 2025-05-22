@@ -16,7 +16,6 @@ const SignUp = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		getValues,
 	} = useForm();
 
 	const { createUser, user, googleSignIn } = useAuth();
@@ -35,6 +34,7 @@ const SignUp = () => {
 			return data;
 		} catch (error) {
 			console.error("Error saving user to DB: ", error);
+			toast.error(<h1 className="font-serif">{data.message}</h1>);
 			throw error;
 		}
 	};
@@ -50,11 +50,9 @@ const SignUp = () => {
 
 			console.log("User created: ", result.user);
 
-			// Prepare user data for MongoDB
 			const userData = {
 				name: data.name,
 				email: data.email,
-				password: data.password,
 			};
 
 			await saveUserToDB(userData);
