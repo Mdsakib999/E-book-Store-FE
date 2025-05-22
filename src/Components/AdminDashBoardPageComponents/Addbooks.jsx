@@ -2,18 +2,21 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
+import showToast from "../../Utils/ShowToast";
 
 export const Addbooks = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [selectedBook, setSelectedBook] = useState(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
-
+  const description = watch("description", "");
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -26,9 +29,21 @@ export const Addbooks = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.type.startsWith("image/")) {
       setSelectedImage(file);
       setImagePreview(URL.createObjectURL(file));
+    } else {
+      showToast("Error", "Please select a valid image file.", "error");
+    }
+  };
+
+  const handleBookChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setSelectedBook(file);
+      showToast("Success", "Book file selected successfully.", "success");
+    } else {
+      showToast("Error", "Please select a PDF file.", "error");
     }
   };
 
@@ -46,20 +61,6 @@ export const Addbooks = () => {
       >
         <div className="flex flex-col lg:flex-row gap-4 bg-base-200 p-3 rounded-lg min-h-72 mx-5 md:mx-10 shadow-2xl">
           <div className="w-full flex flex-col gap-1 max-w-xl mx-auto">
-            {/* ISBN */}
-            <label htmlFor="isbn" className="font-semibold text-gray-700">
-              ISBN
-            </label>
-            <input
-              id="isbn"
-              type="number"
-              placeholder="Enter isbn number"
-              {...register("isbn", { required: "ISBN is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
-            />
-            {errors.isbn && (
-              <p className="text-red-500 text-sm">{errors.isbn.message}</p>
-            )}
             {/* Category */}
             <label htmlFor="category" className="font-semibold text-gray-700">
               Category
@@ -123,36 +124,6 @@ export const Addbooks = () => {
               <p className="text-red-500 text-sm">{errors.price.message}</p>
             )}
 
-            {/* In Stock */}
-            <label htmlFor="instock" className="font-semibold text-gray-700">
-              In Stock
-            </label>
-            <input
-              id="instock"
-              type="text"
-              placeholder="Enter Stock availability"
-              {...register("instock", { required: "In Stock is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
-            />
-            {errors.instock && (
-              <p className="text-red-500 text-sm">{errors.instock.message}</p>
-            )}
-
-            {/* In Stock */}
-            <label htmlFor="instock" className="font-semibold text-gray-700">
-              In Stock
-            </label>
-            <input
-              id="instock"
-              type="text"
-              placeholder="Enter Stock availability"
-              {...register("instock", { required: "In Stock is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
-            />
-            {errors.instock && (
-              <p className="text-red-500 text-sm">{errors.instock.message}</p>
-            )}
-
             {/* Description */}
             <label
               htmlFor="description"
@@ -166,13 +137,22 @@ export const Addbooks = () => {
               className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black p-3"
               {...register("description", {
                 required: "Description is required",
+                maxLength: {
+                  value: 300,
+                  message: "Description cannot exceed 300 characters",
+                },
               })}
-            ></textarea>
+            />
+            <p className="text-sm text-gray-500 text-right">
+              {description.length}/300 characters
+            </p>
+
             {errors.description && (
               <p className="text-red-500 text-sm">
                 {errors.description.message}
               </p>
             )}
+
             {/* Image preview */}
             {imagePreview && (
               <div className="relative mt-4">
@@ -193,22 +173,55 @@ export const Addbooks = () => {
                 </button>
               </div>
             )}
-            {/* Upload Button */}
-            <label
-              htmlFor="image"
-              className="btn bg-black text-white py-3 lg:w-1/3 flex items-center justify-center gap-2 cursor-pointer my-3"
-            >
-              <IoCloudUploadOutline /> Upload Cover Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-            {errors.cover && (
-              <p className="text-red-500 text-sm">{errors.cover.message}</p>
-            )}
+            <div className="flex flex-col lg:flex-row justify-between gap-4">
+              {/* Upload Cover Button */}
+              <div className="w-full lg:w-1/2">
+                <label
+                  htmlFor="image"
+                  className="btn bg-black text-white py-3 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
+                >
+                  <IoCloudUploadOutline /> Upload Cover Image
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+                {errors.cover && (
+                  <p className="text-red-500 text-sm">{errors.cover.message}</p>
+                )}
+              </div>
+
+              {/* Upload Book Button */}
+              <div className="w-full lg:w-1/2">
+                <label
+                  htmlFor="book"
+                  className="btn bg-black text-white py-3 px-2 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
+                >
+                  {selectedBook ? (
+                    selectedBook.name
+                  ) : (
+                    <>
+                      <IoCloudUploadOutline />
+                      Upload Book
+                    </>
+                  )}
+                </label>
+
+                <input
+                  type="file"
+                  id="book"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={handleBookChange}
+                />
+                {errors.book && (
+                  <p className="text-red-500 text-sm">{errors.book.message}</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 

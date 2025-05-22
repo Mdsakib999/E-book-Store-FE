@@ -5,7 +5,6 @@ import { useAuth } from "../../provider/AuthProvider";
 export const UpdateProfile = () => {
   const { user } = useAuth();
   const [editMode, setEditMode] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -32,7 +31,7 @@ export const UpdateProfile = () => {
     <div className="max-w-7xl mx-auto rounded-lg p-6 mt-6 lg:mt-0">
       <div className="relative">
         <img
-          src="https://images.unsplash.com/photo-1557682224-5b8590cd9ec5?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D"
+          src="https://miro.medium.com/v2/resize:fit:5120/1*42ebJizcUtZBNIZPmmMZ5Q.jpeg"
           alt="Banner"
           className="rounded-t-2xl h-48 w-full object-cover"
         />
@@ -40,10 +39,14 @@ export const UpdateProfile = () => {
         {/* Avatar and Name Container */}
         <div className="absolute -bottom-32 md:-bottom-24  lg:-bottom-24 md:left-1/3 lg:left-4 left-1/2 transform -translate-x-1/2 lg:translate-0  flex flex-col md:flex-row items-center  space-y-2 md:gap-3">
           <img
-            src="https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
-            alt="Avatar"
-            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full"
+            src={
+              user?.reloadUserInfo?.photoUrl.trim() ||
+              "https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
+            }
+            alt={`${user?.reloadUserInfo?.displayName || "User"}'s avatar`}
+            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover shadow-md"
           />
+
           <div className="text-center sm:text-left whitespace-nowrap md:mt-3">
             <h2 className="text-xl sm:text-2xl font-semibold">
               {user?.displayName}

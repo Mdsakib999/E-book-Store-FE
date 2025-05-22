@@ -1,28 +1,39 @@
 import { useEffect, useState } from "react";
-import { FaCreditCard, FaPaypal } from "react-icons/fa";
+import {
+  FaCcVisa,
+  FaCcMastercard,
+  FaCcAmex,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
 
 const dummyOrders = [
   {
     id: "ORD-1001",
     customerName: "Alice Johnson",
+    bookName: "Atomic Habits",
     date: "2025-05-15",
-    method: "Card",
+    method: "Visa",
+    trxId: "TRX-84920493",
     status: "Paid",
     amount: 59.99,
   },
   {
     id: "ORD-1002",
     customerName: "Bob Smith",
+    bookName: "Educated",
     date: "2025-05-18",
-    method: "Card",
+    method: "MasterCard",
+    trxId: "TRX-29834734",
     status: "Pending",
     amount: 25.5,
   },
   {
     id: "ORD-1003",
     customerName: "Clara Lee",
+    bookName: "The Midnight Library",
     date: "2025-05-20",
-    method: "PayPal",
+    method: "Amex",
+    trxId: "TRX-40329483",
     status: "Failed",
     amount: 34.0,
   },
@@ -32,7 +43,6 @@ export const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    // Replace with real API call in future
     setOrders(dummyOrders);
   }, []);
 
@@ -51,12 +61,14 @@ export const ManageOrders = () => {
 
   const getMethodIcon = (method) => {
     switch (method) {
-      case "Card":
-        return <FaCreditCard className="inline-block mr-1" />;
-      case "PayPal":
-        return <FaPaypal className="inline-block mr-1" />;
+      case "Visa":
+        return <FaCcVisa className="inline-block mr-1 text-blue-700" />;
+      case "MasterCard":
+        return <FaCcMastercard className="inline-block mr-1 text-red-600" />;
+      case "Amex":
+        return <FaCcAmex className="inline-block mr-1 text-indigo-600" />;
       default:
-        return null;
+        return <FaMoneyCheckAlt className="inline-block mr-1 text-gray-600" />;
     }
   };
 
@@ -70,9 +82,11 @@ export const ManageOrders = () => {
             <tr>
               <th className="px-6 py-4">Order ID</th>
               <th className="px-6 py-4">Customer</th>
+              <th className="px-6 py-4">Book</th>
               <th className="px-6 py-4">Date</th>
               <th className="px-6 py-4">Payment Method</th>
-              <th className="px-6 py-4">Total Amount</th>
+              <th className="px-6 py-4">Transaction ID</th>
+              <th className="px-6 py-4">Total</th>
               <th className="px-6 py-4">Payment Status</th>
             </tr>
           </thead>
@@ -82,12 +96,14 @@ export const ManageOrders = () => {
                 key={order.id}
                 className="border-t hover:bg-gray-50 transition-all duration-150"
               >
-                <td className="px-6 py-4 font-medium">{order.id}</td>
-                <td className="px-6 py-4">{order.customerName}</td>
-                <td className="px-6 py-4">{order.date}</td>
-                <td className="px-6 py-4 flex items-center">
+                <td className="p-2 font-medium">{order.id}</td>
+                <td className="p-2">{order.customerName}</td>
+                <td className="">{order.bookName}</td>
+                <td className="">{order.date}</td>
+                <td className="p-2 flex items-center justify-center">
                   {getMethodIcon(order.method)} {order.method}
                 </td>
+                <td className="px-6 py-4">{order.trxId}</td>
                 <td className="px-6 py-4">${order.amount.toFixed(2)}</td>
                 <td
                   className={`px-6 py-4 font-semibold ${getStatusColor(
@@ -100,6 +116,7 @@ export const ManageOrders = () => {
             ))}
           </tbody>
         </table>
+
         {orders.length === 0 && (
           <div className="text-center py-10 text-gray-500">
             No orders found.
