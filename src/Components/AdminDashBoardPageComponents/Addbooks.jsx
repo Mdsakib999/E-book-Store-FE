@@ -42,10 +42,38 @@ export const Addbooks = () => {
       <h1 className="text-3xl font-bold text-center my-5">Add New Book</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="my-4 max-w-2xl mx-auto"
+        className="my-4 max-w-4xl mx-auto"
       >
         <div className="flex flex-col lg:flex-row gap-4 bg-base-200 p-3 rounded-lg min-h-72 mx-5 md:mx-10 shadow-2xl">
           <div className="w-full flex flex-col gap-1 max-w-xl mx-auto">
+            {/* ISBN */}
+            <label htmlFor="isbn" className="font-semibold text-gray-700">
+              ISBN
+            </label>
+            <input
+              id="isbn"
+              type="number"
+              placeholder="Enter isbn number"
+              {...register("isbn", { required: "ISBN is required" })}
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+            />
+            {errors.isbn && (
+              <p className="text-red-500 text-sm">{errors.isbn.message}</p>
+            )}
+            {/* Category */}
+            <label htmlFor="category" className="font-semibold text-gray-700">
+              Category
+            </label>
+            <input
+              id="category"
+              type="text"
+              placeholder="Enter book category"
+              {...register("isbn", { required: "Book category is required" })}
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+            />
+            {errors.category && (
+              <p className="text-red-500 text-sm">{errors.category.message}</p>
+            )}
             {/* Book Title */}
             <label htmlFor="title" className="font-semibold text-gray-700">
               Book Title
@@ -55,7 +83,7 @@ export const Addbooks = () => {
               type="text"
               placeholder="Enter book title"
               {...register("title", { required: "Book title is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black"
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -70,7 +98,7 @@ export const Addbooks = () => {
               type="text"
               placeholder="Enter author name"
               {...register("author", { required: "Author is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black"
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
             />
             {errors.author && (
               <p className="text-red-500 text-sm">{errors.author.message}</p>
@@ -89,10 +117,40 @@ export const Addbooks = () => {
                 required: "Price is required",
                 min: { value: 0, message: "Price must be a positive number" },
               })}
-              className="border-gray-600 border w-full h-12 bg-white text-black"
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
             />
             {errors.price && (
               <p className="text-red-500 text-sm">{errors.price.message}</p>
+            )}
+
+            {/* In Stock */}
+            <label htmlFor="instock" className="font-semibold text-gray-700">
+              In Stock
+            </label>
+            <input
+              id="instock"
+              type="text"
+              placeholder="Enter Stock availability"
+              {...register("instock", { required: "In Stock is required" })}
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+            />
+            {errors.instock && (
+              <p className="text-red-500 text-sm">{errors.instock.message}</p>
+            )}
+
+            {/* In Stock */}
+            <label htmlFor="instock" className="font-semibold text-gray-700">
+              In Stock
+            </label>
+            <input
+              id="instock"
+              type="text"
+              placeholder="Enter Stock availability"
+              {...register("instock", { required: "In Stock is required" })}
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+            />
+            {errors.instock && (
+              <p className="text-red-500 text-sm">{errors.instock.message}</p>
             )}
 
             {/* Description */}
@@ -105,7 +163,7 @@ export const Addbooks = () => {
             <textarea
               id="description"
               placeholder="Enter book description"
-              className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black"
+              className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black p-3"
               {...register("description", {
                 required: "Description is required",
               })}
@@ -138,7 +196,7 @@ export const Addbooks = () => {
             {/* Upload Button */}
             <label
               htmlFor="image"
-              className="btn bg-black text-white py-3 lg:w-1/2 flex items-center justify-center gap-2 cursor-pointer"
+              className="btn bg-black text-white py-3 lg:w-1/3 flex items-center justify-center gap-2 cursor-pointer my-3"
             >
               <IoCloudUploadOutline /> Upload Cover Image
             </label>

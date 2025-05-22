@@ -50,24 +50,24 @@ export const ManageUsers = () => {
                 <td className="py-3 px-4">{user.name}</td>
                 <td className="py-3 px-4">{user.email}</td>
                 <td className="py-3 px-4">{user.role}</td>
-                <td className="py-3 px-4 flex items-center justify-center gap-3 text-sm">
+                <td className="py-3 px-4 flex items-center justify-center gap-4 text-sm">
                   <button
                     title="Edit Role"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 hover:text-blue-800 text-2xl"
                     onClick={() => console.log("Edit Role", user.id)}
                   >
                     <FaUserShield />
                   </button>
                   <button
                     title="Edit Info"
-                    className="text-green-600 hover:text-green-800"
+                    className="text-green-600 hover:text-green-800 text-2xl"
                     onClick={() => console.log("Edit Info", user.id)}
                   >
                     <FaEdit />
                   </button>
                   <button
                     title="Remove User"
-                    className="text-red-600 hover:text-red-800"
+                    className="text-red-600 hover:text-red-800 text-2xl"
                     onClick={() => console.log("Remove User", user.id)}
                   >
                     <FaTrashAlt />

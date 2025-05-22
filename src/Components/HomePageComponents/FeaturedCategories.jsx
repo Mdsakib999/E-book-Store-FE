@@ -34,7 +34,7 @@ export const FeaturedCategories = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 my-10">
+    <div className="max-w-7xl mx-auto px-4 my-10 lg:my-20 ">
       {/* Header */}
       <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
         Featured Categories
@@ -45,7 +45,7 @@ export const FeaturedCategories = () => {
         {/* Left Arrow */}
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100 cursor-pointer"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white bg-black rounded-full p-2 opacity-30 hover:opacity-80 cursor-pointer"
         >
           <MdChevronLeft className="text-xl lg:text-4xl " />
         </button>
@@ -58,7 +58,7 @@ export const FeaturedCategories = () => {
           {menuItems.map((item) => (
             <div
               key={item.id}
-              className="flex-shrink-0 w-56 flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
+              className="flex-shrink-0 w-56  flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
               style={{ backgroundColor: "transparent" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = item.bgColor)
@@ -77,7 +77,7 @@ export const FeaturedCategories = () => {
                   className="w-12 h-12 lg:w-20 lg:h-20"
                 />
               </div>
-              <p className="text-center font-medium">{item.name}</p>
+              <p className="text-center ont-semibold">{item.name}</p>
             </div>
           ))}
         </div>
@@ -85,7 +85,7 @@ export const FeaturedCategories = () => {
         {/* Right Arrow */}
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white bg-orange-500 rounded-full p-2 opacity-50 hover:opacity-100 cursor-pointer"
+          className=" absolute right-2 md:-right-7 top-1/2 -translate-y-1/2 z-10 text-white bg-black rounded-full p-2 opacity-30 hover:opacity-80 cursor-pointer"
         >
           <MdChevronRight className="text-xl lg:text-4xl" />
         </button>

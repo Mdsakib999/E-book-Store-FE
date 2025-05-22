@@ -97,10 +97,10 @@ export const FeaturedBooks = () => {
 									<h2 className="text-lg font-bold text-gray-900  truncate ">
 										{item.bookName}
 									</h2>
-									<p className="text-sm font-semibold text-black ">
+									<p className="text-sm font-semibold text-black py-1">
 										Author: {item.authorName}
 									</p>
-									<p className="text-xs text-black line-clamp-2">
+									<p className="text-xs text-gray-600 line-clamp-2">
 										{item.shortDescription}
 									</p>
 
@@ -111,10 +111,10 @@ export const FeaturedBooks = () => {
 												{currency === "EUR" && <FaEuroSign />}
 												{currency === "GBP" && <FaPoundSign />}
 											</span>
-											<span>
+											<span className="text-lg">
 												{(item.discountPrice * rates[currency]).toFixed(2)}
 											</span>
-											<span className="text-sm line-through text-gray-400 ml-2">
+											<span className="text-sm line-through text-gray-500 ml-2">
 												{(item.price * rates[currency]).toFixed(2)}
 											</span>
 										</p>
