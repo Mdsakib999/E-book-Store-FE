@@ -32,6 +32,7 @@ const SignIn = () => {
 			toast.success(<h1 className="font-serif">Signed in successfully!</h1>);
 			navigate("/");
 		} catch (error) {
+			console.log(error);
 			let errorMessage = "Failed to sign in";
 			if (error.code === "auth/user-not-found") {
 				errorMessage = "No user found with this email";
@@ -39,8 +40,10 @@ const SignIn = () => {
 				errorMessage = "Incorrect password";
 			} else if (error.code === "auth/invalid-email") {
 				errorMessage = "Invalid email format";
+			} else if (error.code === "auth/invalid-credential") {
+				errorMessage = "Invalid credentials";
 			}
-			toast.error(errorMessage);
+			toast.error(<h1 className="font-serif">{errorMessage}</h1>);
 		} finally {
 			setIsLoading(false);
 		}

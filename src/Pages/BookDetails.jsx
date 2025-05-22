@@ -22,7 +22,6 @@ const BookDetails = () => {
 	const [isFavorite, setIsFavorite] = useState(false);
 	const location = useLocation();
 	const { currency, rates } = useCurrency();
-	// console.log(location);
 
 	const incrementQuantity = () => {
 		setQuantity((prev) => prev + 1);
