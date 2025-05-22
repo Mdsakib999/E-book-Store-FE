@@ -6,24 +6,23 @@ import showToast from "../../Utils/ShowToast";
 const UpdateBookModal = ({ data, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-
+  const [selectedBook, setSelectedBook] = useState(null);
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
+  const description = watch("description", "");
 
   useEffect(() => {
     if (data) {
-      setValue("isbn", data.ISBN);
       setValue("category", data.category);
       setValue("title", data.bookName);
       setValue("author", data.authorName);
       setValue("price", data.price);
       setValue("discountPrice", data.discountPrice);
-      setValue("extraDiscount", data.extraDiscount || "");
-      setValue("instock", data.availability ? "Yes" : "No");
       setValue("description", data.shortDescription);
       setImagePreview(data.image);
     }
@@ -44,6 +43,15 @@ const UpdateBookModal = ({ data, onClose }) => {
     if (file) {
       setSelectedImage(file);
       setImagePreview(URL.createObjectURL(file));
+    }
+  };
+  const handleBookChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setSelectedBook(file);
+      showToast("Success", "Book file selected successfully.", "success");
+    } else {
+      showToast("Error", "Please select a PDF file.", "error");
     }
   };
 
@@ -88,32 +96,57 @@ const UpdateBookModal = ({ data, onClose }) => {
             </div>
           )}
 
-          {/* Upload Image */}
-          <label
-            htmlFor="image"
-            className=" bg-black text-white py-3 lg:w-1/3 flex items-center justify-center gap-2 cursor-pointer my-3"
-          >
-            <IoCloudUploadOutline /> Upload New Cover
-          </label>
-          <input
-            type="file"
-            id="image"
-            className="hidden"
-            onChange={handleImageChange}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* ISBN */}
-            <div>
-              <label className="font-semibold">ISBN</label>
+          <div className="flex flex-col lg:flex-row justify-between gap-4">
+            {/* Upload Cover Button */}
+            <div className="w-full lg:w-1/2">
+              <label
+                htmlFor="image"
+                className="btn bg-black text-white py-3 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
+              >
+                <IoCloudUploadOutline /> Upload Cover Image
+              </label>
               <input
-                {...register("isbn", { required: "ISBN is required" })}
-                className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+                type="file"
+                id="image"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
               />
-              {errors.isbn && (
-                <p className="text-red-500 text-sm">{errors.isbn.message}</p>
+              {errors.cover && (
+                <p className="text-red-500 text-sm">{errors.cover.message}</p>
               )}
             </div>
+
+            {/* Upload Book Button */}
+            <div className="w-full lg:w-1/2">
+              <label
+                htmlFor="book"
+                className="btn bg-black text-white py-3 px-2 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
+              >
+                {selectedBook ? (
+                  selectedBook.name
+                ) : (
+                  <>
+                    <IoCloudUploadOutline />
+                    Upload Book
+                  </>
+                )}
+              </label>
+
+              <input
+                type="file"
+                id="book"
+                accept="application/pdf"
+                className="hidden"
+                onChange={handleBookChange}
+              />
+              {errors.book && (
+                <p className="text-red-500 text-sm">{errors.book.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Category */}
             <div>
               <label className="font-semibold">Category</label>
@@ -163,32 +196,30 @@ const UpdateBookModal = ({ data, onClose }) => {
                 className="border-gray-600 border w-full h-12 bg-white text-black p-3"
               />
             </div>
-
-            {/* In Stock */}
-            <div>
-              <label className="font-semibold">In Stock</label>
-              <input
-                {...register("instock", { required: "Stock is required" })}
-                className="border-gray-600 border w-full h-12 bg-white text-black p-3"
-              />
-            </div>
           </div>
-
           {/* Description */}
-          <div>
-            <label className="font-semibold">Description</label>
-            <textarea
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black p-3"
-            ></textarea>
-            {errors.description && (
-              <p className="text-red-500 text-sm">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
+          <label htmlFor="description" className="font-semibold text-gray-700">
+            Description
+          </label>
+          <textarea
+            id="description"
+            placeholder="Enter book description"
+            className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black p-3"
+            {...register("description", {
+              required: "Description is required",
+              maxLength: {
+                value: 300,
+                message: "Description cannot exceed 300 characters",
+              },
+            })}
+          />
+          <p className="text-sm text-gray-500 text-right">
+            {description.length}/300 characters
+          </p>
+
+          {errors.description && (
+            <p className="text-red-500 text-sm">{errors.description.message}</p>
+          )}
 
           {/* Actions */}
           <div className="flex justify-end gap-3 pt-4">
