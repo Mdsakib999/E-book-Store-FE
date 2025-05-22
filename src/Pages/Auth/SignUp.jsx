@@ -49,10 +49,13 @@ const SignUp = () => {
 			});
 
 			console.log("User created: ", result.user);
-
+			console.log(result.user.providerData[0]?.providerId);
+			console.log(result.user.uid);
 			const userData = {
 				name: data.name,
 				email: data.email,
+				provider: result.user.providerData[0]?.providerId,
+				uid: result.user.uid,
 			};
 
 			await saveUserToDB(userData);
@@ -87,10 +90,11 @@ const SignUp = () => {
 		try {
 			const result = await googleSignIn();
 
-			// After successful Google sign-in, save user to DB
 			const userData = {
 				name: result.user.displayName,
 				email: result.user.email,
+				provider: result.user.providerData[0]?.providerId,
+				uid: result.user.uid,
 			};
 
 			await saveUserToDB(userData);
