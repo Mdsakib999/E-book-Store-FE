@@ -15,6 +15,8 @@ import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
 import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
 import { ManageOrders } from "../Components/AdminDashBoardPageComponents/ManageOrders";
 import ErrorPage from "../Pages/ErrorPage";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 
 export const router = createBrowserRouter([
 	{
@@ -29,6 +31,14 @@ export const router = createBrowserRouter([
 			{
 				path: "/allbooks",
 				element: <AllBooks></AllBooks>,
+			},
+			{
+				path: "/contact",
+				element: <Contact></Contact>,
+			},
+			{
+				path: "/about",
+				element: <About></About>,
 			},
 			{
 				path: "/allbooks/:id",
