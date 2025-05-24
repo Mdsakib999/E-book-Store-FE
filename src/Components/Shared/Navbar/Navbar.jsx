@@ -384,7 +384,7 @@ const Navbar = () => {
                   <ul className="absolute mt-2 bg-white border border-gray-300 rounded-md w-full max-h-60 overflow-y-auto shadow-lg z-50">
                     {filteredBooks.map((book) => (
                       <li
-                        key={book.id}
+                        key={book._id}
                         onClick={() => handleSuggestionClick(book.id, book)}
                         className="flex items-center gap-4 px-4 py-2 cursor-pointer hover:bg-gray-100"
                       >

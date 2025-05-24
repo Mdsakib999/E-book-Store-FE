@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import {
   FaUser,
   FaSignOutAlt,
@@ -10,6 +9,39 @@ import {
 } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 import { Link } from "react-router-dom";
+
+const navItems = [
+  {
+    label: "Profile",
+    icon: <FaUser size={20} />,
+    path: "/admin/dashboard",
+  },
+  {
+    label: "Manage Users",
+    icon: <FaUsers size={20} />,
+    path: "/admin/dashboard/manage-users",
+  },
+  {
+    label: "Add Book",
+    icon: <MdLibraryAdd size={20} />,
+    path: "/admin/dashboard/add-books",
+  },
+  {
+    label: "Manage Category",
+    icon: <MdLibraryAdd size={20} />,
+    path: "/admin/dashboard/manage-category",
+  },
+  {
+    label: "Manage Books",
+    icon: <FaBook size={20} />,
+    path: "/admin/dashboard/manage-books",
+  },
+  {
+    label: "Manage Orders",
+    icon: <FaClipboardList size={20} />,
+    path: "/admin/dashboard/manage-orders",
+  },
+];
 
 export const AdminDashBoardLeftNav = ({ closeSidebar }) => {
   return (
@@ -28,40 +60,14 @@ export const AdminDashBoardLeftNav = ({ closeSidebar }) => {
         </h2>
 
         <nav className="flex flex-col gap-4 mt-4">
-          <Link to="/admin/dashboard" onClick={closeSidebar}>
-            <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-              <FaUser size={20} />
-              <span>Profile</span>
-            </button>
-          </Link>
-
-          <Link to="/admin/dashboard/manage-users" onClick={closeSidebar}>
-            <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-              <FaUsers size={20} />
-              <span>Manage Users</span>
-            </button>
-          </Link>
-
-          <Link to="/admin/dashboard/add-books" onClick={closeSidebar}>
-            <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-              <MdLibraryAdd size={20} />
-              <span>Add Book</span>
-            </button>
-          </Link>
-
-          <Link to="/admin/dashboard/manage-books" onClick={closeSidebar}>
-            <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-              <FaBook size={20} />
-              <span>Manage Books</span>
-            </button>
-          </Link>
-
-          <Link to="/admin/dashboard/manage-orders" onClick={closeSidebar}>
-            <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-              <FaClipboardList size={20} />
-              <span>Manage Orders</span>
-            </button>
-          </Link>
+          {navItems.map(({ label, icon, path }) => (
+            <Link to={path} onClick={closeSidebar} key={label}>
+              <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
+                {icon}
+                <span>{label}</span>
+              </button>
+            </Link>
+          ))}
 
           <button
             className="flex items-center gap-3 text-red-600 hover:text-red-800 hover:bg-red-100 px-3 py-2 rounded-md transition w-full"

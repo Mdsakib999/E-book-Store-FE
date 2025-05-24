@@ -9,28 +9,28 @@ import {
 } from "react-icons/fa";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { BiSolidCategory } from "react-icons/bi";
 import RelatedBooks from "../Components/RelatedBooks";
 import { useCurrency } from "../provider/CurrencyProvider";
 import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
+import useBookStore from "../Store/BookStore";
+import { useParams } from "react-router-dom";
 
 const BookDetails = () => {
-  const [quantity, setQuantity] = useState(1);
+  const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
-  const location = useLocation();
   const { currency, rates } = useCurrency();
+  const { book, fetchBookById, loading, error } = useBookStore();
+  console.log("Book ID:", id, "Fetched Book:", book);
 
-  const incrementQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
+  useEffect(() => {
+    fetchBookById(id);
+  }, [id, fetchBookById]);
 
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
+  if (loading) return <div className="p-4 text-center">Loading...</div>;
+  if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
+  if (!book) return <div className="p-4 text-center">Book not found</div>;
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -45,7 +45,7 @@ const BookDetails = () => {
           <div className="relative w-full max-w-xs">
             <img
               className="w-full h-auto max-h-96 object-cover rounded-md shadow-lg transform transition hover:scale-105 duration-300"
-              src={location.state?.image}
+              src={book?.image}
               alt="Book Cover"
             />
             <div className="absolute top-4 right-4">
@@ -69,7 +69,7 @@ const BookDetails = () => {
         <div className="md:w-3/5 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
           <div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              {location.state?.bookName}
+              {book.bookName}
             </h1>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-y-2 sm:gap-x-6 mb-4">
@@ -87,7 +87,7 @@ const BookDetails = () => {
                 <p className="text-md">
                   By{" "}
                   <span className="font-medium text-blue-600 hover:underline cursor-pointer">
-                    {location.state?.authorName}
+                    {book.authorName}
                   </span>
                 </p>
               </div>
@@ -96,22 +96,16 @@ const BookDetails = () => {
             <div className="flex items-center text-gray-600 mb-4">
               <BiSolidCategory className="mr-2" />
               <p className="text-md">
-                Genre:{" "}
-                <span className="font-medium">{location.state?.category}</span>
+                Genre: <span className="font-medium">{book.category}</span>
               </p>
             </div>
 
             <div className="mb-6">
               <p className="text-gray-700 leading-relaxed">
-                {location.state?.shortDescription}{" "}
+                {book.shortDescription}{" "}
               </p>
             </div>
-            <div className="mb-6">
-              <p className="text-gray-700 leading-relaxed font-serif font-semibold">
-                ISBN :{" "}
-                <span className="font-sans">{location.state?.ISBN} </span>
-              </p>
-            </div>
+            <div className="mb-6"></div>
 
             <div className="flex items-center text-gray-700 mb-4">
               <span className="font-bold text-xl text-blue-600 mr-2">
@@ -122,19 +116,14 @@ const BookDetails = () => {
                     {currency === "GBP" && <FaPoundSign />}
                   </span>
                   <span>
-                    {(location.state?.discountPrice * rates[currency]).toFixed(
-                      2
-                    )}
+                    {(book.discountPrice * rates[currency]).toFixed(2)}
                   </span>
                 </p>
               </span>
-              <span className="line-through text-gray-500">
-                ${location.state?.price}
-              </span>
+              <span className="line-through text-gray-500">${book.price}</span>
               <span className="ml-3 px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium">
                 {(
-                  ((location.state?.price - location.state?.discountPrice) /
-                    location.state?.price) *
+                  ((book.price - book.discountPrice) / book.price) *
                   100
                 ).toFixed(2)}
                 % OFF
@@ -144,24 +133,6 @@ const BookDetails = () => {
 
           <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className="flex items-center w-full sm:w-auto border border-gray-300 rounded-md overflow-hidden">
-                <button
-                  onClick={decrementQuantity}
-                  className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
-                >
-                  <FaMinus className="text-gray-600" />
-                </button>
-                <span className="px-4 py-2 flex-grow text-center font-medium min-w-[40px]">
-                  {quantity}
-                </span>
-                <button
-                  onClick={incrementQuantity}
-                  className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center cursor-pointer"
-                >
-                  <FaPlus className="text-gray-600" />
-                </button>
-              </div>
-
               <button className="w-full sm:w-auto flex items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors duration-200 cursor-pointer">
                 <FaShoppingCart className="mr-2" />
                 Add to Cart
@@ -185,11 +156,9 @@ const BookDetails = () => {
 
           <TabPanel className="p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
-              About {location.state?.bookName}
+              About {book.bookName}
             </h2>
-            <p className="text-gray-700 mb-4">
-              {location.state?.shortDescription}
-            </p>
+            <p className="text-gray-700 mb-4">{book.shortDescription}</p>
           </TabPanel>
 
           <TabPanel className="p-4 sm:p-6">

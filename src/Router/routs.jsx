@@ -14,6 +14,8 @@ import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUs
 import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
 import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
 import { ManageOrders } from "../Components/AdminDashBoardPageComponents/ManageOrders";
+import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
+import { NotFound } from "../Pages/NotFound/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +31,7 @@ export const router = createBrowserRouter([
         element: <AllBooks></AllBooks>,
       },
       {
-        path: "/allbooks/:id",
+        path: "/book/:id",
         element: <BookDetails></BookDetails>,
       },
       {
@@ -79,6 +81,10 @@ export const router = createBrowserRouter([
             element: <Addbooks />,
           },
           {
+            path: "manage-category",
+            element: <AddCategory />,
+          },
+          {
             path: "manage-books",
             element: <ManageBooks />,
           },
@@ -90,4 +96,5 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <NotFound /> },
 ]);
