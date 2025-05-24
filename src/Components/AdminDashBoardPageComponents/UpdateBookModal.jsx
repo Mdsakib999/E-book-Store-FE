@@ -3,11 +3,16 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import showToast from "../../Utils/ShowToast";
+import useBookStore from "../../Store/BookStore";
 
 const UpdateBookModal = ({ data, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [pdfPreview, setPdfPreview] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [removePdfFlag, setRemovePdfFlag] = useState(false);
+
+  const { updateBook, loading } = useBookStore();
   const {
     register,
     handleSubmit,
@@ -15,6 +20,7 @@ const UpdateBookModal = ({ data, onClose }) => {
     watch,
     formState: { errors },
   } = useForm();
+
   const description = watch("description", "");
 
   useEffect(() => {
@@ -24,19 +30,53 @@ const UpdateBookModal = ({ data, onClose }) => {
       setValue("author", data.authorName);
       setValue("price", data.price);
       setValue("discountPrice", data.discountPrice);
-      setValue("description", data.shortDescription);
+      setValue("description", data.description);
       setImagePreview(data.image);
+
+      const pdf = data.pdf;
+      setPdfPreview(pdf);
+      setRemovePdfFlag(false);
     }
   }, [data, setValue]);
 
-  const onSubmit = (formData) => {
-    const updatedBook = {
-      ...formData,
-      image: selectedImage || data.image,
-    };
+  const onSubmit = async (formData) => {
+    const updatedForm = new FormData();
+    updatedForm.append("bookName", formData.title);
+    updatedForm.append("authorName", formData.author);
+    updatedForm.append("price", formData.price);
+    updatedForm.append("discountPrice", formData.discountPrice);
+    updatedForm.append("description", formData.description);
+    updatedForm.append("category", formData.category);
 
-    showToast("Success", "Book updated successfully!", "success");
-    onClose();
+    if (!imagePreview && !selectedImage) {
+      updatedForm.append("removeImage", "true");
+    }
+
+    if (removePdfFlag && !selectedBook) {
+      updatedForm.append("removePdf", "true");
+    }
+
+    if (selectedImage) {
+      updatedForm.append("cover", selectedImage);
+    }
+
+    if (selectedBook) {
+      updatedForm.append("pdf", selectedBook);
+    }
+
+    try {
+      await updateBook(data._id, updatedForm);
+      showToast({
+        title: "Book updated successfully!",
+        icon: "success",
+      });
+      onClose();
+    } catch (error) {
+      showToast({
+        title: "Failed to update book.",
+        icon: "error",
+      });
+    }
   };
 
   const handleImageChange = (e) => {
@@ -46,13 +86,21 @@ const UpdateBookModal = ({ data, onClose }) => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
+
   const handleBookChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setSelectedBook(file);
-      showToast("Success", "Book file selected successfully.", "success");
+      setRemovePdfFlag(false);
+      showToast({
+        title: "Book file selected successfully.",
+        icon: "success",
+      });
     } else {
-      showToast("Error", "Please select a PDF file.", "error");
+      showToast({
+        title: "Please select a PDF file.",
+        icon: "error",
+      });
     }
   };
 
@@ -61,10 +109,21 @@ const UpdateBookModal = ({ data, onClose }) => {
     setImagePreview(null);
   };
 
+  const handleRemovePdf = () => {
+    setSelectedBook(null);
+    setPdfPreview(null); // Also clear the PDF preview
+    setRemovePdfFlag(true);
+  };
+
+  // Helper function to extract filename from URL
+  const getFileNameFromUrl = (url) => {
+    if (!url) return "Unknown file";
+    return url.split("/").pop() || url;
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10">
       <div className="bg-white w-full max-w-3xl rounded-lg p-6 shadow-lg relative">
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-2 right-3 text-xl font-bold text-gray-600 hover:text-red-500"
@@ -90,10 +149,80 @@ const UpdateBookModal = ({ data, onClose }) => {
               <button
                 type="button"
                 onClick={handleRemoveImage}
-                className="absolute top-2 right-2 bg-orange-500 text-white p-2 rounded-full hover:bg-red-600"
+                className="absolute top-8 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
               >
                 <IoTrashOutline />
               </button>
+            </div>
+          )}
+
+          {/* PDF Preview - Fixed */}
+          {pdfPreview && !removePdfFlag && (
+            <div className="relative bg-gray-100 p-4 rounded-lg border">
+              <label className="font-semibold text-gray-700 block mb-2">
+                Current Book PDF
+              </label>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <svg
+                    className="w-6 h-6 text-red-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-sm text-gray-600 truncate max-w-xs">
+                    {getFileNameFromUrl(pdfPreview)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleRemovePdf}
+                  className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 ml-2"
+                  title="Remove PDF"
+                >
+                  <IoTrashOutline />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Selected Book Preview */}
+          {selectedBook && (
+            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+              <label className="font-semibold text-green-700 block mb-2">
+                New Book PDF Selected
+              </label>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <svg
+                    className="w-6 h-6 text-green-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-sm text-green-600 truncate max-w-xs">
+                    {selectedBook.name}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBook(null)}
+                  className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 ml-2"
+                  title="Remove selected PDF"
+                >
+                  <IoTrashOutline />
+                </button>
+              </div>
             </div>
           )}
 
@@ -124,14 +253,8 @@ const UpdateBookModal = ({ data, onClose }) => {
                 htmlFor="book"
                 className="btn bg-black text-white py-3 px-2 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
               >
-                {selectedBook ? (
-                  selectedBook.name
-                ) : (
-                  <>
-                    <IoCloudUploadOutline />
-                    Upload Book
-                  </>
-                )}
+                <IoCloudUploadOutline />
+                {selectedBook ? "Replace Book" : "Upload Book"}
               </label>
 
               <input
@@ -148,7 +271,6 @@ const UpdateBookModal = ({ data, onClose }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Category */}
             <div>
               <label className="font-semibold">Category</label>
               <input
@@ -161,7 +283,7 @@ const UpdateBookModal = ({ data, onClose }) => {
                 </p>
               )}
             </div>
-            {/* Title */}
+
             <div>
               <label className="font-semibold">Title</label>
               <input
@@ -169,7 +291,7 @@ const UpdateBookModal = ({ data, onClose }) => {
                 className="border-gray-600 border w-full h-12 bg-white text-black p-3"
               />
             </div>
-            {/* Author */}
+
             <div>
               <label className="font-semibold">Author</label>
               <input
@@ -177,7 +299,7 @@ const UpdateBookModal = ({ data, onClose }) => {
                 className="border-gray-600 border w-full h-12 bg-white text-black p-3"
               />
             </div>
-            {/* Price */}
+
             <div>
               <label className="font-semibold">Price</label>
               <input
@@ -187,7 +309,7 @@ const UpdateBookModal = ({ data, onClose }) => {
                 className="border-gray-600 border w-full h-12 bg-white text-black p-3"
               />
             </div>
-            {/* Discount Price */}
+
             <div>
               <label className="font-semibold">Discount Price</label>
               <input
@@ -198,7 +320,7 @@ const UpdateBookModal = ({ data, onClose }) => {
               />
             </div>
           </div>
-          {/* Description */}
+
           <label htmlFor="description" className="font-semibold text-gray-700">
             Description
           </label>
@@ -217,12 +339,10 @@ const UpdateBookModal = ({ data, onClose }) => {
           <p className="text-sm text-gray-500 text-right">
             {description.length}/300 characters
           </p>
-
           {errors.description && (
             <p className="text-red-500 text-sm">{errors.description.message}</p>
           )}
 
-          {/* Actions */}
           <div className="flex justify-end gap-3 pt-4">
             <button
               type="button"
@@ -233,9 +353,10 @@ const UpdateBookModal = ({ data, onClose }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-2 py-3 lg:w-1/3 flex items-center justify-center gap-2 cursor-pointer my-3"
+              disabled={loading}
+              className="bg-blue-500 text-white px-2 py-3 lg:w-1/3 flex items-center justify-center gap-2 cursor-pointer my-3 disabled:bg-blue-300"
             >
-              Save Changes
+              {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>

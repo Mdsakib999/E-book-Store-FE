@@ -21,9 +21,7 @@ const useBookStore = create((set) => ({
 	},
 
 	// Fetch book by ID
-
 	fetchBookById: async (id) => {
-		console.log("Fetching book with ID:", id); //
 		set({ loading: true, error: null });
 		try {
 			const response = await axiosInstance.get(`book/${id}`);

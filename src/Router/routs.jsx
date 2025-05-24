@@ -35,16 +35,16 @@ export const router = createBrowserRouter([
 				element: <AllBooks></AllBooks>,
 			},
 			{
-				path: "allbooks/:id",
-				element: <BookDetails></BookDetails>,
-			},
-			{
 				path: "/contact",
 				element: <Contact></Contact>,
 			},
 			{
 				path: "/about",
 				element: <About></About>,
+			},
+			{
+				path: "/book/:id",
+				element: <BookDetails></BookDetails>,
 			},
 			{
 				path: "/signin",
