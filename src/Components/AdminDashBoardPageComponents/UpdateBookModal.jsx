@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
@@ -35,7 +36,7 @@ const UpdateBookModal = ({ data, onClose }) => {
     };
 
     showToast("Success", "Book updated successfully!", "success");
-    onClose(); // Close the modal
+    onClose();
   };
 
   const handleImageChange = (e) => {

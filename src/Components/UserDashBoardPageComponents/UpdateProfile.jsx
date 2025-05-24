@@ -40,10 +40,10 @@ export const UpdateProfile = () => {
         <div className="absolute -bottom-32 md:-bottom-24  lg:-bottom-24 md:left-1/3 lg:left-4 left-1/2 transform -translate-x-1/2 lg:translate-0  flex flex-col md:flex-row items-center  space-y-2 md:gap-3">
           <img
             src={
-              user?.reloadUserInfo?.photoUrl.trim() ||
+              user?.photoURL ||
               "https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
             }
-            alt={`${user?.reloadUserInfo?.displayName || "User"}'s avatar`}
+            alt={`${user?.displayName || "User"}'s avatar`}
             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover shadow-md"
           />
 
