@@ -6,6 +6,7 @@ import {
   FaStar,
   FaHeart,
 } from "react-icons/fa";
+import { renderStars } from "../../Utils/renderStars";
 
 export const SellCard = ({
   item,
@@ -69,9 +70,10 @@ export const SellCard = ({
                 {(price * rates[currency]).toFixed(2)}
               </span>
             </p>
-            <span className="flex items-center gap-1">
-              {rating} <FaStar className="text-yellow-500 text-xs" />
-            </span>
+            <div className="flex">
+              {renderStars(rating)}
+              <span className="ml-2 text-gray-600 text-sm">({rating}/5)</span>
+            </div>
           </div>
         </div>
 

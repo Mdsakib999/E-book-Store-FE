@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import showToast from "../../Utils/ShowToast";
 import useBookStore from "../../Store/BookStore";
+import useCategoryStore from "../../Store/CategoryStore";
 
 export const Addbooks = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
   const { createBook, loading } = useBookStore();
+  const { categories, fetchCategories } = useCategoryStore();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   const {
     register,
     handleSubmit,
@@ -117,16 +124,17 @@ export const Addbooks = () => {
               className="border-gray-600 border w-full h-12 bg-white text-black p-3"
             >
               <option value="">Select a category</option>
-              <option value="fiction">Fiction</option>
-              <option value="non-fiction">Non-Fiction</option>
-              <option value="history">History</option>
-              <option value="science">Science</option>
-              <option value="biography">Biography</option>
+              {categories.map((category) => (
+                <option key={category._id} value={category.categoryName}>
+                  {category.name}
+                </option>
+              ))}
             </select>
 
             {errors.category && (
               <p className="text-red-500 text-sm">{errors.category.message}</p>
             )}
+
             {/* Book Title */}
             <label htmlFor="title" className="font-semibold text-gray-700">
               Book Title
