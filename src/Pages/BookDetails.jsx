@@ -1,25 +1,19 @@
-import {
-  FaStar,
-  FaStarHalfAlt,
-  FaMinus,
-  FaPlus,
-  FaShoppingCart,
-  FaUser,
-  FaHeart,
-} from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSolidCategory } from "react-icons/bi";
 import RelatedBooks from "../Components/RelatedBooks";
 import { useCurrency } from "../provider/CurrencyProvider";
 import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 import useBookStore from "../Store/BookStore";
 import { useParams } from "react-router-dom";
+import { renderStars } from "../Utils/renderStars";
+import showToast from "../Utils/ShowToast";
 
 const BookDetails = () => {
   const { id } = useParams();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useState({});
   const { currency, rates } = useCurrency();
   const { book, fetchBookById, loading, error } = useBookStore();
   console.log("Book ID:", id, "Fetched Book:", book);
@@ -28,12 +22,29 @@ const BookDetails = () => {
     fetchBookById(id);
   }, [id, fetchBookById]);
 
-  if (loading) return <div className="p-4 text-center">Loading...</div>;
+  // if (loading) return <div className="p-4 text-center">Loading...</div>;
   if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
   if (!book) return <div className="p-4 text-center">Book not found</div>;
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const toggleFavorite = (bookId) => {
+    const isFav = favorites[bookId];
+    const updatedFavorites = {
+      ...favorites,
+      [bookId]: !isFav,
+    };
+    setFavorites(updatedFavorites);
+    showToast({
+      title: !isFav
+        ? "Product added to favorites"
+        : "Product removed from favorites",
+      icon: "success",
+    });
+  };
+  const handleAddToCart = (item) => {
+    showToast({
+      title: `Added "${item.bookName}" to cart!`,
+      icon: "success",
+    });
   };
 
   return (
@@ -50,16 +61,11 @@ const BookDetails = () => {
             />
             <div className="absolute top-4 right-4">
               <button
-                onClick={toggleFavorite}
-                className={`rounded-full p-2 ${
-                  isFavorite
-                    ? "bg-red-50 text-red-500"
-                    : "bg-gray-100 text-gray-400"
-                } hover:bg-red-100 transition-colors duration-200`}
+                onClick={() => toggleFavorite(book.id)}
+                className="rounded-full p-2 
+                   hover:bg-red-100 transition-colors duration-200"
               >
-                <FaHeart
-                  className={`${isFavorite ? "text-red-500" : "text-gray-400"}`}
-                />
+                <FaHeart className="w-6 h-6 text-red-500" />
               </button>
             </div>
           </div>
@@ -73,13 +79,11 @@ const BookDetails = () => {
             </h1>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-y-2 sm:gap-x-6 mb-4">
-              <div className="flex items-center text-yellow-400">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStarHalfAlt />
-                <span className="ml-2 text-gray-600 text-sm">(4.5/5)</span>
+              <div className="flex items-center">
+                <div className="flex">{renderStars(book.rating)}</div>
+                <span className="ml-2 text-gray-600 text-sm">
+                  ({book.rating}/5)
+                </span>
               </div>
 
               <div className="flex items-center text-gray-600">
@@ -133,7 +137,10 @@ const BookDetails = () => {
 
           <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button className="w-full sm:w-auto flex items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors duration-200 cursor-pointer">
+              <button
+                className="w-full sm:w-auto flex items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors duration-200 cursor-pointer"
+                onClick={() => handleAddToCart(book)}
+              >
                 <FaShoppingCart className="mr-2" />
                 Add to Cart
               </button>
@@ -168,13 +175,13 @@ const BookDetails = () => {
 
             <div className="border-b border-gray-200 pb-4 mb-4">
               <div className="flex flex-wrap items-center mb-2">
-                <div className="flex text-yellow-400 mr-2">
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
+                <div className="flex items-center">
+                  <div className="flex">{renderStars(book.rating)}</div>
+                  <span className="ml-2 text-gray-600 text-sm">
+                    ({book.rating}/5)
+                  </span>
                 </div>
+
                 <span className="font-medium">John D.</span>
                 <span className="mx-2 text-gray-400">•</span>
                 <span className="text-sm text-gray-500">June 12, 2023</span>
@@ -189,13 +196,13 @@ const BookDetails = () => {
 
             <div className="border-b border-gray-200 pb-4 mb-4">
               <div className="flex flex-wrap items-center mb-2">
-                <div className="flex text-yellow-400 mr-2">
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStarHalfAlt />
+                <div className="flex items-center">
+                  <div className="flex">{renderStars(book.rating)}</div>
+                  <span className="ml-2 text-gray-600 text-sm">
+                    ({book.rating}/5)
+                  </span>
                 </div>
+
                 <span className="font-medium">Maria S.</span>
                 <span className="mx-2 text-gray-400">•</span>
                 <span className="text-sm text-gray-500">April 3, 2023</span>
@@ -209,13 +216,13 @@ const BookDetails = () => {
 
             <div>
               <div className="flex flex-wrap items-center mb-2">
-                <div className="flex text-yellow-400 mr-2">
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
+                <div className="flex items-center">
+                  <div className="flex">{renderStars(book.rating)}</div>
+                  <span className="ml-2 text-gray-600 text-sm">
+                    ({book.rating}/5)
+                  </span>
                 </div>
+
                 <span className="font-medium">Robert L.</span>
                 <span className="mx-2 text-gray-400">•</span>
                 <span className="text-sm text-gray-500">February 19, 2023</span>

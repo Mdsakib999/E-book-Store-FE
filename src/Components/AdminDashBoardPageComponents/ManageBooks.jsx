@@ -1,15 +1,29 @@
 /* eslint-disable */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UpdateBookModal from "./UpdateBookModal";
 import showToast from "../../Utils/ShowToast";
-import booksData from "../../assets/bookData.json";
+import { useCurrency } from "../../provider/CurrencyProvider";
+import useBookStore from "../../Store/BookStore";
 
 export const ManageBooks = () => {
-  const [books, setBooks] = useState(booksData);
+  const { currency, rates } = useCurrency();
+  const { books, fetchBooks, setBooks } = useBookStore();
+  console.log(books);
+
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetchBooks().catch((error) => {
+      showToast({
+        title: "Error",
+        text: `Failed to fetch books. ${error.message}`,
+        icon: "error",
+      });
+    });
+  }, [fetchBooks]);
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
@@ -22,21 +36,45 @@ export const ManageBooks = () => {
     });
 
     if (result.isConfirmed) {
-      const updatedBooks = books.filter((book) => book.id !== id);
-      setBooks(updatedBooks);
-      showToast("Success", "Book deleted successfully!", "success");
+      try {
+        // Optional: call API to delete book here
+        const updatedBooks = books.filter((book) => book.id !== id);
+        setBooks(updatedBooks);
+        showToast({
+          title: "Deleted",
+          text: "Book deleted successfully!",
+          icon: "success",
+        });
+      } catch (error) {
+        showToast({
+          title: "Error",
+          text: `Failed to delete book. ${error.message}`,
+          icon: "error",
+        });
+      }
     }
   };
 
   const handleUpdate = (updatedBook) => {
-    const updatedList = books.map((book) =>
-      book.id === updatedBook.id ? updatedBook : book
-    );
-    setBooks(updatedList);
-    showToast("Success", "Book updated successfully!", "success");
+    try {
+      const updatedList = books.map((book) =>
+        book.id === updatedBook.id ? updatedBook : book
+      );
+      setBooks(updatedList);
+      showToast({
+        title: "Updated",
+        text: "Book updated successfully!",
+        icon: "success",
+      });
+    } catch (error) {
+      showToast({
+        title: "Error",
+        text: `Failed to update book. ${error.message}`,
+        icon: "error",
+      });
+    }
   };
 
-  // Filtered books based on search
   const filteredBooks = books.filter((book) =>
     `${book.bookName} ${book.authorName}`
       .toLowerCase()
@@ -45,11 +83,10 @@ export const ManageBooks = () => {
 
   return (
     <div className="px-4 md:px-8 lg:px-16 py-6">
-      <h1 className="text-2xl md:text-4xl text-center font-bold bg-primary text-black py-4 px-6 ">
+      <h1 className="text-2xl md:text-4xl text-center font-bold bg-primary text-black py-4 px-6">
         Manage All Books
       </h1>
 
-      {/* Search bar */}
       <div className="flex justify-end">
         <div className="relative my-5 place-items-end">
           <input
@@ -62,11 +99,12 @@ export const ManageBooks = () => {
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
       </div>
+
       {filteredBooks.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredBooks.map((book) => (
             <div
-              key={book.id}
+              key={book._id}
               className="card bg-base-200 shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden"
             >
               <figure className="relative h-40 w-full overflow-hidden">
@@ -91,13 +129,11 @@ export const ManageBooks = () => {
                     </span>
                   )}
                 </p>
-                <p className="text-gray-600 text-sm mb-2">
-                  <strong>Available:</strong>{" "}
-                  {book.availability ? "In Stock" : "Out of Stock"}
-                </p>
+
                 <p className="text-gray-600 text-sm line-clamp-3">
-                  {book.shortDescription}
+                  {book.description}
                 </p>
+                <p className="text-gray-600 text-sm line-clamp-3">{book.pdf}</p>
 
                 <div className="flex mt-4 space-x-4">
                   <button
@@ -127,6 +163,7 @@ export const ManageBooks = () => {
         <UpdateBookModal
           data={selectedBook}
           onClose={() => setSelectedBook(null)}
+          onUpdate={handleUpdate}
         />
       )}
     </div>
