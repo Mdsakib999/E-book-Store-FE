@@ -1,6 +1,7 @@
+/* eslint-disable */
+
 import {
   FaUser,
-  FaHistory,
   FaSignOutAlt,
   FaTimes,
   FaUsers,

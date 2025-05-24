@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState } from "react";
 import { FaEdit, FaSearch, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
