@@ -1,14 +1,14 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import showToast from "../../Utils/ShowToast";
+import useBookStore from "../../Store/BookStore";
 
 export const Addbooks = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
-
+  const { createBook, loading } = useBookStore();
   const {
     register,
     handleSubmit,
@@ -16,14 +16,46 @@ export const Addbooks = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const description = watch("description", "");
-  const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("author", data.author);
 
-    if (selectedImage) {
-      formData.append("cover", selectedImage); // ✅ Changed from "image" to "cover"
+  const description = watch("description", "");
+
+  const onSubmit = async (data) => {
+    if (!selectedBook) {
+      showToast({
+        title: "Error",
+        text: "Please select a PDF file.",
+        icon: "error",
+      });
+      return;
+    }
+
+    const bookData = {
+      bookName: data.title,
+      authorName: data.author,
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      image: selectedImage,
+      pdf: selectedBook,
+    };
+
+    try {
+      await createBook(bookData);
+      showToast({
+        title: "Success",
+        text: "Book created successfully!",
+        icon: "success",
+      });
+      reset();
+      setSelectedImage(null);
+      setImagePreview(null);
+      setSelectedBook(null);
+    } catch (error) {
+      showToast({
+        title: "Error",
+        text: `Failed to create book. Please try again. ${error.message}`,
+        icon: "error",
+      });
     }
   };
 
@@ -33,7 +65,11 @@ export const Addbooks = () => {
       setSelectedImage(file);
       setImagePreview(URL.createObjectURL(file));
     } else {
-      showToast("Error", "Please select a valid image file.", "error");
+      showToast({
+        title: "Error",
+        text: "Please select a valid image file.",
+        icon: "error",
+      });
     }
   };
 
@@ -41,9 +77,17 @@ export const Addbooks = () => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setSelectedBook(file);
-      showToast("Success", "Book file selected successfully.", "success");
+      showToast({
+        title: "Success",
+        text: "Book file selected successfully.",
+        icon: "success",
+      });
     } else {
-      showToast("Error", "Please select a PDF file.", "error");
+      showToast({
+        title: "Error",
+        text: "Please select a PDF file.",
+        icon: "error",
+      });
     }
   };
 
@@ -65,13 +109,21 @@ export const Addbooks = () => {
             <label htmlFor="category" className="font-semibold text-gray-700">
               Category
             </label>
-            <input
+            <select
               id="category"
-              type="text"
-              placeholder="Enter book category"
-              {...register("isbn", { required: "Book category is required" })}
+              {...register("category", {
+                required: "Book category is required",
+              })}
               className="border-gray-600 border w-full h-12 bg-white text-black p-3"
-            />
+            >
+              <option value="">Select a category</option>
+              <option value="fiction">Fiction</option>
+              <option value="non-fiction">Non-Fiction</option>
+              <option value="history">History</option>
+              <option value="science">Science</option>
+              <option value="biography">Biography</option>
+            </select>
+
             {errors.category && (
               <p className="text-red-500 text-sm">{errors.category.message}</p>
             )}
@@ -229,8 +281,9 @@ export const Addbooks = () => {
           <button
             type="submit"
             className="btn bg-orange-500 px-8 py-2 text-white"
+            disabled={loading}
           >
-            Add Book
+            {loading ? "Adding..." : "Add Book"}
           </button>
         </div>
       </form>

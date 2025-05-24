@@ -21,7 +21,6 @@ const useBookStore = create((set) => ({
   },
 
   // Fetch book by ID
-
   fetchBookById: async (id) => {
     set({ loading: true, error: null });
     try {

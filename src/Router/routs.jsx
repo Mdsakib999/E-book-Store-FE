@@ -14,13 +14,17 @@ import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUs
 import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
 import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
 import { ManageOrders } from "../Components/AdminDashBoardPageComponents/ManageOrders";
-import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
+import ErrorPage from "../Pages/ErrorPage";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 import { NotFound } from "../Pages/NotFound/NotFound";
+import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -29,6 +33,14 @@ export const router = createBrowserRouter([
       {
         path: "/allbooks",
         element: <AllBooks></AllBooks>,
+      },
+      {
+        path: "/contact",
+        element: <Contact></Contact>,
+      },
+      {
+        path: "/about",
+        element: <About></About>,
       },
       {
         path: "/book/:id",
