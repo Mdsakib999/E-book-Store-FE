@@ -22,6 +22,7 @@ import { useCurrency } from "../../../provider/CurrencyProvider";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/allbooks", label: "E-books" },
+  { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -309,7 +310,7 @@ const Navbar = () => {
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 rounded-full py-2 pl-8 pr-3 text-sm font-semibold text-gray-700 focus:outline-none focus:border-gray-400 w-full cursor-pointer"
+                  className="appearance-none bg-black border text-white border-gray-300 rounded-full py-2 pl-8 pr-3 text-sm font-semibold focus:outline-none focus:border-gray-400 w-full cursor-pointer"
                   style={{ backgroundPosition: "right 0.5rem center" }}
                 >
                   {currencyOptions.map((opt) => (
@@ -384,7 +385,7 @@ const Navbar = () => {
                   <ul className="absolute mt-2 bg-white border border-gray-300 rounded-md w-full max-h-60 overflow-y-auto shadow-lg z-50">
                     {filteredBooks.map((book) => (
                       <li
-                        key={book._id}
+                        key={book.id}
                         onClick={() => handleSuggestionClick(book.id, book)}
                         className="flex items-center gap-4 px-4 py-2 cursor-pointer hover:bg-gray-100"
                       >

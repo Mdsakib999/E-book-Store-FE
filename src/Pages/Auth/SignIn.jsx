@@ -15,8 +15,9 @@ const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm();
-  const { signIn, googleSignIn, user } = useAuth();
+  const { signIn, googleSignIn, user, forgotPassword } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,27 @@ const SignIn = () => {
       navigate("/");
     }
   }, [user, navigate]);
+
+  const handleResetPassword = async () => {
+    const email = getValues("email");
+    if (!email) {
+      return toast.error(
+        <h1 className="font-serif">Please enter your email first</h1>
+      );
+    }
+    setIsLoading(true);
+    try {
+      await forgotPassword(email);
+      toast.success(
+        <h1 className="font-serif">Password reset email sent successfully!</h1>
+      );
+    } catch (error) {
+      console.error("Password reset error:", error);
+      toast.error(<h1 className="font-serif">Failed to send reset email</h1>);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -36,7 +58,6 @@ const SignIn = () => {
       console.log(error);
       let errorMessage = "Failed to sign in";
       if (error.code === "auth/user-not-found") {
-        errorMessage = "No user found with this email";
       } else if (error.code === "auth/wrong-password") {
         errorMessage = "Incorrect password";
       } else if (error.code === "auth/invalid-email") {
@@ -177,6 +198,7 @@ const SignIn = () => {
 
           <div className="flex items-center justify-end">
             <button
+              onClick={handleResetPassword}
               type="button"
               className="cursor-pointer text-sm font-medium text-black hover:text-blue-500 focus:outline-none"
             >
