@@ -9,7 +9,6 @@ import PrivateRoute from "./PrivateRoute";
 import { UserDashboard } from "../Pages/DashBoard/UserDashBoard/UserDashboard";
 import { UpdateProfile } from "../Components/UserDashBoardPageComponents/UpdateProfile";
 import { OrderHistory } from "../Components/UserDashBoardPageComponents/OrderHistory";
-import { AdminDashBoard } from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
 import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUsers";
 import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
 import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
@@ -19,32 +18,34 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
+import { AdminRoute } from "./AdminRoute";
+import { AdminDashBoard } from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App></App>,
-    errorElement: <ErrorPage></ErrorPage>,
+    element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: <Home />,
       },
       {
         path: "/allbooks",
-        element: <AllBooks></AllBooks>,
+        element: <AllBooks />,
       },
       {
         path: "/contact",
-        element: <Contact></Contact>,
+        element: <Contact />,
       },
       {
         path: "/about",
-        element: <About></About>,
+        element: <About />,
       },
       {
         path: "/book/:id",
-        element: <BookDetails></BookDetails>,
+        element: <BookDetails />,
       },
       {
         path: "/signin",
@@ -54,57 +55,64 @@ export const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp />,
       },
+    ],
+  },
+  // Private Routes
+
+  // User Dashboard
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <UserDashboard />
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute>
-            <UserDashboard />
-          </PrivateRoute>
-        ),
-        children: [
-          {
-            path: "",
-            element: <UpdateProfile />,
-          },
-          {
-            path: "order",
-            element: <OrderHistory />,
-          },
-        ],
+        path: "",
+        element: <UpdateProfile />,
       },
       {
-        path: "/admin/dashboard",
-        element: (
-          <PrivateRoute>
-            <AdminDashBoard />
-          </PrivateRoute>
-        ),
-        children: [
-          {
-            path: "",
-            element: <UpdateProfile />,
-          },
-          {
-            path: "manage-users",
-            element: <ManageUsers />,
-          },
-          {
-            path: "add-books",
-            element: <Addbooks />,
-          },
-          {
-            path: "manage-category",
-            element: <AddCategory />,
-          },
-          {
-            path: "manage-books",
-            element: <ManageBooks />,
-          },
-          {
-            path: "manage-orders",
-            element: <ManageOrders />,
-          },
-        ],
+        path: "order",
+        element: <OrderHistory />,
+      },
+    ],
+  },
+
+  // Admin Dashboard
+  {
+    path: "/admin/dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminRoute>
+          <AdminDashBoard />
+        </AdminRoute>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <UpdateProfile />,
+      },
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "add-books",
+        element: <Addbooks />,
+      },
+      {
+        path: "manage-category",
+        element: <AddCategory />,
+      },
+      {
+        path: "manage-books",
+        element: <ManageBooks />,
+      },
+      {
+        path: "manage-orders",
+        element: <ManageOrders />,
       },
     ],
   },

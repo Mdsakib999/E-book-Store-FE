@@ -1,10 +1,11 @@
-import { FaHeart, FaStar } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";
 import { useCurrency } from "../../provider/CurrencyProvider";
 import useBookStore from "../../Store/BookStore";
 import showToast from "../../Utils/ShowToast";
+import { renderStars } from "../../Utils/renderStars";
 
 export const FeaturedBooks = () => {
   const { books, fetchBooks } = useBookStore();
@@ -71,20 +72,10 @@ export const FeaturedBooks = () => {
             return (
               <Link
                 key={item._id}
-                to={`/allbooks/${item._id}`}
+                to={`/book/${item._id}`}
                 state={item}
                 className="relative group bg-white  rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300"
               >
-                {/* Out of Stock Seal */}
-                {item?.availability === false && (
-                  <div className="absolute right-0 top-0 z-0">
-                    <div className="bg-red-600 text-white text-xs font-medium py-1 px-4 rounded-bl-md shadow-lg transform rotate-0 flex items-center justify-center">
-                      <span className="tracking-wider uppercase">
-                        Out of Stock
-                      </span>
-                    </div>
-                  </div>
-                )}
                 {/* Image */}
                 <div className="lg:aspect-[3/4] overflow-hidden">
                   <img
@@ -127,27 +118,25 @@ export const FeaturedBooks = () => {
                         {(item.price * rates[currency]).toFixed(2)}
                       </span>
                     </p>
-                    <p className="flex items-center text-sm text-gray-500 ">
-                      {item.rating} <FaStar className="ml-1 text-yellow-500" />
-                    </p>
+                  </div>
+                  <div className="flex">
+                    {renderStars(item.rating)}
+                    <span className="ml-2 text-gray-600 text-sm">
+                      ({item.rating}/5)
+                    </span>
                   </div>
 
                   {/* Actions */}
                   <div className="flex justify-between items-center mt-2">
                     <button
-                      className={`text-sm font-medium px-3 py-1 rounded  ${
-                        item.availability
-                          ? "cursor-pointer text-sm sm:text-md bg-black hover:bg-white hover:border hover:text-black duration-300 px-3 py-1.5 rounded text-white"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-white hover:border duration-300"
-                      }`}
-                      disabled={!item.availability}
+                      className="font-medium cursor-pointer text-sm sm:text-md bg-black hover:bg-white hover:border hover:text-black duration-300 px-3 py-1.5 rounded text-white"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         handleAddToCart(item);
                       }}
                     >
-                      {item.availability ? "Add to Cart" : "Out of Stock"}
+                      Add to Cart
                     </button>
 
                     <button
