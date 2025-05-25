@@ -6,7 +6,7 @@ import SignUp from "../Pages/Auth/SignUp";
 import BookDetails from "../Pages/BookDetails";
 import AllBooks from "../Pages/AllBooks";
 import PrivateRoute from "./PrivateRoute";
-import { UserDashboard } from "../Pages/DashBoard/UserDashBoard/UserDashboard";
+import { Dashboard } from "../Pages/DashBoard/Dashboard";
 import { UpdateProfile } from "../Components/UserDashBoardPageComponents/UpdateProfile";
 import { OrderHistory } from "../Components/UserDashBoardPageComponents/OrderHistory";
 import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUsers";
@@ -19,7 +19,6 @@ import Contact from "../Pages/Contact";
 import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 import { AdminRoute } from "./AdminRoute";
-import { AdminDashBoard } from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
 
 export const router = createBrowserRouter([
   {
@@ -64,7 +63,7 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <PrivateRoute>
-        <UserDashboard />
+        <Dashboard />
       </PrivateRoute>
     ),
     children: [
@@ -81,11 +80,11 @@ export const router = createBrowserRouter([
 
   // Admin Dashboard
   {
-    path: "/admin/dashboard",
+    path: "/dashboard",
     element: (
       <PrivateRoute>
         <AdminRoute>
-          <AdminDashBoard />
+          <Dashboard />
         </AdminRoute>
       </PrivateRoute>
     ),

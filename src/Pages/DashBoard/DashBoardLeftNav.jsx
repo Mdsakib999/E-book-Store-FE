@@ -19,32 +19,32 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
     {
       label: "Profile",
       icon: <FaUser size={20} />,
-      path: "/admin/dashboard",
+      path: "/dashboard",
     },
     {
       label: "Manage Users",
       icon: <FaUsers size={20} />,
-      path: "/admin/dashboard/manage-users",
+      path: "/dashboard/manage-users",
     },
     {
       label: "Add Book",
       icon: <MdLibraryAdd size={20} />,
-      path: "/admin/dashboard/add-books",
+      path: "/dashboard/add-books",
     },
     {
       label: "Manage Category",
       icon: <MdLibraryAdd size={20} />,
-      path: "/admin/dashboard/manage-category",
+      path: "/dashboard/manage-category",
     },
     {
       label: "Manage Books",
       icon: <FaBook size={20} />,
-      path: "/admin/dashboard/manage-books",
+      path: "/dashboard/manage-books",
     },
     {
       label: "Manage Orders",
       icon: <FaClipboardList size={20} />,
-      path: "/admin/dashboard/manage-orders",
+      path: "/dashboard/manage-orders",
     },
   ];
 
@@ -52,7 +52,7 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
     {
       label: "Profile",
       icon: <FaUser size={20} />,
-      path: "/admin/dashboard",
+      path: "/dashboard",
     },
     {
       label: "Order History",

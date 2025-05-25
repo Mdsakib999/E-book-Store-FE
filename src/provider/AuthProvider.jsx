@@ -77,7 +77,6 @@ const AuthProvider = ({ children }) => {
         try {
           const result = await axiosInstance.get(`auth/${currentUser.uid}`);
           const userData = result.data;
-          localStorage.setItem("user", JSON.stringify(userData));
           setRole(userData.role);
         } catch (err) {
           console.error("Failed to fetch user data:", err);
