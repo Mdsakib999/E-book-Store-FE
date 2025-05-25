@@ -11,13 +11,13 @@ import {
 } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { useAuth } from "../../../provider/AuthProvider";
-import { IoMdMail } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AiOutlineLogout } from "react-icons/ai";
 import booksData from "../../../assets/bookData.json";
 import { FaDollarSign, FaEuroSign, FaPoundSign } from "react-icons/fa";
 import { useCurrency } from "../../../provider/CurrencyProvider";
+import { useCart } from "../../../provider/CartProvider";
 
 const navLinks = [
 	{ to: "/", label: "Home" },
@@ -66,17 +66,16 @@ const currencyOptions = [
 
 const Navbar = () => {
 	const [navOpen, setNavOpen] = useState(false);
-	const [cartData, setCartData] = useState([]);
 	const [showMobileNav, setShowMobileNav] = useState(false);
 	const [lastScrollY, setLastScrollY] = useState(0);
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-	const [books, setBooks] = useState(booksData);
 	const [filteredBooks, setFilteredBooks] = useState([]);
 	const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 	const { currency, setCurrency } = useCurrency();
 	const profileRef = useRef();
 	const { user, logout } = useAuth();
+	const { cartItems } = useCart();
 
 	const navigate = useNavigate();
 
@@ -216,12 +215,14 @@ const Navbar = () => {
 								className="text-3xl text-black cursor-pointer"
 								onClick={toggleSearch}
 							/>
-							<div className="relative cursor-pointer">
-								<span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
-									{cartData?.length || 0}
-								</span>
-								<IoCart size={30} className="text-black" />
-							</div>
+							<Link to="/cart">
+								<div className="relative cursor-pointer">
+									<span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+										{cartItems?.length || 0}
+									</span>
+									<IoCart size={30} className="text-black" />
+								</div>
+							</Link>
 							{user ? (
 								<div className="relative" ref={profileRef}>
 									<button

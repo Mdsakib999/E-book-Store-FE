@@ -212,12 +212,7 @@ const AllBooks = () => {
 			icon: "success",
 		});
 	};
-	const handleAddToCart = (item) => {
-		showToast({
-			title: `Added "${item.bookName}" to cart!`,
-			icon: "success",
-		});
-	};
+
 	if (!books || books.length === 0) {
 		return <div className="p-4">Loading books or no books available...</div>;
 	}
@@ -283,7 +278,6 @@ const AllBooks = () => {
 										rates={rates}
 										isFav={favorites[item.id]}
 										toggleFavorite={toggleFavorite}
-										onAddToCart={handleAddToCart}
 									/>
 								</Link>
 							))}

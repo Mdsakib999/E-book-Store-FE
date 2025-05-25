@@ -20,6 +20,7 @@ import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 import { AdminRoute } from "./AdminRoute";
 import { AdminDashBoard } from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
+import Cart from "../Pages/Cart";
 
 export const router = createBrowserRouter([
 	{
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
 			{
 				path: "/about",
 				element: <About />,
+			},
+			{
+				path: "/cart",
+				element: <Cart />,
 			},
 			{
 				path: "/book/:id",

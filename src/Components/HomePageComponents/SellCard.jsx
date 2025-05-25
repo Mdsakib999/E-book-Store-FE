@@ -1,26 +1,39 @@
-/* eslint-disable react/prop-types */
 import { FaDollarSign, FaEuroSign, FaPoundSign, FaHeart } from "react-icons/fa";
 import { renderStars } from "../../Utils/renderStars";
+import { useCart } from "../../provider/CartProvider";
+import showToast from "../../Utils/ShowToast";
 
-export const SellCard = ({
-	item,
-	currency,
-	rates,
-	isFav,
-	toggleFavorite,
-	onAddToCart,
-}) => {
+export const SellCard = ({ item, currency, rates, isFav, toggleFavorite }) => {
 	const {
 		id,
 		image,
 		bookName,
 		authorName,
 		category,
-		availability,
 		rating,
 		price,
 		discountPrice,
 	} = item;
+
+	const { addToCart, removeFromCart, isInCart } = useCart();
+
+	const handleCartAction = (item) => {
+		const itemInCart = isInCart(item._id);
+
+		if (itemInCart) {
+			removeFromCart?.(item._id);
+			showToast({
+				title: `Removed "${item.bookName}" from cart!`,
+				icon: "success",
+			});
+		} else {
+			addToCart?.(item);
+			showToast({
+				title: `Added "${item.bookName}" to cart!`,
+				icon: "success",
+			});
+		}
+	};
 
 	return (
 		<div className="w-full h-[380px] mx-auto overflow-hidden rounded-lg group relative hover:shadow-xl bg-white border border-gray-200">
@@ -74,18 +87,20 @@ export const SellCard = ({
 				{/* Hover Buttons */}
 				<div className="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 flex justify-between items-center">
 					<button
-						className={`font-medium rounded cursor-pointer text-sm sm:text-md bg-black text-white hover:bg-white hover:border hover:text-black duration-300 px-3 py-1.5 text-white"
-								
-						}`}
-						disabled={!availability}
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
-							onAddToCart?.(item);
+							handleCartAction(item);
 						}}
+						className={`font-medium rounded cursor-pointer text-sm sm:text-md px-3 py-1.5 ${
+							isInCart(item._id)
+								? "bg-white text-black border border-black hover:bg-black hover:text-white"
+								: "bg-black text-white hover:bg-white hover:text-black hover:border"
+						} duration-300`}
 					>
-						Add to Cart
+						{isInCart(item._id) ? "Remove from Cart" : "Add to Cart"}
 					</button>
+
 					<button
 						onClick={(e) => {
 							e.preventDefault();
