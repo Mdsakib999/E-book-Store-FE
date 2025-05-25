@@ -18,6 +18,7 @@ import booksData from "../../../assets/bookData.json";
 import { FaDollarSign, FaEuroSign, FaPoundSign } from "react-icons/fa";
 import { useCurrency } from "../../../provider/CurrencyProvider";
 import { useCart } from "../../../provider/CartProvider";
+import CartSidebar from "../../CartSidebar";
 
 const navLinks = [
 	{ to: "/", label: "Home" },
@@ -76,6 +77,7 @@ const Navbar = () => {
 	const profileRef = useRef();
 	const { user, logout } = useAuth();
 	const { cartItems } = useCart();
+	const [isCartOpen, setIsCartOpen] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -215,14 +217,20 @@ const Navbar = () => {
 								className="text-3xl text-black cursor-pointer"
 								onClick={toggleSearch}
 							/>
-							<Link to="/cart">
-								<div className="relative cursor-pointer">
-									<span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
-										{cartItems?.length || 0}
-									</span>
-									<IoCart size={30} className="text-black" />
-								</div>
-							</Link>
+							<div
+								onClick={() => setIsCartOpen(true)}
+								className="relative cursor-pointer"
+							>
+								<span className="bg-black absolute px-[6px] rounded-full text-sm font-bold -top-3 left-5 text-white">
+									{cartItems?.length || 0}
+								</span>
+								<IoCart size={30} className="text-black" />
+							</div>
+
+							<CartSidebar
+								isOpen={isCartOpen}
+								onClose={() => setIsCartOpen(false)}
+							/>
 							{user ? (
 								<div className="relative" ref={profileRef}>
 									<button
