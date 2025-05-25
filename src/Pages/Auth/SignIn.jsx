@@ -95,7 +95,6 @@ const SignIn = () => {
         email: result.user.email,
         provider: result.user.providerData[0]?.providerId,
         uid: result.user.uid,
-        role: "user",
       };
 
       await saveUserToDB(userData);

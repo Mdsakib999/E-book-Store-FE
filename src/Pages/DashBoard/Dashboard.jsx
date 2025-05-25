@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../../../Components/Shared/Footer";
-import Navbar from "../../../Components/Shared/Navbar/Navbar";
-import { DashBoardLeftNav } from "../DashBoardLeftNav";
+import Footer from "../../Components/Shared/Footer";
+import Navbar from "../../Components/Shared/Navbar/Navbar";
+import { DashBoardLeftNav } from "./DashBoardLeftNav";
 
-export const UserDashboard = () => {
+export const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
