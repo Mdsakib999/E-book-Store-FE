@@ -5,12 +5,15 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import AuthProvider from "./provider/AuthProvider.jsx";
 import CurrencyProvider from "./provider/CurrencyProvider.jsx";
+import CartProvider from "./provider/CartProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<AuthProvider>
 		<CurrencyProvider>
-			<RouterProvider router={router} />
-			<Toaster />
+			<CartProvider>
+				<RouterProvider router={router} />
+				<Toaster />
+			</CartProvider>
 		</CurrencyProvider>
 	</AuthProvider>
 );
