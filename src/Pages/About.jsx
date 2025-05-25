@@ -195,46 +195,6 @@ const About = () => {
 					</div>
 				</div>
 			</div>
-
-			{/* Team Section */}
-			<div className="py-16">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-center mb-12">
-						<h3 className="text-3xl font-bold text-gray-800 mb-4">
-							Meet Our Team
-						</h3>
-						<p className="text-xl text-gray-600 max-w-2xl mx-auto">
-							The passionate individuals behind Readify, working tirelessly to
-							bring you the best reading experience.
-						</p>
-					</div>
-					<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-						{team.map((member, index) => (
-							<div
-								key={index}
-								className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-center group hover:transform hover:scale-105"
-							>
-								<div className="relative mb-4">
-									<img
-										src={member.image}
-										alt={member.name}
-										className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-gradient-to-r from-blue-600 to-purple-600"
-									/>
-									<div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-								</div>
-								<h4 className="font-semibold text-gray-800 mb-1">
-									{member.name}
-								</h4>
-								<p className="text-blue-600 font-medium mb-2">{member.role}</p>
-								<p className="text-gray-600 text-sm leading-relaxed">
-									{member.description}
-								</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
-
 			{/* Values Section */}
 			<div className="py-16 bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
