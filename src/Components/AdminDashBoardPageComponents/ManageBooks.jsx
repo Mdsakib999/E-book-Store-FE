@@ -119,15 +119,34 @@ export const ManageBooks = () => {
                 <p className="text-gray-600 text-sm mb-2">
                   <strong>Author:</strong> {book.authorName}
                 </p>
-                <p className="text-gray-600 text-sm mb-2">
-                  <strong>Price:</strong> ${book.price}
-                  {book.discountPrice && (
-                    <span className="ml-2 text-green-600">
-                      (Discount: ${book.discountPrice})
+                <div className="flex justify-between items-center text-sm text-gray-500 mt-1">
+                  <p className="flex items-center text-base font-semibold text-gray-800 mt-1">
+                    <span>
+                      {currency === "USD" && <FaDollarSign />}
+                      {currency === "EUR" && <FaEuroSign />}
+                      {currency === "GBP" && <FaPoundSign />}
                     </span>
-                  )}
-                </p>
+                    <span>
+                      {discountPrice
+                        ? (discountPrice * rates[currency]).toFixed(2)
+                        : (price * rates[currency]).toFixed(2)}
+                    </span>
+                    <span
+                      className={`${
+                        discountPrice ? "block" : "hidden"
+                      } text-sm line-through text-gray-400 ml-2`}
+                    >
+                      {(price * rates[currency]).toFixed(2)}
+                    </span>
+                  </p>
 
+                  <div className="flex">
+                    {renderStars(rating)}
+                    <span className="ml-2 text-gray-600 text-sm">
+                      ({rating}/5)
+                    </span>
+                  </div>
+                </div>
                 <p className="text-gray-600 text-sm line-clamp-3">
                   {book.description}
                 </p>

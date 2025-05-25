@@ -41,6 +41,7 @@ export const Addbooks = () => {
       authorName: data.author,
       description: data.description,
       price: data.price,
+      rating: data.rating,
       category: data.category,
       image: selectedImage,
       pdf: selectedBook,
@@ -182,6 +183,28 @@ export const Addbooks = () => {
             />
             {errors.price && (
               <p className="text-red-500 text-sm">{errors.price.message}</p>
+            )}
+            {/* Rating */}
+            <label htmlFor="rating" className="font-semibold text-gray-700">
+              Rating
+            </label>
+            <input
+              id="rating"
+              type="number"
+              step="0.01"
+              placeholder="Enter a book rating out of 5"
+              {...register("rating", {
+                required: "Rating is required",
+                min: {
+                  value: 1,
+                  max: 5,
+                  message: "Rating must be a positive number",
+                },
+              })}
+              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+            />
+            {errors.rating && (
+              <p className="text-red-500 text-sm">{errors.rating.message}</p>
             )}
 
             {/* Description */}

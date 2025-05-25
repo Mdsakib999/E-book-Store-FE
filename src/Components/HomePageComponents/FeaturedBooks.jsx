@@ -1,4 +1,4 @@
-import { FaHeart, FaStar } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPoundSign, FaEuroSign, FaDollarSign } from "react-icons/fa";

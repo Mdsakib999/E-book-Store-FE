@@ -40,7 +40,7 @@ export const BestSelling = () => {
   }
 
   return (
-    <div className="max-w-7xl  mx-auto px-4 my-10 lg:mt-28">
+    <div className="max-w-7xl mx-10 px-4">
       <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8 my-10">
         <h1 className="text-xl md:text-4xl font-bold whitespace-nowrap">
           BestSelling Books
@@ -53,7 +53,7 @@ export const BestSelling = () => {
           <MdOutlineKeyboardArrowRight className="text-lg sm:text-xl md:text-2xl" />
         </Link>
       </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {books.slice(0, 8).map((item) => (
           <Link
             key={item._id}

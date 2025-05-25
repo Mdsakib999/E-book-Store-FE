@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-20">
       <HomeBanner />
       <FeaturedCategories />
       <FeaturedBooks />

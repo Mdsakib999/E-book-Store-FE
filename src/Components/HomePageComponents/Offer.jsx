@@ -3,7 +3,7 @@ import bookImage from "/assets/offerBook.png";
 
 export const Offer = () => {
   return (
-    <div className="rounded-lg relative w-full mt-[150px]  py-32 lg:py-20 max-w-7xl mx-auto bg-gradient-to-b from-black/90 via-black/70 to-gray-100">
+    <div className="rounded-lg relative w-full mt-[100px]  py-32 lg:py-20 max-w-7xl mx-auto bg-gradient-to-b from-black/90 via-black/70 to-black/10">
       {/* Card Container */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 rounded bg-white/30 py-16">
         {/* Book Image */}
