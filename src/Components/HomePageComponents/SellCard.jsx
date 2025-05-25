@@ -1,11 +1,6 @@
 /* eslint-disable react/prop-types */
-import {
-	FaDollarSign,
-	FaEuroSign,
-	FaPoundSign,
-	FaStar,
-	FaHeart,
-} from "react-icons/fa";
+import { FaDollarSign, FaEuroSign, FaPoundSign, FaHeart } from "react-icons/fa";
+import { renderStars } from "../../Utils/renderStars";
 
 export const SellCard = ({
 	item,
@@ -29,15 +24,6 @@ export const SellCard = ({
 
 	return (
 		<div className="w-full h-[380px] mx-auto overflow-hidden rounded-lg group relative hover:shadow-xl bg-white border border-gray-200">
-			{/* Out of Stock Seal */}
-			{availability === false && (
-				<div className="absolute right-0 top-0 z-0">
-					<div className="bg-red-600 text-white text-xs font-medium py-1 px-4 rounded-bl-md shadow-lg">
-						<span className="tracking-wider uppercase">Out of Stock</span>
-					</div>
-				</div>
-			)}
-
 			{/* Image Section */}
 			<div className="w-full h-[50%] overflow-hidden">
 				<img
@@ -77,13 +63,11 @@ export const SellCard = ({
 								{(price * rates[currency]).toFixed(2)}
 							</span>
 						</p>
-						{rating ? (
-							<span className="flex items-center gap-1">
-								{rating} <FaStar className="text-yellow-500 text-xs" />
-							</span>
-						) : (
-							"No rating yet"
-						)}
+
+						<div className="flex">
+							{renderStars(rating)}
+							<span className="ml-2 text-gray-600 text-sm">({rating}/5)</span>
+						</div>
 					</div>
 				</div>
 

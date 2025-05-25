@@ -111,7 +111,7 @@ const UpdateBookModal = ({ data, onClose }) => {
 
   const handleRemovePdf = () => {
     setSelectedBook(null);
-    setPdfPreview(null); // Also clear the PDF preview
+    setPdfPreview(null);
     setRemovePdfFlag(true);
   };
 

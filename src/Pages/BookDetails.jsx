@@ -15,7 +15,7 @@ const BookDetails = () => {
 	const { id } = useParams();
 	const [favorites, setFavorites] = useState({});
 	const { currency, rates } = useCurrency();
-	const { book, fetchBookById, loading, error } = useBookStore();
+	const { book, fetchBookById, error } = useBookStore();
 	console.log("Book ID:", id, "Fetched Book:", book);
 
 	useEffect(() => {
