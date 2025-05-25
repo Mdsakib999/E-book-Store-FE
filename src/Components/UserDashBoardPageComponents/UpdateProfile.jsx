@@ -19,12 +19,12 @@ export const UpdateProfile = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Updated Profile:", data);
+    // console.log("Updated Profile:", data);
     setEditMode(false);
   };
 
   const handleRemoveAccount = () => {
-    console.log("Removing account...");
+    // console.log("Removing account...");
   };
 
   return (

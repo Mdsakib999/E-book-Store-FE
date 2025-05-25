@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { UserDashBoardLeftNav } from "../../../Components/UserDashBoardPageComponents/UserDashBoardLeftNav";
 import Footer from "../../../Components/Shared/Footer";
 import Navbar from "../../../Components/Shared/Navbar/Navbar";
+import { DashBoardLeftNav } from "../DashBoardLeftNav";
 
 export const UserDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -28,7 +28,7 @@ export const UserDashboard = () => {
     sidebarOpen ? "translate-x-0" : "-translate-x-full"
   } sm:relative sm:translate-x-0`}
         >
-          <UserDashBoardLeftNav closeSidebar={() => setSidebarOpen(false)} />
+          <DashBoardLeftNav closeSidebar={() => setSidebarOpen(false)} />
         </div>
 
         {/* Overlay */}
