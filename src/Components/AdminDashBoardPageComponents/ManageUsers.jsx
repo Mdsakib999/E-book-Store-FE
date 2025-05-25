@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import { MdRemoveModerator } from "react-icons/md"; // Demote icon
 import Swal from "sweetalert2";
+import axiosInstance from "../../Utils/axios";
 
 export const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,9 +10,7 @@ export const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BackendURL}/auth/allusers`
-      );
+      const res = await axiosInstance.get("auth/allusers");
       // Sort admins to the top
       const sortedUsers = res.data.sort((a, b) => {
         if (a.role === "admin" && b.role !== "admin") return -1;
@@ -31,9 +29,7 @@ export const ManageUsers = () => {
 
   const makeAdmin = async (id) => {
     try {
-      await axios.put(
-        `${import.meta.env.VITE_BackendURL}/auth/make-admin/${id}`
-      );
+      await axiosInstance.put(`auth/make-admin/${id}`);
       Swal.fire("Success", "User promoted to admin", "success");
       fetchUsers();
     } catch (error) {
@@ -43,9 +39,7 @@ export const ManageUsers = () => {
 
   const removeAdmin = async (id) => {
     try {
-      await axios.put(
-        `${import.meta.env.VITE_BackendURL}/auth/remove-admin/${id}`
-      );
+      await axiosInstance.put(`auth/remove-admin/${id}`);
       Swal.fire("Success", "Admin role removed", "success");
       fetchUsers();
     } catch (error) {
@@ -65,7 +59,7 @@ export const ManageUsers = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.delete(`${import.meta.env.VITE_BackendURL}/auth/${id}`);
+        await axiosInstance.delete(`auth/${id}`);
         Swal.fire("Deleted!", "User has been deleted.", "success");
         fetchUsers();
       } catch (error) {
