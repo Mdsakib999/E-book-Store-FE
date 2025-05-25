@@ -85,17 +85,6 @@ export const Addbooks = () => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setSelectedBook(file);
-      showToast({
-        title: "Success",
-        text: "Book file selected successfully.",
-        icon: "success",
-      });
-    } else {
-      showToast({
-        title: "Error",
-        text: "Please select a PDF file.",
-        icon: "error",
-      });
     }
   };
 
@@ -103,221 +92,262 @@ export const Addbooks = () => {
     setSelectedImage(null);
     setImagePreview(null);
   };
+  const handleRemoveBook = () => setSelectedBook(null);
 
   return (
-    <>
-      <h1 className="text-3xl font-bold text-center my-5">Add New Book</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="my-4 max-w-4xl mx-auto"
-      >
-        <div className="flex flex-col lg:flex-row gap-4 bg-base-200 p-3 rounded-lg min-h-72 mx-5 md:mx-10 shadow-2xl">
-          <div className="w-full flex flex-col gap-1 max-w-xl mx-auto">
-            {/* Category */}
-            <label htmlFor="category" className="font-semibold text-gray-700">
-              Category
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="max-w-5xl mx-auto my-6 px-4"
+    >
+      <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 space-y-6 border border-gray-200">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4 text-center">
+          📚 Add New Book
+        </h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Category */}
+          <div>
+            <label htmlFor="category" className="font-medium text-gray-700">
+              Category <span className="text-red-500">*</span>
             </label>
             <select
               id="category"
               {...register("category", {
                 required: "Book category is required",
               })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+              className="form-select w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             >
               <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category.categoryName}>
-                  {category.name}
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.categoryName}>
+                  {cat.name}
                 </option>
               ))}
             </select>
-
             {errors.category && (
-              <p className="text-red-500 text-sm">{errors.category.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.category.message}
+              </p>
             )}
+          </div>
 
-            {/* Book Title */}
-            <label htmlFor="title" className="font-semibold text-gray-700">
-              Book Title
+          {/* Book Title */}
+          <div>
+            <label htmlFor="title" className="font-medium text-gray-700">
+              Book Title <span className="text-red-500">*</span>
             </label>
             <input
               id="title"
               type="text"
               placeholder="Enter book title"
               {...register("title", { required: "Book title is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+              className="form-input w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             {errors.title && (
-              <p className="text-red-500 text-sm">{errors.title.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.title.message}
+              </p>
             )}
+          </div>
 
-            {/* Author */}
-            <label htmlFor="author" className="font-semibold text-gray-700">
-              Author
+          {/* Author */}
+          <div>
+            <label htmlFor="author" className="font-medium text-gray-700">
+              Author <span className="text-red-500">*</span>
             </label>
             <input
               id="author"
               type="text"
-              placeholder="Enter author name"
+              placeholder="Author name"
               {...register("author", { required: "Author is required" })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+              className="form-input w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             {errors.author && (
-              <p className="text-red-500 text-sm">{errors.author.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.author.message}
+              </p>
             )}
+          </div>
 
-            {/* Price */}
-            <label htmlFor="price" className="font-semibold text-gray-700">
-              Price
+          {/* Price */}
+          <div>
+            <label htmlFor="price" className="font-medium text-gray-700">
+              Price ($) <span className="text-red-500">*</span>
             </label>
             <input
               id="price"
               type="number"
-              step="0.01"
-              placeholder="Enter book price"
+              min={0}
+              placeholder="e.g. 19.99"
               {...register("price", {
                 required: "Price is required",
-                min: { value: 0, message: "Price must be a positive number" },
               })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+              className="form-input w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             {errors.price && (
-              <p className="text-red-500 text-sm">{errors.price.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.price.message}
+              </p>
             )}
-            {/* Rating */}
-            <label htmlFor="rating" className="font-semibold text-gray-700">
-              Rating
+          </div>
+
+          {/* Rating */}
+          <div>
+            <label htmlFor="rating" className="font-medium text-gray-700">
+              Rating (1–5) <span className="text-red-500">*</span>
             </label>
             <input
               id="rating"
               type="number"
-              step="0.01"
-              placeholder="Enter a book rating out of 5"
+              min={1}
+              max={5}
+              placeholder="e.g. 4.5"
               {...register("rating", {
                 required: "Rating is required",
-                min: {
-                  value: 1,
-                  max: 5,
-                  message: "Rating must be a positive number",
-                },
               })}
-              className="border-gray-600 border w-full h-12 bg-white text-black p-3"
+              className="form-input w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             {errors.rating && (
-              <p className="text-red-500 text-sm">{errors.rating.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.rating.message}
+              </p>
             )}
+          </div>
 
-            {/* Description */}
-            <label
-              htmlFor="description"
-              className="font-semibold text-gray-700"
-            >
-              Description
+          {/* Description */}
+          <div className="lg:col-span-2">
+            <label htmlFor="description" className="font-medium text-gray-700">
+              Description <span className="text-red-500">*</span>
             </label>
             <textarea
               id="description"
-              placeholder="Enter book description"
-              className="border border-gray-600 w-full min-h-[100px] max-h-[200px] resize-none bg-white text-black p-3"
+              rows="4"
+              placeholder="Enter a brief description of the book..."
               {...register("description", {
                 required: "Description is required",
                 maxLength: {
                   value: 300,
-                  message: "Description cannot exceed 300 characters",
+                  message: "Max 300 characters allowed",
                 },
               })}
+              className="form-textarea w-full mt-1 px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            <p className="text-sm text-gray-500 text-right">
-              {description.length}/300 characters
-            </p>
+            <div className="flex justify-between text-sm mt-1">
+              <p className="text-red-500">{errors.description?.message}</p>
+              <p className="text-gray-500">{description.length}/300</p>
+            </div>
+          </div>
 
-            {errors.description && (
-              <p className="text-red-500 text-sm">
-                {errors.description.message}
-              </p>
-            )}
-
-            {/* Image preview */}
-            {imagePreview && (
-              <div className="relative mt-4">
-                <label className="font-semibold text-gray-700">
-                  Book Cover
-                </label>
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="relative">
+              <label className="font-medium text-gray-700 block mb-2">
+                Book Cover Preview
+              </label>
+              <div className="relative bg-white border border-gray-300 rounded-lg p-3 shadow-sm">
                 <img
                   src={imagePreview}
-                  alt="Selected"
-                  className="w-full h-64 object-contain rounded-lg"
+                  alt="Preview"
+                  className="rounded-md w-full h-64 object-contain"
                 />
                 <button
                   type="button"
-                  className="absolute top-2 right-2 bg-orange-500 text-white p-2 rounded-full hover:bg-red-600"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow"
                   onClick={handleRemoveImage}
+                >
+                  <IoTrashOutline />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* PDF Preview Box */}
+          {selectedBook && (
+            <div className="w-full">
+              <label className="font-medium text-gray-700 block mb-2">
+                Book File Preview
+              </label>
+              <div className="relative bg-white border border-gray-300 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                <div>
+                  <p className="text-sm font-semibold text-gray-800 truncate max-w-[220px]">
+                    {selectedBook.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {(selectedBook.size / (1024 * 1024)).toFixed(2)} MB
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => setSelectedBook(null)}
                 >
                   <IoTrashOutline className="text-xl" />
                 </button>
               </div>
-            )}
-            <div className="flex flex-col lg:flex-row justify-between gap-4">
-              {/* Upload Cover Button */}
-              <div className="w-full lg:w-1/2">
-                <label
-                  htmlFor="image"
-                  className="btn bg-black text-white py-3 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
-                >
-                  <IoCloudUploadOutline /> Upload Cover Image
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-                {errors.cover && (
-                  <p className="text-red-500 text-sm">{errors.cover.message}</p>
-                )}
-              </div>
+            </div>
+          )}
 
-              {/* Upload Book Button */}
-              <div className="w-full lg:w-1/2">
-                <label
-                  htmlFor="book"
-                  className="btn bg-black text-white py-3 px-2 w-full flex items-center justify-center gap-2 cursor-pointer my-3"
-                >
-                  {selectedBook ? (
-                    selectedBook.name
-                  ) : (
-                    <>
-                      <IoCloudUploadOutline />
-                      Upload Book
-                    </>
-                  )}
-                </label>
+          {/* File Upload Buttons */}
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Cover Image Upload */}
+            <div>
+              <label
+                htmlFor="image"
+                className="cursor-pointer bg-gray-900 text-white py-3 w-full flex items-center justify-center rounded-lg hover:bg-gray-800 transition"
+              >
+                <IoCloudUploadOutline className="mr-2 text-xl" /> Upload Cover
+                Image
+              </label>
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+              {errors.cover && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.cover.message}
+                </p>
+              )}
+            </div>
 
-                <input
-                  type="file"
-                  id="book"
-                  accept="application/pdf"
-                  className="hidden"
-                  onChange={handleBookChange}
-                />
-                {errors.book && (
-                  <p className="text-red-500 text-sm">{errors.book.message}</p>
-                )}
-              </div>
+            {/* Book File Upload */}
+            <div>
+              <label
+                htmlFor="book"
+                className="cursor-pointer bg-gray-900 text-white py-3 w-full flex items-center justify-center rounded-lg hover:bg-gray-800 transition"
+              >
+                <IoCloudUploadOutline className="mr-2 text-xl" />
+                Upload Book PDF
+              </label>
+              <input
+                type="file"
+                id="book"
+                accept="application/pdf"
+                className="hidden"
+                onChange={handleBookChange}
+              />
+              {errors.book && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.book.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end lg:mx-10 mt-4">
+        {/* Submit Button */}
+        <div className="text-right">
           <button
             type="submit"
-            className="btn bg-orange-500 px-8 py-2 text-white"
+            className="bg-orange-500 hover:bg-orange-600 transition px-8 py-3 text-white font-semibold rounded-lg shadow-lg"
             disabled={loading}
           >
             {loading ? "Adding..." : "Add Book"}
           </button>
         </div>
-      </form>
-    </>
+      </div>
+    </form>
   );
 };
