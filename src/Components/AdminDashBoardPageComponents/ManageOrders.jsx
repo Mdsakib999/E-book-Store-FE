@@ -4,6 +4,8 @@ import {
   FaCcMastercard,
   FaCcAmex,
   FaMoneyCheckAlt,
+  FaEye,
+  FaTimes,
 } from "react-icons/fa";
 
 const dummyOrders = [
@@ -41,6 +43,8 @@ const dummyOrders = [
 
 export const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setOrders(dummyOrders);
@@ -72,6 +76,16 @@ export const ManageOrders = () => {
     }
   };
 
+  const handleViewDetails = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">Manage Orders</h1>
@@ -84,10 +98,8 @@ export const ManageOrders = () => {
               <th className="px-6 py-4">Customer</th>
               <th className="px-6 py-4">Book</th>
               <th className="px-6 py-4">Date</th>
-              <th className="px-6 py-4">Payment Method</th>
-              <th className="px-6 py-4">Transaction ID</th>
               <th className="px-6 py-4">Total</th>
-              <th className="px-6 py-4">Payment Status</th>
+              <th className="px-6 py-4">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -96,21 +108,19 @@ export const ManageOrders = () => {
                 key={order.id}
                 className="border-t hover:bg-gray-50 transition-all duration-150"
               >
-                <td className="p-2 font-medium">{order.id}</td>
-                <td className="p-2">{order.customerName}</td>
-                <td className="">{order.bookName}</td>
-                <td className="">{order.date}</td>
-                <td className="p-2 flex items-center justify-center">
-                  {getMethodIcon(order.method)} {order.method}
-                </td>
-                <td className="px-6 py-4">{order.trxId}</td>
+                <td className="px-6 py-4 font-medium">{order.id}</td>
+                <td className="px-6 py-4">{order.customerName}</td>
+                <td className="px-6 py-4">{order.bookName}</td>
+                <td className="px-6 py-4">{order.date}</td>
                 <td className="px-6 py-4">${order.amount.toFixed(2)}</td>
-                <td
-                  className={`px-6 py-4 font-semibold ${getStatusColor(
-                    order.status
-                  )}`}
-                >
-                  {order.status}
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => handleViewDetails(order)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+                  >
+                    <FaEye className="text-sm" />
+                    View Details
+                  </button>
                 </td>
               </tr>
             ))}
@@ -123,6 +133,114 @@ export const ManageOrders = () => {
           </div>
         )}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && selectedOrder && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10">
+          <div className="bg-white/50 rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-800">
+                Order Details
+              </h2>
+              <button
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700 transition-colors duration-200"
+              >
+                <FaTimes className="text-xl" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Order ID
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {selectedOrder.id}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Customer Name
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {selectedOrder.customerName}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Book Name
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {selectedOrder.bookName}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Order Date
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {selectedOrder.date}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Payment Method
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900 flex items-center">
+                    {getMethodIcon(selectedOrder.method)} {selectedOrder.method}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Transaction ID
+                  </label>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {selectedOrder.trxId}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Total Amount
+                  </label>
+                  <p className="text-2xl font-bold text-green-600">
+                    ${selectedOrder.amount.toFixed(2)}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Payment Status
+                  </label>
+                  <p
+                    className={`text-lg font-bold ${getStatusColor(
+                      selectedOrder.status
+                    )}`}
+                  >
+                    {selectedOrder.status}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end p-6 border-t border-gray-200">
+              <button
+                onClick={closeModal}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
