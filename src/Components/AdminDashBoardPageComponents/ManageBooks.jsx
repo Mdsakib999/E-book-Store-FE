@@ -1,16 +1,18 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
-import { FaEdit, FaSearch, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaPoundSign, FaSearch, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UpdateBookModal from "./UpdateBookModal";
 import showToast from "../../Utils/ShowToast";
 import { useCurrency } from "../../provider/CurrencyProvider";
 import useBookStore from "../../Store/BookStore";
+import { FaDollarSign, FaEuroSign } from "react-icons/fa6";
+import { renderStars } from "../../Utils/renderStars";
 
 export const ManageBooks = () => {
   const { currency, rates } = useCurrency();
   const { books, fetchBooks, setBooks, deleteBook } = useBookStore();
-  console.log(books);
+  // console.log(books);
 
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -127,23 +129,23 @@ export const ManageBooks = () => {
                       {currency === "GBP" && <FaPoundSign />}
                     </span>
                     <span>
-                      {discountPrice
-                        ? (discountPrice * rates[currency]).toFixed(2)
-                        : (price * rates[currency]).toFixed(2)}
+                      {book.discountPrice
+                        ? (book.discountPrice * rates[currency]).toFixed(2)
+                        : (book.price * rates[currency]).toFixed(2)}
                     </span>
                     <span
                       className={`${
-                        discountPrice ? "block" : "hidden"
+                        book.discountPrice ? "block" : "hidden"
                       } text-sm line-through text-gray-400 ml-2`}
                     >
-                      {(price * rates[currency]).toFixed(2)}
+                      {(book.price * rates[currency]).toFixed(2)}
                     </span>
                   </p>
 
                   <div className="flex">
-                    {renderStars(rating)}
+                    {renderStars(book.rating)}
                     <span className="ml-2 text-gray-600 text-sm">
-                      ({rating}/5)
+                      ({book.rating}/5)
                     </span>
                   </div>
                 </div>

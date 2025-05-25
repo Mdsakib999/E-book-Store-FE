@@ -21,7 +21,8 @@ export const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-
+	const [role, setRole] = useState(null);
+	const isAdmin = role === "admin";
 	const createUser = async (email, password) => {
 		setLoading(true);
 		try {
@@ -69,12 +70,14 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+			//   console.log(currentUser);
 			setUser(currentUser);
+
 			if (currentUser) {
 				try {
 					const result = await axiosInstance.get(`auth/${currentUser.uid}`);
 					const userData = result.data;
-					localStorage.setItem("user", JSON.stringify(userData));
+					setRole(userData.role);
 				} catch (err) {
 					console.error("Failed to fetch user data:", err);
 				}
@@ -92,6 +95,8 @@ const AuthProvider = ({ children }) => {
 	const authInfo = {
 		loading,
 		user,
+		role,
+		isAdmin,
 		createUser,
 		signIn,
 		googleSignIn,

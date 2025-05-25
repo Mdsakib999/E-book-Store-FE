@@ -49,21 +49,21 @@ export const ManageUsers = () => {
                   <button
                     title="Edit Role"
                     className="text-blue-600 hover:text-blue-800 text-2xl"
-                    onClick={() => console.log("Edit Role", user._id)}
+                    // onClick={() => console.log("Edit Role", user._id)}
                   >
                     <FaUserShield />
                   </button>
                   <button
                     title="Edit Info"
                     className="text-green-600 hover:text-green-800 text-2xl"
-                    onClick={() => console.log("Edit Info", user._id)}
+                    // onClick={() => console.log("Edit Info", user._id)}
                   >
                     <FaEdit />
                   </button>
                   <button
                     title="Remove User"
                     className="text-red-600 hover:text-red-800 text-2xl"
-                    onClick={() => console.log("Remove User", user._id)}
+                    // onClick={() => console.log("Remove User", user._id)}
                   >
                     <FaTrashAlt />
                   </button>
