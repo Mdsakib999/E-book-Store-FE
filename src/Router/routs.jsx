@@ -19,6 +19,7 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
+import { AdminRoute } from "./AdminRoute";
 
 export const router = createBrowserRouter([
 	{
@@ -76,7 +77,9 @@ export const router = createBrowserRouter([
 				path: "/admin/dashboard",
 				element: (
 					<PrivateRoute>
-						<AdminDashBoard />
+						<AdminRoute>
+							<AdminDashBoard />
+						</AdminRoute>
 					</PrivateRoute>
 				),
 				children: [

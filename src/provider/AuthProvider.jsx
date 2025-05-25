@@ -10,6 +10,7 @@ import {
 	sendPasswordResetEmail,
 } from "firebase/auth";
 import app from "../Pages/Auth/firebase/firebase.config";
+import axiosInstance from "../Utils/axios";
 
 const auth = getAuth(app);
 const AuthContext = createContext();
@@ -21,34 +22,66 @@ const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	const createUser = (email, password) => {
+	const createUser = async (email, password) => {
 		setLoading(true);
-		return createUserWithEmailAndPassword(auth, email, password);
+		try {
+			return await createUserWithEmailAndPassword(auth, email, password);
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const signIn = (email, password) => {
+	const signIn = async (email, password) => {
 		setLoading(true);
-		return signInWithEmailAndPassword(auth, email, password);
+		try {
+			return await signInWithEmailAndPassword(auth, email, password);
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const googleSignIn = () => {
+	const googleSignIn = async () => {
 		setLoading(true);
-		return signInWithPopup(auth, googleProvider);
+		try {
+			return await signInWithPopup(auth, googleProvider);
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const logout = () => {
+	const logout = async () => {
 		setLoading(true);
-		return signOut(auth);
+		try {
+			return await signOut(auth);
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const forgotPassword = (email) => {
+	const forgotPassword = async (email) => {
 		setLoading(true);
-		return sendPasswordResetEmail(auth, email);
+		try {
+			return await sendPasswordResetEmail(auth, email);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+			console.log(currentUser);
 			setUser(currentUser);
+			if (currentUser) {
+				try {
+					const result = await axiosInstance.get(`auth/${currentUser.uid}`);
+					const userData = result.data;
+					localStorage.setItem("user", JSON.stringify(userData));
+				} catch (err) {
+					console.error("Failed to fetch user data:", err);
+				}
+			} else {
+				localStorage.removeItem("user");
+			}
 			setLoading(false);
 		});
 

@@ -275,7 +275,7 @@ const AllBooks = () => {
 					) : (
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((item) => (
-								<Link key={item._id} to={`${item._id}`} className="block">
+								<Link key={item._id} to={`/book/${item._id}`} className="block">
 									<SellCard
 										item={item}
 										currency={currency}

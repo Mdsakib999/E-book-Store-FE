@@ -22,7 +22,6 @@ const BookDetails = () => {
 		fetchBookById(id);
 	}, [id, fetchBookById]);
 
-	// if (loading) return <div className="p-4 text-center">Loading...</div>;
 	if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
 	if (!book) return <div className="p-4 text-center">Book not found</div>;
 
@@ -106,7 +105,7 @@ const BookDetails = () => {
 
 						<div className="mb-6">
 							<p className="text-gray-700 leading-relaxed">
-								{book.shortDescription}{" "}
+								{book?.description}{" "}
 							</p>
 						</div>
 						<div className="mb-6"></div>
@@ -213,7 +212,6 @@ const BookDetails = () => {
 								of the best fantasy series ever written.
 							</p>
 						</div>
-
 						<div>
 							<div className="flex flex-wrap items-center mb-2">
 								<div className="flex items-center">
@@ -236,7 +234,7 @@ const BookDetails = () => {
 					</TabPanel>
 				</Tabs>
 			</div>
-			<RelatedBooks />
+			<RelatedBooks category={book.category} id={book._id} />
 		</div>
 	);
 };
