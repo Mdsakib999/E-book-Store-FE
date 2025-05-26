@@ -235,10 +235,10 @@ const Contact = () => {
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">
                 Follow Us
               </h3>
-              <div className="flex flex-wrap gap-3 sm:gap-4">
+              <div className="grid grid-cols-4 gap-4">
                 <a
                   href="#"
-                  className="group bg-blue-600 text-white p-3 sm:p-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110"
+                  className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110 flex items-center justify-center "
                 >
                   <svg
                     className="text-base sm:text-lg w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300"
@@ -254,7 +254,7 @@ const Contact = () => {
                 </a>
                 <a
                   href="#"
-                  className="group bg-blue-400 text-white p-3 sm:p-4 rounded-full hover:bg-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110"
+                  className="bg-blue-400 text-white p-2 rounded-full hover:bg-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110 flex items-center justify-center "
                 >
                   <svg
                     className="text-base sm:text-lg w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300"
@@ -266,7 +266,7 @@ const Contact = () => {
                 </a>
                 <a
                   href="#"
-                  className="group bg-pink-600 text-white p-3 sm:p-4 rounded-full hover:bg-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110"
+                  className="bg-pink-600 text-white p-2 rounded-full hover:bg-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110 flex items-center justify-center "
                 >
                   <svg
                     className="text-base sm:text-lg w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300"
@@ -282,7 +282,7 @@ const Contact = () => {
                 </a>
                 <a
                   href="#"
-                  className="group bg-blue-800 text-white p-3 sm:p-4 rounded-full hover:bg-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110"
+                  className="bg-blue-800 text-white p-2 rounded-full hover:bg-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:scale-110 flex items-center justify-center "
                 >
                   <svg
                     className="text-base sm:text-lg w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300"

@@ -108,7 +108,7 @@ export const ManageBooks = () => {
       </div>
 
       {paginatedBooks.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-10">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 py-10 mb-10">
           {paginatedBooks.map((book) => (
             <div
               key={book._id}
@@ -132,7 +132,7 @@ export const ManageBooks = () => {
                   {book.authorName}
                 </p>
 
-                <div className="flex justify-between items-center mt-2">
+                <div className="flex mt-2">
                   <p className="flex items-center gap-1 text-lg font-bold text-indigo-600">
                     {currency === "USD" && <FaDollarSign />}
                     {currency === "EUR" && <FaEuroSign />}
@@ -187,7 +187,10 @@ export const ManageBooks = () => {
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(filteredBooks.length / itemsPerPage)}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
       />
 
       {selectedBook && (

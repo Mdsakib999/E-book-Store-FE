@@ -8,99 +8,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { Pagination } from "../Shared/Pagination";
-
-const dummyOrders = [
-  {
-    id: "ORD-1001",
-    customerName: "Alice Johnson",
-    bookName: "Atomic Habits",
-    date: "2025-05-15",
-    method: "Visa",
-    trxId: "TRX-84920493",
-    status: "Paid",
-    amount: 59.99,
-  },
-  {
-    id: "ORD-1002",
-    customerName: "Bob Smith",
-    bookName: "Educated",
-    date: "2025-05-18",
-    method: "MasterCard",
-    trxId: "TRX-29834734",
-    status: "Pending",
-    amount: 25.5,
-  },
-  {
-    id: "ORD-1003",
-    customerName: "Clara Lee",
-    bookName: "The Midnight Library",
-    date: "2025-05-20",
-    method: "Amex",
-    trxId: "TRX-40329483",
-    status: "Failed",
-    amount: 34.0,
-  },
-  {
-    id: "ORD-1001",
-    customerName: "Alice Johnson",
-    bookName: "Atomic Habits",
-    date: "2025-05-15",
-    method: "Visa",
-    trxId: "TRX-84920493",
-    status: "Paid",
-    amount: 59.99,
-  },
-  {
-    id: "ORD-1002",
-    customerName: "Bob Smith",
-    bookName: "Educated",
-    date: "2025-05-18",
-    method: "MasterCard",
-    trxId: "TRX-29834734",
-    status: "Pending",
-    amount: 25.5,
-  },
-  {
-    id: "ORD-1003",
-    customerName: "Clara Lee",
-    bookName: "The Midnight Library",
-    date: "2025-05-20",
-    method: "Amex",
-    trxId: "TRX-40329483",
-    status: "Failed",
-    amount: 34.0,
-  },
-  {
-    id: "ORD-1001",
-    customerName: "Alice Johnson",
-    bookName: "Atomic Habits",
-    date: "2025-05-15",
-    method: "Visa",
-    trxId: "TRX-84920493",
-    status: "Paid",
-    amount: 59.99,
-  },
-  {
-    id: "ORD-1002",
-    customerName: "Bob Smith",
-    bookName: "Educated",
-    date: "2025-05-18",
-    method: "MasterCard",
-    trxId: "TRX-29834734",
-    status: "Pending",
-    amount: 25.5,
-  },
-  {
-    id: "ORD-1003",
-    customerName: "Clara Lee",
-    bookName: "The Midnight Library",
-    date: "2025-05-20",
-    method: "Amex",
-    trxId: "TRX-40329483",
-    status: "Failed",
-    amount: 34.0,
-  },
-];
+import axiosInstance from "../../Utils/axios";
 
 export const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -113,35 +21,18 @@ export const ManageOrders = () => {
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
+  const fetchOrders = async () => {
+    try {
+      const res = await axiosInstance.get("/payment/orders");
+      setOrders(res.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
   useEffect(() => {
-    setOrders(dummyOrders);
+    fetchOrders();
   }, []);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Paid":
-        return "text-green-600";
-      case "Pending":
-        return "text-yellow-600";
-      case "Failed":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
-
-  const getMethodIcon = (method) => {
-    switch (method) {
-      case "Visa":
-        return <FaCcVisa className="inline-block mr-1 text-blue-700" />;
-      case "MasterCard":
-        return <FaCcMastercard className="inline-block mr-1 text-red-600" />;
-      case "Amex":
-        return <FaCcAmex className="inline-block mr-1 text-indigo-600" />;
-      default:
-        return <FaMoneyCheckAlt className="inline-block mr-1 text-gray-600" />;
-    }
-  };
 
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
@@ -163,7 +54,7 @@ export const ManageOrders = () => {
             <tr>
               <th className="px-6 py-4">Order ID</th>
               <th className="px-6 py-4">Customer</th>
-              <th className="px-6 py-4">Book</th>
+              <th className="px-6 py-4">Books</th>
               <th className="px-6 py-4">Date</th>
               <th className="px-6 py-4">Total</th>
               <th className="px-6 py-4">Action</th>
@@ -172,14 +63,18 @@ export const ManageOrders = () => {
           <tbody>
             {currentOrders.map((order) => (
               <tr
-                key={order.id}
+                key={order._id}
                 className="border-t hover:bg-gray-50 transition-all duration-150"
               >
-                <td className="px-6 py-4 font-medium">{order.id}</td>
-                <td className="px-6 py-4">{order.customerName}</td>
-                <td className="px-6 py-4">{order.bookName}</td>
-                <td className="px-6 py-4">{order.date}</td>
-                <td className="px-6 py-4">${order.amount.toFixed(2)}</td>
+                <td className="px-6 py-4 font-medium">{order._id}</td>
+                <td className="px-6 py-4">{order.userId}</td>
+                <td className="px-6 py-4">
+                  {order.items.map((item) => item.bookName).join(", ")}
+                </td>
+                <td className="px-6 py-4">
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4">${order.total.toFixed(2)}</td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleViewDetails(order)}
@@ -200,12 +95,16 @@ export const ManageOrders = () => {
           </div>
         )}
       </div>
+
       {orders.length > ordersPerPage && (
         <div className="mt-6 flex justify-center">
           <Pagination
             currentPage={currentPage}
             totalPages={Math.ceil(orders.length / ordersPerPage)}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </div>
       )}
@@ -229,78 +128,58 @@ export const ManageOrders = () => {
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Order ID
-                  </label>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedOrder.id}
-                  </p>
+                  <label className="text-sm text-gray-600">Order ID</label>
+                  <p className="font-semibold">{selectedOrder._id}</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Customer Name
-                  </label>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedOrder.customerName}
-                  </p>
+                  <label className="text-sm text-gray-600">Customer</label>
+                  <p className="font-semibold">{selectedOrder.userId}</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Book Name
-                  </label>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedOrder.bookName}
+                  <label className="text-sm text-gray-600">Order Date</label>
+                  <p className="font-semibold">
+                    {new Date(selectedOrder.createdAt).toLocaleString()}
                   </p>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Order Date
-                  </label>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedOrder.date}
-                  </p>
+                <div className="bg-gray-50 p-4 rounded-lg col-span-full">
+                  <label className="text-sm text-gray-600">Books</label>
+                  <ul className="space-y-2">
+                    {selectedOrder.items.map((item) => (
+                      <li
+                        key={item._id}
+                        className="bg-white p-3 rounded border border-gray-200 shadow-sm"
+                      >
+                        <p className="font-semibold">{item.bookName}</p>
+                        <p className="text-sm text-gray-500">
+                          Author: {item.authorName}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Quantity: {item.quantity}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Price: ${item.price}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Payment Method
-                  </label>
-                  <p className="text-lg font-semibold text-gray-900 flex items-center">
-                    {getMethodIcon(selectedOrder.method)} {selectedOrder.method}
-                  </p>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                  <label className="text-sm text-gray-600">
                     Transaction ID
                   </label>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedOrder.trxId}
+                  <p className="font-semibold">
+                    {selectedOrder.paymentIntentId}
                   </p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Total Amount
-                  </label>
+                  <label className="text-sm text-gray-600">Total Amount</label>
                   <p className="text-2xl font-bold text-green-600">
-                    ${selectedOrder.amount.toFixed(2)}
-                  </p>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Payment Status
-                  </label>
-                  <p
-                    className={`text-lg font-bold ${getStatusColor(
-                      selectedOrder.status
-                    )}`}
-                  >
-                    {selectedOrder.status}
+                    ${selectedOrder.total.toFixed(2)}
                   </p>
                 </div>
               </div>
