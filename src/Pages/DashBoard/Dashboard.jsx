@@ -3,12 +3,14 @@ import { Outlet } from "react-router-dom";
 import Footer from "../../Components/Shared/Footer";
 import Navbar from "../../Components/Shared/Navbar/Navbar";
 import { DashBoardLeftNav } from "./DashBoardLeftNav";
+import { ScrollToTop } from "../../Utils/ScrollToTop";
 
 export const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <div className="flex min-h-screen relative">
         {/* Mobile toggle */}

@@ -92,7 +92,6 @@ export const Addbooks = () => {
     setSelectedImage(null);
     setImagePreview(null);
   };
-  const handleRemoveBook = () => setSelectedBook(null);
 
   return (
     <form

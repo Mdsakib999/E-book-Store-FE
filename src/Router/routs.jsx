@@ -20,6 +20,7 @@ import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 import { AdminRoute } from "./AdminRoute";
 import CheckOutPage from "../Pages/CheckOutPage";
+import { Statics } from "../Components/AdminDashBoardPageComponents/Statics";
 
 export const router = createBrowserRouter([
 	{
@@ -44,12 +45,12 @@ export const router = createBrowserRouter([
 				element: <About />,
 			},
 			{
-				path: "/checkout",
-				element: <CheckOutPage />,
-			},
-			{
 				path: "/book/:id",
 				element: <BookDetails />,
+			},
+			{
+				path: "/checkout",
+				element: <CheckOutPage />,
 			},
 			{
 				path: "/signin",
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
 			{
 				path: "",
 				element: <UpdateProfile />,
+			},
+			{
+				path: "statics",
+				element: <Statics />,
 			},
 			{
 				path: "manage-users",

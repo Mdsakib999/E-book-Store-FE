@@ -1,12 +1,18 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import { MdRemoveModerator } from "react-icons/md"; // Demote icon
 import Swal from "sweetalert2";
 import axiosInstance from "../../Utils/axios";
+import { useAuth } from "../../provider/AuthProvider";
+import { Pagination } from "../Shared/Pagination";
 
 export const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const { user } = useAuth();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const fetchUsers = async () => {
     try {
@@ -28,22 +34,44 @@ export const ManageUsers = () => {
   }, []);
 
   const makeAdmin = async (id) => {
-    try {
-      await axiosInstance.put(`auth/make-admin/${id}`);
-      Swal.fire("Success", "User promoted to admin", "success");
-      fetchUsers();
-    } catch (error) {
-      Swal.fire("Error", "Failed to promote user", "error");
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "This user will be promoted to admin!",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Yes, make admin",
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        await axiosInstance.put(`auth/make-admin/${id}`);
+        Swal.fire("Success", "User promoted to admin", "success");
+        fetchUsers();
+      } catch (error) {
+        Swal.fire("Error", "Failed to promote user", "error");
+      }
     }
   };
 
   const removeAdmin = async (id) => {
-    try {
-      await axiosInstance.put(`auth/remove-admin/${id}`);
-      Swal.fire("Success", "Admin role removed", "success");
-      fetchUsers();
-    } catch (error) {
-      Swal.fire("Error", "Failed to remove admin role", "error");
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "This Admin will turn into a user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Yes, delete",
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        await axiosInstance.put(`auth/remove-admin/${id}`);
+        Swal.fire("Success", "Admin role removed", "success");
+        fetchUsers();
+      } catch (error) {
+        Swal.fire("Error", "Failed to remove admin role", "error");
+      }
     }
   };
 
@@ -73,7 +101,10 @@ export const ManageUsers = () => {
       .toLowerCase()
       .includes(searchTerm.trim().toLowerCase())
   );
-
+  const paginatedUsers = filteredUsers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   return (
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">
@@ -91,7 +122,7 @@ export const ManageUsers = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow rounded-lg">
+        <table className="min-w-full bg-white shadow rounded-lg mb-10">
           <thead>
             <tr className="bg-gray-100 text-left text-gray-700">
               <th className="py-3 px-4">#</th>
@@ -102,53 +133,71 @@ export const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user, index) => (
-                <tr
-                  key={user._id}
-                  className="border-t hover:bg-gray-50 transition"
-                >
-                  <td className="py-3 px-4">{index + 1}</td>
-                  <td className="py-3 px-4">{user.name}</td>
-                  <td className="py-3 px-4">{user.email}</td>
-                  <td className="py-3 px-4 capitalize">{user.role}</td>
-                  <td className="py-3 px-4 flex items-center justify-center gap-5 text-xl">
-                    {user.role === "admin" ? (
+            {paginatedUsers.length > 0 ? (
+              paginatedUsers.map((u, index) => {
+                const isCurrentUser = u.email === user.email;
+                const buttonBaseClasses =
+                  "disabled:opacity-50 " +
+                  (isCurrentUser ? "cursor-not-allowed" : "cursor-pointer");
+                return (
+                  <tr
+                    key={u._id}
+                    className={`border-t transition ${
+                      isCurrentUser
+                        ? "bg-blue-500/90 text-white"
+                        : "hover:bg-gray-50"
+                    }`}
+                  >
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4">{u.name}</td>
+                    <td className="py-3 px-4">{u.email}</td>
+                    <td className="py-3 px-4 capitalize">{u.role}</td>
+                    <td className="py-3 px-4 flex items-center justify-center gap-5 text-xl">
+                      {u.role === "admin" ? (
+                        <button
+                          title="Demote to User"
+                          className={`text-yellow-600 hover:text-yellow-800 ${buttonBaseClasses}`}
+                          onClick={() => removeAdmin(u._id)}
+                          disabled={isCurrentUser}
+                        >
+                          <MdRemoveModerator />
+                        </button>
+                      ) : (
+                        <button
+                          title="Promote to Admin"
+                          className={`text-blue-600 hover:text-blue-800 ${buttonBaseClasses}`}
+                          onClick={() => makeAdmin(u._id)}
+                          disabled={isCurrentUser}
+                        >
+                          <FaUserShield />
+                        </button>
+                      )}
                       <button
-                        title="Demote to User"
-                        className="text-yellow-600 hover:text-yellow-800"
-                        onClick={() => removeAdmin(user._id)}
+                        title="Remove User"
+                        className={`text-red-600 hover:text-red-800 ${buttonBaseClasses}`}
+                        onClick={() => deleteUser(u._id)}
+                        disabled={isCurrentUser}
                       >
-                        <MdRemoveModerator />
+                        <FaTrashAlt />
                       </button>
-                    ) : (
-                      <button
-                        title="Promote to Admin"
-                        className="text-blue-600 hover:text-blue-800"
-                        onClick={() => makeAdmin(user._id)}
-                      >
-                        <FaUserShield />
-                      </button>
-                    )}
-                    <button
-                      title="Remove User"
-                      className="text-red-600 hover:text-red-800"
-                      onClick={() => deleteUser(user._id)}
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </td>
-                </tr>
-              ))
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="5" className="text-center py-6 text-gray-500">
+                <td colSpan="5" className="py-4 text-center">
                   No users found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
