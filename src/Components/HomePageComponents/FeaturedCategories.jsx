@@ -57,7 +57,7 @@ export const FeaturedCategories = () => {
         >
           {menuItems.map((item) => (
             <div
-              key={item._id}
+              key={item.id}
               className="flex-shrink-0 w-48 lg:w-64 flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
               style={{ backgroundColor: "transparent" }}
               onMouseEnter={(e) =>

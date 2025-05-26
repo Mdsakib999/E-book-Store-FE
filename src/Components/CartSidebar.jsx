@@ -24,10 +24,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
 			{/* Sidebar */}
 			<div
-				className={`fixed top-0 right-0 h-full w-full md:w-[320px] bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
+				className={`fixed top-0 right-0 h-full w-full sm:w-[45%] md:w-[35%] lg:w-[25%] bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
-				onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-between items-center p-4 border-b">
 					<h2 className="text-lg font-semibold">Your Cart</h2>
@@ -69,7 +69,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 					)}
 				</div>
 
-				<Link to="/cart">
+				<Link to="/checkout">
 					<div className="p-4 border-t">
 						<button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer">
 							Proceed to Checkout
