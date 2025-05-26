@@ -10,7 +10,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-import { Bar, Line, Doughnut, Pie } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -63,36 +63,6 @@ export const Statics = () => {
         label: "Top Selling",
         data: [40, 60, 30, 80, 100],
         backgroundColor: "#f59e0b",
-      },
-    ],
-  };
-
-  const paymentData = {
-    labels: ["Success", "Failed"],
-    datasets: [
-      {
-        data: [250, 25],
-        backgroundColor: ["#10b981", "#ef4444"],
-      },
-    ],
-  };
-
-  const categoryPieData = {
-    labels: ["Fiction", "Tech", "Comics"],
-    datasets: [
-      {
-        data: [120, 90, 60],
-        backgroundColor: ["#f43f5e", "#3b82f6", "#f59e0b"],
-      },
-    ],
-  };
-
-  const formatPieData = {
-    labels: ["PDF", "EPUB", "MOBI"],
-    datasets: [
-      {
-        data: [150, 80, 40],
-        backgroundColor: ["#8b5cf6", "#22c55e", "#ef4444"],
       },
     ],
   };
@@ -163,20 +133,6 @@ export const Statics = () => {
           Book Collection vs Top Selling
         </h2>
         <Bar data={bookCollectionData} />
-      </div>
-
-      {/* <div>
-        <h2 className="text-xl font-semibold mb-2">Sales by Format</h2>
-        <Pie data={formatPieData} />
-      </div> */}
-      <div className="w-3/5">
-        <h2 className="text-xl font-semibold mb-2">Sales by Category</h2>
-        <Pie data={categoryPieData} />
-      </div>
-
-      <div className="w-3/5">
-        <h2 className="text-xl font-semibold mb-2">Payments Overview</h2>
-        <Doughnut data={paymentData} />
       </div>
     </div>
   );

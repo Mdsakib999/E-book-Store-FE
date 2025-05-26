@@ -70,11 +70,11 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
   const routesToRender = isAdmin === true ? adminRoutes : customerRoutes;
 
   return (
-    <aside className="bg-gray-100 h-full w-full p-4 relative">
+    <aside className="bg-gray-100 h-full w-full p-4 relative md:w-64">
       {/* Close button for mobile */}
       <button
         onClick={closeSidebar}
-        className="absolute top-16 right-4 sm:hidden text-gray-700 hover:text-red-600"
+        className="absolute md:top-16 right-4 sm:hidden text-gray-700 hover:text-red-600"
       >
         <FaTimes size={22} />
       </button>

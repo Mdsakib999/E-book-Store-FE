@@ -205,7 +205,10 @@ export const ManageOrders = () => {
           <Pagination
             currentPage={currentPage}
             totalPages={Math.ceil(orders.length / ordersPerPage)}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </div>
       )}

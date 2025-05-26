@@ -1,22 +1,14 @@
 const Loading = () => {
-	return (
-		<div className="flex justify-center items-center h-screen bg-gray-100">
-			<div className="flex space-x-2">
-				<div
-					className="w-5 h-5 bg-blue-500 rounded-full animate-bounce"
-					style={{ animationDelay: "0s" }}
-				></div>
-				<div
-					className="w-5 h-5 bg-blue-500 rounded-full animate-bounce"
-					style={{ animationDelay: "0.2s" }}
-				></div>
-				<div
-					className="w-5 h-5 bg-blue-500 rounded-full animate-bounce"
-					style={{ animationDelay: "0.4s" }}
-				></div>
-			</div>
-		</div>
-	);
+  return (
+    <div className="flex justify-center items-center h-screen bg-white">
+      <div className="flex flex-col items-center space-y-4">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin shadow-lg ring-2 ring-blue-100"></div>
+        <p className="text-sm text-gray-500 font-medium animate-pulse">
+          Loading...
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default Loading;

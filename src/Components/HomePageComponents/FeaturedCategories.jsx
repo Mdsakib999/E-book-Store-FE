@@ -27,7 +27,7 @@ export const FeaturedCategories = () => {
   const scroll = (direction) => {
     if (menuRef.current) {
       menuRef.current.scrollBy({
-        left: direction === "left" ? -250 : 250,
+        left: direction === "left" ? -300 : 300,
         behavior: "smooth",
       });
     }
@@ -58,7 +58,7 @@ export const FeaturedCategories = () => {
           {menuItems.map((item) => (
             <div
               key={item._id}
-              className="flex-shrink-0 w-56  flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
+              className="flex-shrink-0 w-48 lg:w-64 flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
               style={{ backgroundColor: "transparent" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = item.bgColor)
@@ -85,7 +85,7 @@ export const FeaturedCategories = () => {
         {/* Right Arrow */}
         <button
           onClick={() => scroll("right")}
-          className=" absolute right-2 md:-right-7 top-1/2 -translate-y-1/2 z-10 text-white bg-black rounded-full p-2 opacity-30 hover:opacity-80 cursor-pointer"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white bg-black rounded-full p-2 opacity-30 hover:opacity-80 cursor-pointer"
         >
           <MdChevronRight className="text-xl lg:text-4xl" />
         </button>

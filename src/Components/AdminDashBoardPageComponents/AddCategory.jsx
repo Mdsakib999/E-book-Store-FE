@@ -103,7 +103,7 @@ export const AddCategory = () => {
 
       {/* Category Display */}
       <div className="max-w-4xl mx-auto p-5 lg:mt-20">
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">
+        <h3 className="text-xl font-semibold text-gray-700 mb-10 lg:mb-4">
           📂Available Categories
         </h3>
         {loading ? (
@@ -113,11 +113,11 @@ export const AddCategory = () => {
         ) : categories.length === 0 ? (
           <p className="text-gray-500">No categories found.</p>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {categories.map((category) => (
               <div
                 key={category._id}
-                className="w-full p-4 rounded-xl shadow-md flex gap-5 justify-center items-center"
+                className="w-full p-2 rounded-xl shadow-md flex justify-between items-center"
               >
                 <div className="flex items-center gap-2">
                   <FaTags className="text-blue-500" />
