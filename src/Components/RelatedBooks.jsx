@@ -44,23 +44,31 @@ const RelatedBooks = ({ category, id }) => {
 	);
 
 	return (
-		<div className="mt-16">
-			<h1 className="text-3xl font-black mb-5">You Might Also Like...</h1>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-				{relatedBooks.map((book) => (
-					<Link key={book._id} to={`/allbooks/${book._id}`} state={book}>
-						<SellCard
-							item={book}
-							currency={currency}
-							rates={rates}
-							isFav={favorites[book._id]}
-							toggleFavorite={toggleFavorite}
-							onAddToCart={handleAddToCart}
-						/>{" "}
-					</Link>
-				))}
-			</div>
-		</div>
+		<>
+			{relatedBooks.length === 0 ? (
+				<div className="p-4 text-3xl mt-5 text-gray-500">
+					No related books found in this category.
+				</div>
+			) : (
+				<div className="mt-16">
+					<h1 className="text-3xl font-black mb-5">You Might Also Like...</h1>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+						{relatedBooks.map((book) => (
+							<Link key={book._id} to={`/allbooks/${book._id}`} state={book}>
+								<SellCard
+									item={book}
+									currency={currency}
+									rates={rates}
+									isFav={favorites[book._id]}
+									toggleFavorite={toggleFavorite}
+									onAddToCart={handleAddToCart}
+								/>{" "}
+							</Link>
+						))}
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
 

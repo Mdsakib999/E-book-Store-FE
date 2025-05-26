@@ -19,7 +19,7 @@ import Contact from "../Pages/Contact";
 import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 import { AdminRoute } from "./AdminRoute";
-import Cart from "../Pages/Cart";
+import CheckOutPage from "../Pages/CheckOutPage";
 
 export const router = createBrowserRouter([
 	{
@@ -44,8 +44,8 @@ export const router = createBrowserRouter([
 				element: <About />,
 			},
 			{
-				path: "/cart",
-				element: <Cart />,
+				path: "/checkout",
+				element: <CheckOutPage />,
 			},
 			{
 				path: "/book/:id",

@@ -20,7 +20,6 @@ const CartProvider = ({ children }) => {
 	};
 
 	const isInCart = (itemId) => {
-		console.log(itemId);
 		return cartItems.some((item) => item._id === itemId);
 	};
 
@@ -28,9 +27,14 @@ const CartProvider = ({ children }) => {
 		setCartItems(cartItems.filter((item) => item._id !== itemId));
 	};
 
+	const clearCart = () => {
+		localStorage.removeItem("cart");
+		setCartItems([]);
+	};
+
 	return (
 		<CartContext.Provider
-			value={{ cartItems, addToCart, removeFromCart, isInCart }}
+			value={{ cartItems, addToCart, removeFromCart, isInCart, clearCart }}
 		>
 			{children}
 		</CartContext.Provider>
