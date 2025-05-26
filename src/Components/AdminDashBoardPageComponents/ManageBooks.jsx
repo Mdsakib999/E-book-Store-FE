@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useEffect, useState } from "react";
 import { FaEdit, FaPoundSign, FaSearch, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -8,6 +7,7 @@ import { useCurrency } from "../../provider/CurrencyProvider";
 import useBookStore from "../../Store/BookStore";
 import { FaDollarSign, FaEuroSign } from "react-icons/fa6";
 import { renderStars } from "../../Utils/renderStars";
+import { Pagination } from "../Shared/Pagination";
 
 export const ManageBooks = () => {
   const { currency, rates } = useCurrency();
@@ -16,6 +16,8 @@ export const ManageBooks = () => {
 
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     fetchBooks().catch((error) => {
@@ -81,9 +83,14 @@ export const ManageBooks = () => {
       .includes(searchTerm.toLowerCase())
   );
 
+  const paginatedBooks = filteredBooks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="px-4 md:px-8 lg:px-16 py-6">
-      <h1 className="text-2xl md:text-4xl text-center font-bold bg-primary text-black py-4 px-6">
+      <h1 className="text-2xl md:text-4xl text-center font-bold bg-primary text-black">
         Manage All Books
       </h1>
 
@@ -100,12 +107,12 @@ export const ManageBooks = () => {
         </div>
       </div>
 
-      {filteredBooks.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredBooks.map((book) => (
+      {paginatedBooks.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-10">
+          {paginatedBooks.map((book) => (
             <div
               key={book._id}
-              className="card bg-base-200 shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden"
+              className="border border-gray-200 rounded-md shadow-md"
             >
               <figure className="relative h-40 w-full overflow-hidden">
                 <img
@@ -114,58 +121,58 @@ export const ManageBooks = () => {
                   className="h-full w-full object-contain transition-transform duration-500 hover:scale-110"
                 />
               </figure>
-              <div className="card-body p-4">
-                <h2 className="card-title text-xl font-semibold mb-2">
+
+              <div className="p-4 space-y-2">
+                <h2 className="text-lg font-bold text-gray-900">
                   {book.bookName}
                 </h2>
-                <p className="text-gray-600 text-sm mb-2">
-                  <strong>Author:</strong> {book.authorName}
+
+                <p className="text-sm text-gray-500">
+                  <span className="font-medium text-gray-700">Author:</span>{" "}
+                  {book.authorName}
                 </p>
-                <div className="flex justify-between items-center text-sm text-gray-500 mt-1">
-                  <p className="flex items-center text-base font-semibold text-gray-800 mt-1">
-                    <span>
-                      {currency === "USD" && <FaDollarSign />}
-                      {currency === "EUR" && <FaEuroSign />}
-                      {currency === "GBP" && <FaPoundSign />}
-                    </span>
-                    <span>
-                      {book.discountPrice
-                        ? (book.discountPrice * rates[currency]).toFixed(2)
-                        : (book.price * rates[currency]).toFixed(2)}
-                    </span>
-                    <span
-                      className={`${
-                        book.discountPrice ? "block" : "hidden"
-                      } text-sm line-through text-gray-400 ml-2`}
-                    >
-                      {(book.price * rates[currency]).toFixed(2)}
-                    </span>
+
+                <div className="flex justify-between items-center mt-2">
+                  <p className="flex items-center gap-1 text-lg font-bold text-indigo-600">
+                    {currency === "USD" && <FaDollarSign />}
+                    {currency === "EUR" && <FaEuroSign />}
+                    {currency === "GBP" && <FaPoundSign />}
+                    {(book.discountPrice
+                      ? book.discountPrice * rates[currency]
+                      : book.price * rates[currency]
+                    ).toFixed(2)}
+                    {book.discountPrice && (
+                      <span className="line-through text-sm text-gray-400 ml-2">
+                        {(book.price * rates[currency]).toFixed(2)}
+                      </span>
+                    )}
                   </p>
 
-                  <div className="flex">
+                  <div className="flex items-center text-yellow-500">
                     {renderStars(book.rating)}
-                    <span className="ml-2 text-gray-600 text-sm">
+                    <span className="ml-2 text-sm text-gray-600">
                       ({book.rating}/5)
                     </span>
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm line-clamp-3">
+
+                <p className="text-gray-600 text-sm line-clamp-2">
                   {book.description}
                 </p>
-                <p className="text-gray-600 text-sm line-clamp-3">{book.pdf}</p>
+                <p className="text-gray-500 text-xs truncate">{book.pdf}</p>
 
-                <div className="flex mt-4 space-x-4">
+                <div className="flex mt-4 space-x-3">
                   <button
-                    className="btn bg-indigo-500 text-white flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-indigo-600 transition"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 shadow-sm"
                     onClick={() => setSelectedBook(book)}
                   >
-                    <FaEdit className="text-lg" /> Edit
+                    <FaEdit className="text-base" /> Edit
                   </button>
                   <button
                     onClick={() => handleDelete(book._id)}
-                    className="btn bg-red-500 text-white flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-red-600 transition"
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 shadow-sm"
                   >
-                    <FaTrashAlt className="text-lg" /> Delete
+                    <FaTrashAlt className="text-base" /> Delete
                   </button>
                 </div>
               </div>
@@ -177,6 +184,11 @@ export const ManageBooks = () => {
           No books found matching your search.
         </p>
       )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(filteredBooks.length / itemsPerPage)}
+        onPageChange={setCurrentPage}
+      />
 
       {selectedBook && (
         <UpdateBookModal
