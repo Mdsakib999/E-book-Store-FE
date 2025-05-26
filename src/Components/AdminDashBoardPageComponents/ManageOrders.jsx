@@ -7,8 +7,69 @@ import {
   FaEye,
   FaTimes,
 } from "react-icons/fa";
+import { Pagination } from "../Shared/Pagination";
 
 const dummyOrders = [
+  {
+    id: "ORD-1001",
+    customerName: "Alice Johnson",
+    bookName: "Atomic Habits",
+    date: "2025-05-15",
+    method: "Visa",
+    trxId: "TRX-84920493",
+    status: "Paid",
+    amount: 59.99,
+  },
+  {
+    id: "ORD-1002",
+    customerName: "Bob Smith",
+    bookName: "Educated",
+    date: "2025-05-18",
+    method: "MasterCard",
+    trxId: "TRX-29834734",
+    status: "Pending",
+    amount: 25.5,
+  },
+  {
+    id: "ORD-1003",
+    customerName: "Clara Lee",
+    bookName: "The Midnight Library",
+    date: "2025-05-20",
+    method: "Amex",
+    trxId: "TRX-40329483",
+    status: "Failed",
+    amount: 34.0,
+  },
+  {
+    id: "ORD-1001",
+    customerName: "Alice Johnson",
+    bookName: "Atomic Habits",
+    date: "2025-05-15",
+    method: "Visa",
+    trxId: "TRX-84920493",
+    status: "Paid",
+    amount: 59.99,
+  },
+  {
+    id: "ORD-1002",
+    customerName: "Bob Smith",
+    bookName: "Educated",
+    date: "2025-05-18",
+    method: "MasterCard",
+    trxId: "TRX-29834734",
+    status: "Pending",
+    amount: 25.5,
+  },
+  {
+    id: "ORD-1003",
+    customerName: "Clara Lee",
+    bookName: "The Midnight Library",
+    date: "2025-05-20",
+    method: "Amex",
+    trxId: "TRX-40329483",
+    status: "Failed",
+    amount: 34.0,
+  },
   {
     id: "ORD-1001",
     customerName: "Alice Johnson",
@@ -45,6 +106,12 @@ export const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 6;
+
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   useEffect(() => {
     setOrders(dummyOrders);
@@ -103,7 +170,7 @@ export const ManageOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {currentOrders.map((order) => (
               <tr
                 key={order.id}
                 className="border-t hover:bg-gray-50 transition-all duration-150"
@@ -133,6 +200,15 @@ export const ManageOrders = () => {
           </div>
         )}
       </div>
+      {orders.length > ordersPerPage && (
+        <div className="mt-6 flex justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(orders.length / ordersPerPage)}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && selectedOrder && (

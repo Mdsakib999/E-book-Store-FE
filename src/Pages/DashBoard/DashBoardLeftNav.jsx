@@ -8,6 +8,7 @@ import {
   FaClipboardList,
   FaHistory,
 } from "react-icons/fa";
+import { IoIosStats } from "react-icons/io";
 import { MdLibraryAdd } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../provider/AuthProvider";
@@ -20,6 +21,11 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
       label: "Profile",
       icon: <FaUser size={20} />,
       path: "/dashboard",
+    },
+    {
+      label: "Statics",
+      icon: <IoIosStats size={20} />,
+      path: "/dashboard/statics",
     },
     {
       label: "Manage Users",
