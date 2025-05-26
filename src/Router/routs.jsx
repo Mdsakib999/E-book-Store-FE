@@ -20,110 +20,110 @@ import { NotFound } from "../Pages/NotFound/NotFound";
 import { AddCategory } from "../Components/AdminDashBoardPageComponents/AddCategory";
 import { AdminRoute } from "./AdminRoute";
 import CheckOutPage from "../Pages/CheckOutPage";
-import { Statics } from "../Components/AdminDashBoardPageComponents/Statics";
+import { Statistics } from "../Components/AdminDashBoardPageComponents/statistics";
 
 export const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <App />,
-		errorElement: <ErrorPage />,
-		children: [
-			{
-				path: "/",
-				element: <Home />,
-			},
-			{
-				path: "/allbooks",
-				element: <AllBooks />,
-			},
-			{
-				path: "/contact",
-				element: <Contact />,
-			},
-			{
-				path: "/about",
-				element: <About />,
-			},
-			{
-				path: "/book/:id",
-				element: <BookDetails />,
-			},
-			{
-				path: "/checkout",
-				element: <CheckOutPage />,
-			},
-			{
-				path: "/signin",
-				element: <SignIn />,
-			},
-			{
-				path: "/signup",
-				element: <SignUp />,
-			},
-		],
-	},
-	// Private Routes
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/allbooks",
+        element: <AllBooks />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/book/:id",
+        element: <BookDetails />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckOutPage />,
+      },
+      {
+        path: "/signin",
+        element: <SignIn />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+    ],
+  },
+  // Private Routes
 
-	// User Dashboard
-	{
-		path: "/dashboard",
-		element: (
-			<PrivateRoute>
-				<Dashboard />
-			</PrivateRoute>
-		),
-		children: [
-			{
-				path: "",
-				element: <UpdateProfile />,
-			},
-			{
-				path: "order",
-				element: <OrderHistory />,
-			},
-		],
-	},
+  // User Dashboard
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <UpdateProfile />,
+      },
+      {
+        path: "order",
+        element: <OrderHistory />,
+      },
+    ],
+  },
 
-	// Admin Dashboard
-	{
-		path: "/dashboard",
-		element: (
-			<PrivateRoute>
-				<AdminRoute>
-					<Dashboard />
-				</AdminRoute>
-			</PrivateRoute>
-		),
-		children: [
-			{
-				path: "",
-				element: <UpdateProfile />,
-			},
-			{
-				path: "statics",
-				element: <Statics />,
-			},
-			{
-				path: "manage-users",
-				element: <ManageUsers />,
-			},
-			{
-				path: "add-books",
-				element: <Addbooks />,
-			},
-			{
-				path: "manage-category",
-				element: <AddCategory />,
-			},
-			{
-				path: "manage-books",
-				element: <ManageBooks />,
-			},
-			{
-				path: "manage-orders",
-				element: <ManageOrders />,
-			},
-		],
-	},
-	{ path: "*", element: <NotFound /> },
+  // Admin Dashboard
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminRoute>
+          <Dashboard />
+        </AdminRoute>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <UpdateProfile />,
+      },
+      {
+        path: "statistics",
+        element: <Statistics />,
+      },
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "add-books",
+        element: <Addbooks />,
+      },
+      {
+        path: "manage-category",
+        element: <AddCategory />,
+      },
+      {
+        path: "manage-books",
+        element: <ManageBooks />,
+      },
+      {
+        path: "manage-orders",
+        element: <ManageOrders />,
+      },
+    ],
+  },
+  { path: "*", element: <NotFound /> },
 ]);

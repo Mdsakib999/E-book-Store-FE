@@ -40,7 +40,7 @@ export const BestSelling = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-10 px-4">
+    <div className="max-w-7xl mx-auto my-10 lg:mt-28 px-4">
       <div className="flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:gap-8 my-10">
         <h1 className="text-xl md:text-4xl font-bold whitespace-nowrap">
           BestSelling Books

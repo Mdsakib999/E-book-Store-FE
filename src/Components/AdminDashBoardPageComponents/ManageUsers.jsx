@@ -196,7 +196,10 @@ export const ManageUsers = () => {
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
-          onPageChange={setCurrentPage}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         />
       </div>
     </div>
