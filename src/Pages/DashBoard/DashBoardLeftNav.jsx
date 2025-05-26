@@ -23,9 +23,9 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
       path: "/dashboard",
     },
     {
-      label: "Statics",
+      label: "Statistics",
       icon: <IoIosStats size={20} />,
-      path: "/dashboard/statics",
+      path: "/dashboard/statistics",
     },
     {
       label: "Manage Users",
