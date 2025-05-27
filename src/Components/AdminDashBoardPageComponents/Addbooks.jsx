@@ -4,8 +4,9 @@ import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import showToast from "../../Utils/ShowToast";
 import useBookStore from "../../Store/BookStore";
 import useCategoryStore from "../../Store/CategoryStore";
+import { PrimaryButton } from "../Shared/Button/Button";
 
-export const Addbooks = () => {
+export const AddBooks = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -338,13 +339,9 @@ export const Addbooks = () => {
 
         {/* Submit Button */}
         <div className="text-right">
-          <button
-            type="submit"
-            className="bg-orange-500 hover:bg-orange-600 transition px-8 py-3 text-white font-semibold rounded-lg shadow-lg"
-            disabled={loading}
-          >
+          <PrimaryButton type="submit" disabled={loading}>
             {loading ? "Adding..." : "Add Book"}
-          </button>
+          </PrimaryButton>
         </div>
       </div>
     </form>

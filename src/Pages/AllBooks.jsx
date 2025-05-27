@@ -12,6 +12,7 @@ import { SellCard } from "../Components/HomePageComponents/SellCard";
 import useBookStore from "../Store/BookStore";
 import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
+import { PrimaryButton } from "../Components/Shared/Button/Button";
 
 const FilterSection = ({
 	genres,
@@ -99,12 +100,9 @@ const FilterSection = ({
 							)}
 						</div>
 
-						<button
-							onClick={handleResetFilters}
-							className="w-full bg-black text-white py-2 rounded-md mt-4"
-						>
+						<PrimaryButton onClick={handleResetFilters}>
 							Reset Filters
-						</button>
+						</PrimaryButton>
 					</div>
 				</div>
 			</div>
@@ -145,12 +143,9 @@ const FilterSection = ({
 						)}
 					</div>
 
-					<button
-						onClick={handleResetFilters}
-						className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-900 transition-colors duration-300"
-					>
+					<PrimaryButton onClick={handleResetFilters}>
 						Reset Filters
-					</button>
+					</PrimaryButton>
 				</div>
 			</div>
 		</>
@@ -263,7 +258,7 @@ const AllBooks = () => {
 							</p>
 							<button
 								onClick={handleResetAllFilters}
-								className="bg-black opacity-35 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+								className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-900"
 							>
 								Reset All Filters
 							</button>

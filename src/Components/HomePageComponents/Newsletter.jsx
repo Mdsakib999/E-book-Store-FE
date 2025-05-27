@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
+import { PrimaryButton } from "../Shared/Button/Button";
 
 const Newsletter = () => {
 	const [email, setEmail] = useState("");

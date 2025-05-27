@@ -33,27 +33,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
 		});
 	};
 
-	const handleClearCart = () => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to clear the cart?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, clear it!",
-		}).then((result) => {
-			if (result.isConfirmed) {
-				clearCart();
-				Swal.fire({
-					title: "Cleared!",
-					text: "Cart is empty now.",
-					icon: "success",
-				});
-			}
-		});
-	};
-
 	return (
 		<>
 			{/* Click-outside overlay */}
@@ -73,12 +52,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 			>
 				<div className="flex justify-between items-center p-4 border-b">
 					<h2 className="text-lg font-semibold">Your Cart</h2>
-					<button
-						onClick={handleClearCart}
-						className="cursor-pointer text-sm font-semibold px-3 py-1.5 border rounded bg-black text-white"
-					>
-						Clear Cart
-					</button>
+
 					<button className="cursor-pointer" onClick={onClose}>
 						<FiX size={20} />
 					</button>

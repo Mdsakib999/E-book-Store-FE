@@ -2,6 +2,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import bookImage from "../../assets/bookImage1.png";
 import { Slide, Zoom } from "react-awesome-reveal";
+import { PrimaryButton } from "../Shared/Button/Button";
 
 const slides = [
   {
@@ -54,9 +55,7 @@ const HomeBanner = () => {
                   <p className="text-gray-600 text-base sm:text-lg">
                     {slide.description}
                   </p>
-                  <button className="bg-black text-white px-8 py-2 rounded shadow hover:bg-gray-800 transition duration-300">
-                    See More
-                  </button>
+                  <PrimaryButton>See More</PrimaryButton>
                 </div>
 
                 <Zoom>
