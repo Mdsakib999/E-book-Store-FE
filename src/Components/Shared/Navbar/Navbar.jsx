@@ -76,7 +76,7 @@ const Navbar = () => {
 	const { currency, setCurrency } = useCurrency();
 	const profileRef = useRef();
 	const { user, logout } = useAuth();
-	const { cartItems } = useCart();
+	const { cartItems, clearCart } = useCart();
 	const [isCartOpen, setIsCartOpen] = useState(false);
 
 	const navigate = useNavigate();
@@ -130,6 +130,7 @@ const Navbar = () => {
 			await logout();
 			localStorage.removeItem("user");
 			localStorage.removeItem("cart");
+			clearCart();
 			Swal.fire("Signed out!", "You have been signed out.", "success");
 		}
 	};
