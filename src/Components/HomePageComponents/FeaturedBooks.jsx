@@ -88,7 +88,7 @@ export const FeaturedBooks = () => {
             return (
               <Link
                 key={item._id}
-                to={`/book/${item._id}`}
+                to={`/book/${item.bookName}`.replace(/ /g, "-")}
                 state={item}
                 className="relative group bg-white  rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300"
               >

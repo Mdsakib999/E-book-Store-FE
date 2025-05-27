@@ -57,7 +57,7 @@ export const BestSelling = () => {
         {books.slice(0, 8).map((item) => (
           <Link
             key={item._id}
-            to={`/book/${item._id}`}
+            to={`/book/${item.bookName}`.replace(/ /g, "-")}
             state={item}
             className="block"
           >
