@@ -2,15 +2,36 @@ import { FiTrash2, FiX } from "react-icons/fi";
 import { useCart } from "../provider/CartProvider";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const CartSidebar = ({ isOpen, onClose }) => {
-	const { cartItems, removeFromCart } = useCart();
+	const { cartItems, removeFromCart, clearCart } = useCart();
 	const location = useLocation();
 
-	// Auto-close on route change
 	useEffect(() => {
 		onClose();
 	}, [location]);
+
+	const handleRemoveFromCart = (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to remove it?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, remove it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				removeFromCart(id);
+				Swal.fire({
+					title: "removed!",
+					text: "book has been removed.",
+					icon: "success",
+				});
+			}
+		});
+	};
 
 	return (
 		<>
@@ -31,6 +52,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 			>
 				<div className="flex justify-between items-center p-4 border-b">
 					<h2 className="text-lg font-semibold">Your Cart</h2>
+
 					<button className="cursor-pointer" onClick={onClose}>
 						<FiX size={20} />
 					</button>
@@ -58,7 +80,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 									</p>
 								</div>
 								<button
-									onClick={() => removeFromCart(item._id)}
+									onClick={() => handleRemoveFromCart(item._id)}
 									className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
 									title="Remove from cart"
 								>

@@ -193,7 +193,7 @@ const PaymentForm = ({
 			<button
 				type="submit"
 				disabled={!stripe || isProcessing}
-				className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+				className="cursor-pointer w-full bg-black text-white py-3 rounded-lg hover:bg-white hover:border hover:text-black  transition-colors duration-300 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
 			>
 				{isProcessing ? (
 					<>
