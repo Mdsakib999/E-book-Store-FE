@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { FiBookOpen, FiPhone, FiMapPin, FiArrowRight } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import {
@@ -7,7 +5,6 @@ import {
 	FaTwitter,
 	FaInstagram,
 	FaLinkedinIn,
-	FaGithub,
 } from "react-icons/fa";
 
 const Footer = () => {
@@ -53,12 +50,6 @@ const Footer = () => {
 								>
 									<FaLinkedinIn size={20} />
 								</a>
-								<a
-									href="#"
-									className="text-gray-400 hover:text-blue-400 transition-colors"
-								>
-									<FaGithub size={20} />
-								</a>
 							</div>
 						</div>
 
@@ -89,14 +80,6 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Book Catalog
-									</a>
-								</li>
-								<li>
-									<a
-										href="#"
-										className="text-gray-400 hover:text-blue-400 transition-colors"
-									>
 										Authors
 									</a>
 								</li>
@@ -105,7 +88,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Events
+										Contact
 									</a>
 								</li>
 								<li>
@@ -122,7 +105,7 @@ const Footer = () => {
 						{/* Categories */}
 						<div>
 							<h3 className="text-white font-semibold text-lg mb-6 border-b border-gray-700 pb-2">
-								Categories
+								Terms & condtion
 							</h3>
 							<ul className="space-y-3">
 								<li>
@@ -130,7 +113,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Fiction
+										Copyright protected
 									</a>
 								</li>
 								<li>
@@ -138,7 +121,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Non-Fiction
+										Third-party disclaimer
 									</a>
 								</li>
 								<li>
@@ -146,7 +129,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Children's Books
+										Agreement implied
 									</a>
 								</li>
 								<li>
@@ -154,7 +137,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Education
+										No piracy
 									</a>
 								</li>
 								<li>
@@ -162,7 +145,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										Science & Technology
+										Account Safety
 									</a>
 								</li>
 								<li>
@@ -170,7 +153,7 @@ const Footer = () => {
 										href="#"
 										className="text-gray-400 hover:text-blue-400 transition-colors"
 									>
-										History & Biography
+										Policy Agreement
 									</a>
 								</li>
 							</ul>

@@ -1,12 +1,7 @@
 import { FiArrowLeft, FiCheck, FiDownload } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-const SuccessPage = ({
-	purchasedItems,
-	total,
-	currency,
-	onBackToShopping,
-	rates,
-}) => {
+const SuccessPage = ({ purchasedItems, currency, rates }) => {
 	const handleDownload = (pdfUrl, bookName) => {
 		const link = document.createElement("a");
 		link.href = pdfUrl;
@@ -76,18 +71,24 @@ const SuccessPage = ({
 					<div className="flex justify-between pt-3 border-t">
 						<p className="text-sm font-semibold text-gray-800">Total</p>
 						<p className="text-sm font-bold text-gray-900">
-							{currency} {(total * rates[currency]).toFixed(2)}
+							{currency}{" "}
+							{purchasedItems
+								.reduce(
+									(acc, item) =>
+										acc + (item.discountPrice || item.price) * rates[currency],
+									0
+								)
+								.toFixed(2)}
 						</p>
 					</div>
 				</div>
 
-				<button
-					onClick={onBackToShopping}
-					className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-1 mx-auto text-sm transition-colors duration-200"
-				>
-					<FiArrowLeft size={16} />
-					Continue Shopping
-				</button>
+				<Link to="/allbooks">
+					<button className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-1 mx-auto text-sm transition-colors duration-200">
+						<FiArrowLeft size={16} />
+						Continue Shopping
+					</button>
+				</Link>
 			</div>
 		</div>
 	);

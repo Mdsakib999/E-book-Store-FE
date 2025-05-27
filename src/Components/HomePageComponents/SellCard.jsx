@@ -107,7 +107,7 @@ export const SellCard = ({ item, currency, rates, isFav, toggleFavorite }) => {
 							e.stopPropagation();
 							toggleFavorite?.(id);
 						}}
-						className={`rounded-full p-2 ${
+						className={`cursor-pointer rounded-full p-2 ${
 							isFav ? "bg-red-50 text-red-500" : "bg-gray-100 text-gray-400"
 						} hover:bg-red-100 transition-colors duration-200`}
 					>

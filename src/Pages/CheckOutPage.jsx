@@ -1,15 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
-import {
-	FiTrash2,
-	FiShoppingBag,
-	FiBook,
-	FiStar,
-	FiCreditCard,
-	FiCheck,
-	FiArrowLeft,
-	FiDownload,
-	FiMail,
-} from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiTrash2, FiShoppingBag, FiStar, FiCreditCard } from "react-icons/fi";
 import { useCart } from "../provider/CartProvider";
 import { useCurrency } from "../provider/CurrencyProvider";
 import { Link } from "react-router-dom";
@@ -63,8 +53,7 @@ const PaymentForm = ({
 				{
 					items: cartItems.map((item) => ({
 						name: item.bookName,
-						price:
-							parseFloat(item.discountPrice || item.price) * rates[currency],
+						price: parseFloat(amount),
 						quantity: 1,
 						book: item?.pdf,
 						image: item?.image,
@@ -160,7 +149,7 @@ const PaymentForm = ({
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-3">
-			<div className="p-3 border border-gray-200 rounded-lg">
+			<div className="p-3 border border-gray-200 rounded-lg mt-5">
 				<label className="block text-xs font-medium text-gray-700 mb-1">
 					Card Number
 				</label>
@@ -297,9 +286,7 @@ const CheckOutPage = () => {
 			<SuccessPage
 				purchasedItems={purchasedItems}
 				rates={rates}
-				total={total}
 				currency={currency}
-				onBackToShopping={() => setShowSuccess(false)}
 			/>
 		);
 	}
@@ -372,9 +359,6 @@ const CheckOutPage = () => {
 										<span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs mt-1">
 											{item.category}
 										</span>
-										<p className="text-gray-600 text-xs mt-2 line-clamp-2">
-											{item.description}
-										</p>
 										<div className="flex items-center gap-1 mt-2">
 											<FiStar
 												className="text-yellow-400 fill-current"
@@ -393,7 +377,7 @@ const CheckOutPage = () => {
 													<span className="text-xs text-gray-500 line-through">
 														{currency} {convertPrice(item.price)}
 													</span>
-													<span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+													<span className="hidden md:block bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
 														Save {currency}{" "}
 														{convertPrice(item.price - item.discountPrice)}
 													</span>
@@ -449,7 +433,7 @@ const CheckOutPage = () => {
 								</div>
 
 								{error && (
-									<div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-md">
+									<div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-md mb-3">
 										<p className="text-red-600 text-xs">{error}</p>
 									</div>
 								)}
