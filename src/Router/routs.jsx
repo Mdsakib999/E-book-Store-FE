@@ -10,7 +10,7 @@ import { Dashboard } from "../Pages/DashBoard/Dashboard";
 import { UpdateProfile } from "../Components/UserDashBoardPageComponents/UpdateProfile";
 import { OrderHistory } from "../Components/UserDashBoardPageComponents/OrderHistory";
 import { ManageUsers } from "../Components/AdminDashBoardPageComponents/ManageUsers";
-import { Addbooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
+import { AddBooks } from "../Components/AdminDashBoardPageComponents/Addbooks";
 import { ManageBooks } from "../Components/AdminDashBoardPageComponents/ManageBooks";
 import { ManageOrders } from "../Components/AdminDashBoardPageComponents/ManageOrders";
 import ErrorPage from "../Pages/ErrorPage";
@@ -109,7 +109,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-books",
-        element: <Addbooks />,
+        element: <AddBooks />,
       },
       {
         path: "manage-category",
