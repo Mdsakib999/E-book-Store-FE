@@ -57,7 +57,7 @@ export const Statistics = () => {
       .catch((err) => console.error("Error fetching users:", err));
 
     axiosInstance
-      .get("/payment/orders")
+      .get("/payment/allorders")
       .then((res) => setOrders(res.data))
       .catch((err) => console.error("Error fetching orders:", err));
   }, []);

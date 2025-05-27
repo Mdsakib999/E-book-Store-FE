@@ -4,6 +4,7 @@ import { useAuth } from "../../provider/AuthProvider";
 
 export const UpdateProfile = () => {
   const { user } = useAuth();
+  // console.log(user);
   const [editMode, setEditMode] = useState(false);
   const {
     register,
@@ -43,16 +44,17 @@ export const UpdateProfile = () => {
               user?.photoURL ||
               "https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
             }
-            alt={`${user?.displayName || "User"}'s avatar`}
+            alt={`${user?.name || "User"}'s avatar`}
             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover shadow-md"
           />
 
-          <div className="text-center sm:text-left whitespace-nowrap md:mt-3">
-            <h2 className="text-xl sm:text-2xl font-semibold">
-              {user?.displayName}
-            </h2>
+          <div className="text-center sm:text-left whitespace-nowrap md:mt-7">
+            <h2 className="text-xl sm:text-2xl font-semibold">{user?.name}</h2>
             <p className="text-gray-600 mt-1 text-sm sm:text-base">
               {user?.email}
+            </p>
+            <p className="text-gray-600 mt-1 text-sm sm:text-base">
+              {user?.role}
             </p>
           </div>
         </div>

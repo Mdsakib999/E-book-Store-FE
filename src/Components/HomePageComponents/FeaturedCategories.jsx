@@ -34,7 +34,7 @@ export const FeaturedCategories = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 ">
+    <div className="max-w-7xl mx-auto px-4 my-12 lg:my-24">
       {/* Header */}
       <h1 className="text-lg sm:text-2xl md:text-4xl font-bold whitespace-nowrap">
         Featured Categories

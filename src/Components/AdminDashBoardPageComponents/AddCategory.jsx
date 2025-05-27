@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaTags } from "react-icons/fa";
 import useCategoryStore from "../../Store/CategoryStore";
 import showToast from "../../Utils/ShowToast";
+import { PrimaryButton } from "../Shared/Button/Button";
 
 export const AddCategory = () => {
   const {
@@ -93,12 +94,9 @@ export const AddCategory = () => {
           className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
-        <button
-          type="submit"
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
-        >
+        <PrimaryButton type="submit">
           {editId ? "Update Category" : "Add Category"}
-        </button>
+        </PrimaryButton>
       </form>
 
       {/* Category Display */}

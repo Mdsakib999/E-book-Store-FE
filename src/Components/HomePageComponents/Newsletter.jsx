@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
+import { PrimaryButton } from "../Shared/Button/Button";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -52,12 +53,7 @@ const Newsletter = () => {
             className="w-full sm:flex-1 px-5 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             required
           />
-          <button
-            type="submit"
-            className="cursor-pointer w-full sm:w-auto bg-black hover:bg-white border hover:text-black text-white font-medium px-6 py-3 rounded-lg transition duration-300"
-          >
-            Subscribe Now
-          </button>
+          <PrimaryButton type="submit">Subscribe Now</PrimaryButton>
         </form>
 
         {subscribed && (
