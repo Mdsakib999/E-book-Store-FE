@@ -144,7 +144,7 @@ export const ManageUsers = () => {
                     key={u._id}
                     className={`border-t transition ${
                       isCurrentUser
-                        ? "bg-blue-500/90 text-white"
+                        ? "bg-gradient-to-l from-white/10 to-black/40 text-black font-semibold"
                         : "hover:bg-gray-50"
                     }`}
                   >

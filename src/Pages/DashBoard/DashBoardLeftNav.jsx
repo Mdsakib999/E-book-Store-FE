@@ -10,12 +10,12 @@ import {
 } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
 import { MdLibraryAdd } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../provider/AuthProvider";
 
 export const DashBoardLeftNav = ({ closeSidebar }) => {
   const { isAdmin } = useAuth();
-
+  const { pathname } = useLocation();
   const adminRoutes = [
     {
       label: "Profile",
@@ -70,7 +70,7 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
   const routesToRender = isAdmin === true ? adminRoutes : customerRoutes;
 
   return (
-    <aside className="bg-gray-100 h-full w-full p-4 relative md:w-64">
+    <aside className="bg-gray-100 h-full w-full p-4 relative md:w-64 lg:w-72">
       {/* Close button for mobile */}
       <button
         onClick={closeSidebar}
@@ -85,17 +85,29 @@ export const DashBoardLeftNav = ({ closeSidebar }) => {
         </h2>
 
         <nav className="flex flex-col gap-4 mt-4">
-          {routesToRender.map(({ label, icon, path }) => (
-            <Link to={path} onClick={closeSidebar} key={label}>
-              <button className="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-3 py-2 rounded-md transition w-full">
-                {icon}
-                <span>{label}</span>
-              </button>
-            </Link>
-          ))}
+          {routesToRender.map(({ label, icon, path }) => {
+            const isActive = pathname === path;
+
+            return (
+              <Link to={path} onClick={closeSidebar} key={label}>
+                <button
+                  className={`flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                ${
+                  isActive
+                    ? "bg-gradient-to-l from-white/10 to-black/40 text-black font-bold"
+                    : "text-gray-700 hover:text-black hover:bg-gray-200"
+                }
+                cursor-pointer`}
+                >
+                  {icon}
+                  <span>{label}</span>
+                </button>
+              </Link>
+            );
+          })}
 
           <button
-            className="flex items-center gap-3 text-red-600 hover:text-red-800 hover:bg-red-100 px-3 py-2 rounded-md transition w-full"
+            className="flex items-center gap-3 text-red-600 hover:text-red-800 hover:bg-red-100 px-3 py-2 rounded-md transition w-full cursor-pointer"
             onClick={() => {
               // console.log("Logout");
               closeSidebar();

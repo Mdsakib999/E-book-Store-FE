@@ -2,7 +2,7 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCurrency } from "../../provider/CurrencyProvider";
-import { SellCard } from "./SellCard";
+import { BookCard } from "./BookCard";
 import useBookStore from "../../Store/BookStore";
 import showToast from "../../Utils/ShowToast";
 
@@ -57,11 +57,11 @@ export const BestSelling = () => {
         {books.slice(0, 8).map((item) => (
           <Link
             key={item._id}
-            to={`/allbooks/${item._id}`}
+            to={`/book/${item._id}`}
             state={item}
             className="block"
           >
-            <SellCard
+            <BookCard
               item={item}
               currency={currency}
               rates={rates}
