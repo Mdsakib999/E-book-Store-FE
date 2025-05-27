@@ -108,13 +108,13 @@ export const ManageBooks = () => {
       </div>
 
       {paginatedBooks.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 py-10 mb-10">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mb-10">
           {paginatedBooks.map((book) => (
             <div
               key={book._id}
-              className="border border-gray-200 rounded-md shadow-md"
+              className="shadow-md flex flex-col justify-between max-w-md rounded-lg overflow-hidden"
             >
-              <figure className="relative h-40 w-full overflow-hidden">
+              <figure className="relative max-h-80 w-full overflow-hidden">
                 <img
                   src={book.image}
                   alt={book.bookName}

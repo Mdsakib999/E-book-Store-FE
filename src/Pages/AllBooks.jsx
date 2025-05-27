@@ -8,7 +8,7 @@ import {
 	FaChevronUp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { SellCard } from "../Components/HomePageComponents/SellCard";
+import { BookCard } from "../Components/HomePageComponents/BookCard";
 import useBookStore from "../Store/BookStore";
 import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
@@ -250,6 +250,40 @@ const AllBooks = () => {
 						<FaSearch className="absolute left-3 top-3 text-gray-400" />
 					</div>
 
+<<<<<<< HEAD
+          {/* Display filtered books or "no results" message */}
+          {filteredBooks.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <p className="text-xl text-gray-600 mb-4">
+                No books found matching your filters.
+              </p>
+              <button
+                onClick={handleResetAllFilters}
+                className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-900"
+              >
+                Reset All Filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredBooks.map((item) => (
+                <Link key={item._id} to={`/book/${item._id}`} className="block">
+                  <BookCard
+                    item={item}
+                    currency={currency}
+                    rates={rates}
+                    isFav={favorites[item.id]}
+                    toggleFavorite={toggleFavorite}
+                  />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+=======
 					{/* Display filtered books or "no results" message */}
 					{filteredBooks.length === 0 ? (
 						<div className="flex flex-col items-center justify-center py-12">
@@ -282,6 +316,7 @@ const AllBooks = () => {
 			</div>
 		</div>
 	);
+>>>>>>> 24689f3e8f0b45bd6706cd9aab4e14b36ecddc62
 };
 
 export default AllBooks;
