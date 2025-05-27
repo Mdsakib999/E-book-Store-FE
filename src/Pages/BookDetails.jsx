@@ -18,7 +18,7 @@ const BookDetails = () => {
   const { currency, rates } = useCurrency();
   const { book, fetchBookByTitle, error } = useBookStore();
   const { addToCart, removeFromCart, isInCart } = useCart();
-  console.log(title);
+  // console.log(title);
   const handleCartAction = (item) => {
     const itemInCart = isInCart(item._id);
 
