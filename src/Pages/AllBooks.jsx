@@ -8,11 +8,11 @@ import {
 	FaChevronUp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { SellCard } from "../Components/HomePageComponents/SellCard";
 import useBookStore from "../Store/BookStore";
 import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
 import { PrimaryButton } from "../Components/Shared/Button/Button";
+import { BookCard } from "../Components/HomePageComponents/BookCard";
 
 const FilterSection = ({
 	genres,
@@ -267,7 +267,7 @@ const AllBooks = () => {
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredBooks.map((item) => (
 								<Link key={item._id} to={`/book/${item._id}`} className="block">
-									<SellCard
+									<BookCard
 										item={item}
 										currency={currency}
 										rates={rates}
