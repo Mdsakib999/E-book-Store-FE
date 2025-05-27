@@ -12,7 +12,7 @@ export const Dashboard = () => {
 		<>
 			<ScrollToTop />
 			<Navbar />
-			<div className="flex min-h-screen relative max-w-7xl mx-auto">
+			<div className="flex min-h-screen relative  max-w-7xl mx-auto">
 				{/* Mobile toggle */}
 				{!sidebarOpen && (
 					<button
