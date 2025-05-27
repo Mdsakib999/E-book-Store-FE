@@ -17,52 +17,53 @@ const SuccessPage = ({
 	};
 
 	return (
-		<div className="min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8">
-			<div className="bg-gray-50 rounded-2xl shadow p-6 sm:p-8 max-w-3xl w-full text-center">
-				<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-					<FiCheck className="text-green-600" size={32} />
+		<div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+			<div className="bg-gray-50 rounded-xl shadow p-4 sm:p-6 max-w-4xl w-full text-center">
+				<div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+					<FiCheck className="text-green-600" size={24} />
 				</div>
-				<h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+				<h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
 					Thank You for Purchasing!
 				</h1>
-				<p className="text-gray-600 mb-8">
+				<p className="text-gray-600 text-sm mb-6">
 					Your e-books are ready for download. Find your purchased books below.
 				</p>
 
 				{/* Purchased Books List */}
-				<div className="mb-8">
-					<h2 className="text-lg font-semibold text-gray-800 mb-6">
+				<div className="mb-6">
+					<h2 className="text-base font-semibold text-gray-800 mb-4">
 						Your Purchased Books
 					</h2>
-					<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					<div className="space-y-4">
 						{purchasedItems.map((item) => (
 							<div
 								key={item._id}
-								className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center transition-transform hover:scale-105 duration-300"
+								className="bg-white rounded-lg shadow-sm p-3 flex items-center justify-between gap-3 w-full transition-transform hover:scale-[1.02] duration-200"
 							>
 								<img
 									src={item.image || "https://via.placeholder.com/150"}
 									alt={item.bookName}
-									className="w-32 h-48 object-cover rounded-md mb-4"
+									className="w-16 h-24 object-cover rounded-md flex-shrink-0"
 								/>
-								<h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
-									{item.bookName}
-								</h3>
-								<p className="text-xs text-gray-500 mb-4">
-									by {item.authorName}
-								</p>
-								<p className="text-sm font-semibold text-gray-900 mb-4">
-									{currency}{" "}
-									{(
-										item?.discountPrice * rates[currency] ||
-										item?.price * rates[currency]
-									).toFixed(2)}
-								</p>
+								<div className="flex-1 text-left min-w-0">
+									<h3 className="text-sm font-medium text-gray-900 truncate">
+										{item.bookName}
+									</h3>
+									<p className="text-xs text-gray-500 truncate">
+										by {item.authorName}
+									</p>
+									<p className="text-sm font-semibold text-gray-900">
+										{currency}{" "}
+										{(
+											(item?.discountPrice || item?.price) * rates[currency]
+										).toFixed(2)}
+									</p>
+								</div>
 								<button
 									onClick={() => handleDownload(item.pdf, item.bookName)}
-									className="cursor-pointer w-full bg-black text-white py-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-400 transition-colors duration-300 font-medium flex items-center justify-center gap-2"
+									className="cursor-pointer bg-gray-900 text-white py-2 px-4 rounded-md text-xs font-medium flex items-center gap-1 hover:bg-gray-700 transition-colors duration-200"
 								>
-									<FiDownload size={16} />
+									<FiDownload size={14} />
 									Download
 								</button>
 							</div>
@@ -71,20 +72,20 @@ const SuccessPage = ({
 				</div>
 
 				{/* Order Summary */}
-				<div className="mb-8">
-					<div className="flex justify-between pt-4 border-t">
+				<div className="mb-6">
+					<div className="flex justify-between pt-3 border-t">
 						<p className="text-sm font-semibold text-gray-800">Total</p>
 						<p className="text-sm font-bold text-gray-900">
-							{currency} {total}
+							{currency} {(total * rates[currency]).toFixed(2)}
 						</p>
 					</div>
 				</div>
 
 				<button
 					onClick={onBackToShopping}
-					className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto transition-colors duration-200"
+					className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-1 mx-auto text-sm transition-colors duration-200"
 				>
-					<FiArrowLeft size={18} />
+					<FiArrowLeft size={16} />
 					Continue Shopping
 				</button>
 			</div>
