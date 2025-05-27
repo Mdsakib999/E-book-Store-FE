@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const CartSidebar = ({ isOpen, onClose }) => {
-	const { cartItems, removeFromCart, clearCart } = useCart();
+	const { cartItems, removeFromCart } = useCart();
 	const location = useLocation();
 
 	useEffect(() => {

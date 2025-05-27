@@ -129,6 +129,7 @@ const Navbar = () => {
 		if (result.isConfirmed) {
 			await logout();
 			localStorage.removeItem("user");
+			localStorage.removeItem("cart");
 			Swal.fire("Signed out!", "You have been signed out.", "success");
 		}
 	};
@@ -191,7 +192,7 @@ const Navbar = () => {
 					{/* Right: Currency + Icons + Auth */}
 					<div className="flex items-center gap-3 lg:gap-5">
 						{/* Currency Dropdown (desktop) */}
-						<div className="hidden md:block relative">
+						<div className="relative">
 							<div className="relative">
 								<span className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
 									{currencyOptions.find((c) => c.value === currency)?.icon}
@@ -199,7 +200,7 @@ const Navbar = () => {
 								<select
 									value={currency}
 									onChange={(e) => setCurrency(e.target.value)}
-									className="appearance-none bg-white border border-gray-300 rounded-full py-1 pl-7 pr-4 text-sm font-semibold text-gray-700 focus:outline-none focus:border-gray-800 cursor-pointer shadow-sm transition-all duration-200 hover:border-gray-500"
+									className="appearance-none bg-white border border-gray-300 rounded-full py-1 pl-6 pr-3  text-sm font-semibold text-gray-700 focus:outline-none focus:border-gray-800 cursor-pointer shadow-sm transition-all duration-200 hover:border-gray-500"
 									style={{ backgroundPosition: "right 0.5rem center" }}
 								>
 									{currencyOptions.map((opt) => (
@@ -307,30 +308,6 @@ const Navbar = () => {
 								</li>
 							))}
 						</ul>
-
-						{/* Currency Dropdown in mobile menu */}
-						<div className="px-4 mt-4">
-							<label className="block text-gray-400 mb-1 text-sm">
-								Currency
-							</label>
-							<div className="relative flex items-center">
-								<span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-									{currencyOptions.find((c) => c.value === currency)?.icon}
-								</span>
-								<select
-									value={currency}
-									onChange={(e) => setCurrency(e.target.value)}
-									className="appearance-none bg-black border text-white border-gray-300 rounded-full py-2 pl-8 pr-3 text-sm font-semibold focus:outline-none focus:border-gray-400 w-full cursor-pointer"
-									style={{ backgroundPosition: "right 0.5rem center" }}
-								>
-									{currencyOptions.map((opt) => (
-										<option key={opt.value} value={opt.value}>
-											{opt.label}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
 
 						{/* Mobile Social Icons */}
 						<div className="flex flex-wrap justify-center items-center gap-4 mt-6 px-4">
