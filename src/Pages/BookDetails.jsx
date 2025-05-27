@@ -1,4 +1,4 @@
-import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
+import { FaUser, FaHeart } from "react-icons/fa";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useEffect, useState } from "react";
@@ -13,12 +13,12 @@ import showToast from "../Utils/ShowToast";
 import { useCart } from "../provider/CartProvider";
 
 const BookDetails = () => {
-  const { id } = useParams();
+  const { title } = useParams();
   const [favorites, setFavorites] = useState({});
   const { currency, rates } = useCurrency();
-  const { book, fetchBookById, error } = useBookStore();
+  const { book, fetchBookByTitle, error } = useBookStore();
   const { addToCart, removeFromCart, isInCart } = useCart();
-
+  console.log(title);
   const handleCartAction = (item) => {
     const itemInCart = isInCart(item._id);
 
@@ -38,8 +38,8 @@ const BookDetails = () => {
   };
 
   useEffect(() => {
-    fetchBookById(id);
-  }, [id, fetchBookById]);
+    fetchBookByTitle(title);
+  }, [title, fetchBookByTitle]);
 
   if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
   if (!book) return <div className="p-4 text-center">Book not found</div>;
