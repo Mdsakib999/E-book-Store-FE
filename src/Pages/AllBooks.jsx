@@ -13,6 +13,7 @@ import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
 import { PrimaryButton } from "../Components/Shared/Button/Button";
 import { BookCard } from "../Components/HomePageComponents/BookCard";
+import { Pagination } from "../Components/Shared/Pagination";
 
 const FilterSection = ({
 	genres,
@@ -160,6 +161,8 @@ const AllBooks = () => {
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [favorites, setFavorites] = useState({});
 	const { currency, rates } = useCurrency();
+	const [currentPage, setCurrentPage] = useState(1);
+	const booksPerPage = 6;
 
 	useEffect(() => {
 		fetchBooks();
@@ -186,11 +189,13 @@ const AllBooks = () => {
 		}
 
 		setFilteredBooks(results);
+		setCurrentPage(1);
 	}, [searchQuery, selectedGenres, books]);
 
 	const handleResetAllFilters = () => {
 		setSelectedGenres([]);
 		setSearchQuery("");
+		setCurrentPage(1);
 	};
 
 	const toggleFavorite = (bookId) => {
@@ -207,6 +212,12 @@ const AllBooks = () => {
 			icon: "success",
 		});
 	};
+
+	const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+	const paginatedBooks = filteredBooks.slice(
+		(currentPage - 1) * booksPerPage,
+		currentPage * booksPerPage
+	);
 
 	if (!books || books.length === 0) {
 		return <div className="p-4">Loading books or no books available...</div>;
@@ -251,7 +262,7 @@ const AllBooks = () => {
 					</div>
 
 					{/* Display filtered books or "no results" message */}
-					{filteredBooks.length === 0 ? (
+					{paginatedBooks.length === 0 ? (
 						<div className="flex flex-col items-center justify-center py-12">
 							<p className="text-xl text-gray-600 mb-4">
 								No books found matching your filters.
@@ -265,18 +276,26 @@ const AllBooks = () => {
 						</div>
 					) : (
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-							{filteredBooks.map((item) => (
+							{paginatedBooks.map((item) => (
 								<Link key={item._id} to={`/book/${item._id}`} className="block">
 									<BookCard
 										item={item}
 										currency={currency}
 										rates={rates}
-										isFav={favorites[item.id]}
+										isFav={favorites[item._id]}
 										toggleFavorite={toggleFavorite}
 									/>
 								</Link>
 							))}
 						</div>
+					)}
+
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							onPageChange={setCurrentPage}
+						/>
 					)}
 				</div>
 			</div>
