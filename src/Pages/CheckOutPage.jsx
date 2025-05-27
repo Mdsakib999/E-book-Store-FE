@@ -67,6 +67,7 @@ const PaymentForm = ({
 							parseFloat(item.discountPrice || item.price) * rates[currency],
 						quantity: 1,
 						book: item?.pdf,
+						image: item?.image,
 					})),
 					currency: currency.toLowerCase(),
 					userId,
@@ -100,9 +101,11 @@ const PaymentForm = ({
 							userId,
 							items: cartItems.map((item) => ({
 								book: item?.pdf,
+								image: item?.image,
 								bookId: item._id,
 								bookName: item.bookName,
 								authorName: item.authorName,
+								category: item.category,
 								price:
 									parseFloat(item.discountPrice || item.price) *
 									rates[currency],

@@ -70,13 +70,13 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-			//   console.log(currentUser);
 			setUser(currentUser);
 
 			if (currentUser) {
 				try {
 					const result = await axiosInstance.get(`auth/${currentUser.uid}`);
 					const userData = result.data;
+					setUser(userData);
 					setRole(userData.role);
 				} catch (err) {
 					console.error("Failed to fetch user data:", err);
