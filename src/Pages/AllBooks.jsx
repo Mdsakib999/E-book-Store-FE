@@ -1,19 +1,20 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  FaSearch,
-  FaFilter,
-  FaTimes,
   FaChevronDown,
   FaChevronUp,
+  FaFilter,
+  FaSearch,
+  FaTimes,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { BookCard } from "../Components/HomePageComponents/BookCard";
+import { PrimaryButton } from "../Components/Shared/Button/Button";
+import { Pagination } from "../Components/Shared/Pagination";
 import useBookStore from "../Store/BookStore";
 import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
-import { PrimaryButton } from "../Components/Shared/Button/Button";
-import { BookCard } from "../Components/HomePageComponents/BookCard";
-import { Pagination } from "../Components/Shared/Pagination";
+import { slugify } from "../utils/slugify";
 
 const FilterSection = ({
   genres,
@@ -26,7 +27,7 @@ const FilterSection = ({
 
   const toggleGenre = (genre) => {
     setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre],
     );
   };
 
@@ -178,13 +179,13 @@ const AllBooks = () => {
       results = results.filter(
         (book) =>
           book.bookName.toLowerCase().includes(query) ||
-          book.authorName.toLowerCase().includes(query)
+          book.authorName.toLowerCase().includes(query),
       );
     }
 
     if (selectedGenres.length > 0) {
       results = results.filter((book) =>
-        selectedGenres.includes(book.category)
+        selectedGenres.includes(book.category),
       );
     }
 
@@ -216,7 +217,7 @@ const AllBooks = () => {
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
   const paginatedBooks = filteredBooks.slice(
     (currentPage - 1) * booksPerPage,
-    currentPage * booksPerPage
+    currentPage * booksPerPage,
   );
 
   if (!books || books.length === 0) {
@@ -276,21 +277,20 @@ const AllBooks = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedBooks.map((item) => (
-                <Link
-                  key={item._id}
-                  to={`/book/${item.bookName}`}
-                  className="block"
-                >
-                  <BookCard
-                    item={item}
-                    currency={currency}
-                    rates={rates}
-                    isFav={favorites[item._id]}
-                    toggleFavorite={toggleFavorite}
-                  />
-                </Link>
-              ))}
+              {paginatedBooks.map((item) => {
+                const slug = item.slug || slugify(item.bookName);
+                return (
+                  <Link key={item._id} to={`/book/${slug}`} className="block">
+                    <BookCard
+                      item={item}
+                      currency={currency}
+                      rates={rates}
+                      isFav={favorites[item._id]}
+                      toggleFavorite={toggleFavorite}
+                    />
+                  </Link>
+                );
+              })}
             </div>
           )}
 
