@@ -1,10 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import showToast from "../Utils/ShowToast";
+import { Link, useLocation } from "react-router-dom";
 import useBookStore from "../Store/BookStore";
+import showToast from "../Utils/ShowToast";
 import { useCurrency } from "../provider/CurrencyProvider";
+import { slugify } from "../utils/slugify";
 import { BookCard } from "./HomePageComponents/BookCard";
-
 const RelatedBooks = ({ category, id }) => {
   const location = useLocation();
   const [favorites, setFavorites] = useState({});
@@ -40,7 +40,7 @@ const RelatedBooks = ({ category, id }) => {
   }
 
   const relatedBooks = books.filter(
-    (book) => book.category === category && book._id !== id
+    (book) => book.category === category && book._id !== id,
   );
 
   return (
@@ -53,8 +53,10 @@ const RelatedBooks = ({ category, id }) => {
         <div className="mt-16">
           <h1 className="text-3xl font-black mb-5">You Might Also Like...</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
-            {relatedBooks.map((book) => (
-              <Link key={book._id} to={`/allbooks/${book._id}`} state={book}>
+            {relatedBooks.map((book) => {
+              const slug = book.slug || slugify(book.bookName);
+              return (
+              <Link key={book._id} to={`/book/${slug}`} state={book}>
                 <BookCard
                   item={book}
                   currency={currency}
@@ -63,8 +65,8 @@ const RelatedBooks = ({ category, id }) => {
                   toggleFavorite={toggleFavorite}
                   onAddToCart={handleAddToCart}
                 />{" "}
-              </Link>
-            ))}
+              </Link>);
+            })}
           </div>
         </div>
       )}
