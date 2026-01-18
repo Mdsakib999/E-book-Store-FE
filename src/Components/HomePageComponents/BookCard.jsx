@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { FaDollarSign, FaEuroSign, FaPoundSign, FaHeart } from "react-icons/fa";
 import { renderStars } from "../../Utils/renderStars";
 import { useCart } from "../../provider/CartProvider";

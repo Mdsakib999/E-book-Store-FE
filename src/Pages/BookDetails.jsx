@@ -14,6 +14,7 @@ import { useCart } from "../provider/CartProvider";
 
 const BookDetails = () => {
   const { title } = useParams();
+  console.log(title)
   const [favorites, setFavorites] = useState({});
   const { currency, rates } = useCurrency();
   const { book, fetchBookByTitle, error } = useBookStore();
@@ -257,7 +258,7 @@ const BookDetails = () => {
           </TabPanel>
         </Tabs>
       </div>
-      <RelatedBooks category={book.category} id={book._id} />
+      <RelatedBooks  category={book.category} id={book._id} />
     </div>
   );
 };
