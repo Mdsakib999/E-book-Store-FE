@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { FiTrash2, FiShoppingBag, FiStar, FiCreditCard } from "react-icons/fi";
 import { useCart } from "../provider/CartProvider";
@@ -89,11 +90,10 @@ const PaymentForm = ({
 						{
 							userId,
 							items: cartItems.map((item) => ({
-								book: item?.pdf,
-								image: item?.image,
-								bookId: item._id,
+								book: item._id,
 								bookName: item.bookName,
 								authorName: item.authorName,
+								image: item?.image,
 								category: item.category,
 								price:
 									parseFloat(item.discountPrice || item.price) *
@@ -117,6 +117,7 @@ const PaymentForm = ({
 					);
 
 					if (orderResponse.status === 201) {
+						
 						onSuccess();
 					} else {
 						throw new Error("Failed to save order");
