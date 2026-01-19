@@ -1,16 +1,20 @@
 import { useEffect, useRef } from "react";
-import { FaBookOpen, FaLandmark, FaRocket, FaUserEdit, FaBrain, FaHeart, FaUserSecret, FaUserTie } from "react-icons/fa";
+import { FaBookOpen, FaBrain, FaHeart, FaLandmark, FaRocket, FaUserEdit, FaUserSecret, FaUserTie } from "react-icons/fa";
 import { GiBrokenWall } from "react-icons/gi";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import useBookStore from "../../Store/BookStore";
+
 export const FeaturedCategories = () => {
   const menuRef = useRef(null);
-    const { books, fetchBooks } = useBookStore();
-    useEffect(() => {
-      fetchBooks();
-    }, [fetchBooks]);
-  
-    const uniqueGenres = [...new Set(books.map((book) => book.category))];
+  const { books, fetchBooks } = useBookStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
+
+  const uniqueGenres = [...new Set(books.map((book) => book.category))];
   const menuItems = [
     { id: 1, name: uniqueGenres[0]?.toUpperCase() || "PHILOSOPHY", icon: FaBrain, bgColor: "#FAF4EB" },
     { id: 2, name: uniqueGenres[1]?.toUpperCase() || "ROMANCE", icon: FaHeart, bgColor: "#F4E6E5" },
@@ -57,7 +61,7 @@ export const FeaturedCategories = () => {
           {menuItems.map((item) => (
             <div
               key={item.id}
-              className="flex-shrink-0 w-48 lg:w-64 flex flex-col items-center gap-3 p-3 rounded-lg transition-colors duration-200"
+              className="flex-shrink-0 w-48 lg:w-64 flex flex-col items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer hover:shadow-lg active:scale-95"
               style={{ backgroundColor: "transparent" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = item.bgColor)
@@ -65,6 +69,7 @@ export const FeaturedCategories = () => {
               onMouseLeave={(e) =>
                 (e.currentTarget.style.backgroundColor = "transparent")
               }
+              onClick={() => navigate(`/allbooks?category=${item.name}`)}
             >
               <div
                 style={{ backgroundColor: item.bgColor }}

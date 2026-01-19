@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
+import { Fade } from "react-awesome-reveal";
 import {
-  FaChevronDown,
-  FaChevronUp,
-  FaFilter,
-  FaSearch,
-  FaTimes,
+    FaChevronDown,
+    FaChevronUp,
+    FaFilter,
+    FaSearch,
+    FaTimes,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { BookCard } from "../Components/HomePageComponents/BookCard";
 import { PrimaryButton } from "../Components/Shared/Button/Button";
 import { Pagination } from "../Components/Shared/Pagination";
@@ -164,12 +165,26 @@ const AllBooks = () => {
   const { currency, rates } = useCurrency();
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 6;
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     fetchBooks();
+    window.scrollTo(0, 0);
   }, [fetchBooks]);
 
   const uniqueGenres = [...new Set(books.map((book) => book.category))];
+
+  useEffect(() => {
+    const categoryParam = searchParams.get("category");
+    if (categoryParam && books.length > 0) {
+       const matchedGenre = uniqueGenres.find(
+        (g) => g.toLowerCase() === categoryParam.toLowerCase()
+      );
+      if (matchedGenre) {
+        setSelectedGenres([matchedGenre]);
+      }
+    }
+  }, [searchParams, books]);
 
   useEffect(() => {
     let results = [...books];
@@ -276,6 +291,7 @@ const AllBooks = () => {
               </button>
             </div>
           ) : (
+            <Fade cascade damping={0.1} triggerOnce>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedBooks.map((item) => {
                 const slug = item.slug || slugify(item.bookName);
@@ -292,6 +308,7 @@ const AllBooks = () => {
                 );
               })}
             </div>
+            </Fade>
           )}
 
           {totalPages > 1 && (
