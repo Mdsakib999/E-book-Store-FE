@@ -1,27 +1,26 @@
-import { useRef } from "react";
-import GalleryIcon from "/assets/image-gallery.png";
-import FoodIcon from "/assets/serve.png";
-import HeartIcon from "/assets/hearts.png";
-import DoctorIcon from "/assets/stethoscope.png";
-import BiographyIcon from "/assets/resume.png";
-import BabyIcon from "/assets/baby-boy.png";
+import { useEffect, useRef } from "react";
+import { FaBookOpen, FaLandmark, FaRocket, FaUserEdit, FaBrain, FaHeart, FaUserSecret, FaUserTie } from "react-icons/fa";
+import { GiBrokenWall } from "react-icons/gi";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-
+import useBookStore from "../../Store/BookStore";
 export const FeaturedCategories = () => {
   const menuRef = useRef(null);
-
+    const { books, fetchBooks } = useBookStore();
+    useEffect(() => {
+      fetchBooks();
+    }, [fetchBooks]);
+  
+    const uniqueGenres = [...new Set(books.map((book) => book.category))];
   const menuItems = [
-    {
-      id: 1,
-      name: "Arts & Photography",
-      icon: GalleryIcon,
-      bgColor: "#FAF1FF",
-    },
-    { id: 2, name: "Food & Drink", icon: FoodIcon, bgColor: "#FAF4EB" },
-    { id: 3, name: "Romance", icon: HeartIcon, bgColor: "#F4E6E5" },
-    { id: 4, name: "Health", icon: DoctorIcon, bgColor: "#E6F2F4" },
-    { id: 5, name: "Biography", icon: BiographyIcon, bgColor: "#FFF6F6" },
-    { id: 6, name: "Children", icon: BabyIcon, bgColor: "#FFF6F6" },
+    { id: 1, name: uniqueGenres[0]?.toUpperCase() || "PHILOSOPHY", icon: FaBrain, bgColor: "#FAF4EB" },
+    { id: 2, name: uniqueGenres[1]?.toUpperCase() || "ROMANCE", icon: FaHeart, bgColor: "#F4E6E5" },
+    { id: 3, name: uniqueGenres[2]?.toUpperCase() || "THRILLER", icon: FaUserSecret, bgColor: "#E6F2F4" },
+    { id: 4, name: uniqueGenres[3]?.toUpperCase() || "BIOGRAPHY", icon: FaUserTie, bgColor: "#FFF6F6" },
+    { id: 5, name: uniqueGenres[4]?.toUpperCase() || "HISTORY", icon: FaLandmark, bgColor: "#FFF6F6" },
+    { id: 6, name: uniqueGenres[5]?.toUpperCase() || "MEMOIR", icon: FaUserEdit, bgColor: "#FAF4EB" },
+    { id: 7, name: uniqueGenres[6]?.toUpperCase() || "SCIENCE FICTION", icon: FaRocket, bgColor: "#F4E6E5" },
+    { id: 8, name: uniqueGenres[7]?.toUpperCase() || "DYSTOPIAN", icon: GiBrokenWall, bgColor: "#E6F2F4" },
+    { id: 9, name: uniqueGenres[8]?.toUpperCase() || "FICTION", icon: FaBookOpen, bgColor: "#FFF6F6" },
   ];
 
   const scroll = (direction) => {
@@ -71,11 +70,15 @@ export const FeaturedCategories = () => {
                 style={{ backgroundColor: item.bgColor }}
                 className="p-6 rounded-full"
               >
-                <img
-                  src={item.icon}
-                  alt={item.name}
-                  className="w-12 h-12 lg:w-20 lg:h-20"
-                />
+                {typeof item.icon === 'string' ? (
+                    <img
+                    src={item.icon}
+                    alt={item.name}
+                    className="w-12 h-12 lg:w-20 lg:h-20"
+                  />
+                ) : (
+                    <item.icon className="w-12 h-12 lg:w-20 lg:h-20 text-gray-700" />
+                )}
               </div>
               <p className="text-center ont-semibold">{item.name}</p>
             </div>
