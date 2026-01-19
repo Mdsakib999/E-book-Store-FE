@@ -12,6 +12,11 @@
     -moz-appearance: textfield;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
 .b {
   border: 2px solid;
 }
